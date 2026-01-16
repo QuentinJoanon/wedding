@@ -17,7 +17,23 @@ export const AnimatedNames = () => {
         className="absolute inset-0 w-full h-full"
         preserveAspectRatio="xMidYMid meet"
       >
-        {/* Texte qui se dessine (stroke) */}
+        {/* Texte rempli (en dessous) qui apparaît progressivement */}
+        <motion.text
+          x="50%"
+          y="55%"
+          fontSize="150"
+          fontFamily="Great Vibes, cursive"
+          fill="var(--color-gold-dark)"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 4.5, duration: 1 }}
+        >
+          Quentin & Élisa
+        </motion.text>
+
+        {/* Texte qui se dessine (stroke) par-dessus */}
         <motion.text
           x="50%"
           y="55%"
@@ -32,24 +48,14 @@ export const AnimatedNames = () => {
           dominantBaseline="middle"
           strokeDasharray="2000"
           strokeDashoffset="2000"
-          animate={{ strokeDashoffset: 0 }}
-          transition={{ duration: 6, ease: "easeInOut" }}
-        >
-          Quentin & Élisa
-        </motion.text>
-
-        {/* Texte qui se remplit progressivement après */}
-        <motion.text
-          x="50%"
-          y="55%"
-          fontSize="150"
-          fontFamily="Great Vibes, cursive"
-          fill="var(--color-gold-dark)"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 5.5, duration: 1 }}
+          animate={{
+            strokeDashoffset: 0,
+            opacity: [1, 1, 0]
+          }}
+          transition={{
+            strokeDashoffset: { duration: 8, ease: "easeInOut" },
+            opacity: { duration: 1, delay: 4, ease: "easeOut" }
+          }}
         >
           Quentin & Élisa
         </motion.text>
