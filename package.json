@@ -1,0 +1,12 @@
+{
+  "name": "wedding",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix wedding-site",
+    "build": "npm run build --prefix wedding-site",
+    "preview": "npm run preview --prefix wedding-site",
+    "install": "npm install --prefix wedding-site"
+  },
+  "description": "Site de mariage Quentin & Élisa - Juin 2027"
+}
