@@ -1,0 +1,344 @@
+{
+  "practicalInfo": {
+    "venue": {
+      "name": "Domaine de Mont",
+      "address": "Adresse à compléter",
+      "website": "https://www.domainedemont.com/"
+    },
+    "schedule": [
+      {
+        "time": "14h00",
+        "title": "Arrivée des Invités",
+        "description": "Accueil au domaine",
+        "day": "saturday"
+      },
+      {
+        "time": "15h00",
+        "title": "Cérémonie Laïque",
+        "description": "Dans les jardins du domaine",
+        "day": "saturday"
+      },
+      {
+        "time": "16h00",
+        "title": "Garden Party & Photos",
+        "description": "Moment convivial et séance photos",
+        "day": "saturday"
+      },
+      {
+        "time": "17h30",
+        "title": "Cocktail",
+        "description": "Vin d'honneur",
+        "day": "saturday"
+      },
+      {
+        "time": "19h30",
+        "title": "Dîner",
+        "description": "Repas dans l'orangerie",
+        "day": "saturday"
+      },
+      {
+        "time": "12h00",
+        "title": "Brunch",
+        "description": "Repas convivial de clôture",
+        "day": "sunday"
+      },
+      {
+        "time": "15h00",
+        "title": "Fin des Festivités",
+        "description": "Au revoir et bon retour",
+        "day": "sunday"
+      }
+    ],
+    "dressCode": {
+      "men": "Costume ou tenue élégante, couleurs pastel bienvenues",
+      "women": "Robe élégante, éviter le blanc et le crème",
+      "children": "Tenue confortable et élégante",
+      "note": "Le mariage se déroule en extérieur, prévoir des chaussures adaptées à l'herbe"
+    },
+    "emergencyContacts": [
+      {
+        "name": "Quentin",
+        "role": "Marié",
+        "phone": "À compléter"
+      },
+      {
+        "name": "Élisa",
+        "role": "Mariée",
+        "phone": "À compléter"
+      },
+      {
+        "name": "Domaine de Mont",
+        "role": "Lieu de réception",
+        "phone": "À compléter"
+      }
+    ]
+  },
+  "accommodations": [
+    {
+      "id": "1",
+      "name": "Au Foudre du Bazois",
+      "type": "gite",
+      "capacity": "28 personnes",
+      "distance": "Châtillon-en-Bazois",
+      "distanceFromVenue": "6 km",
+      "priceRange": "À consulter",
+      "address": "Châtillon-en-Bazois",
+      "amenities": ["Grand gîte", "Idéal groupes"],
+      "website": "https://www.gite-au-foudre-du-bazois.com/accueil"
+    },
+    {
+      "id": "2",
+      "name": "Hôtel Buissonnière",
+      "type": "hotel",
+      "capacity": "20 personnes",
+      "distance": "Corbigny",
+      "distanceFromVenue": "15 km",
+      "priceRange": "À consulter",
+      "address": "Corbigny",
+      "amenities": ["Hôtel", "Restaurant"],
+      "website": "https://www.hotel-buissonniere-corbigny.fr/"
+    },
+    {
+      "id": "3",
+      "name": "Hotel Cœur de Nièvre",
+      "type": "hotel",
+      "capacity": "19 personnes",
+      "distance": "Saint-Saulge",
+      "distanceFromVenue": "10 km",
+      "priceRange": "À consulter",
+      "address": "Saint-Saulge",
+      "amenities": ["Hôtel", "Restaurant"],
+      "website": "https://www.hotelrestaurant-coeurdenievre.fr/"
+    },
+    {
+      "id": "4",
+      "name": "Gite Semelin",
+      "type": "gite",
+      "capacity": "15 personnes",
+      "distance": "Semelin",
+      "distanceFromVenue": "2 km",
+      "priceRange": "À consulter",
+      "address": "Semelin",
+      "amenities": ["Gîte"],
+      "phone": "06 20 31 10 65"
+    },
+    {
+      "id": "5",
+      "name": "Le Gîte de Varigny",
+      "type": "gite",
+      "capacity": "14 personnes",
+      "distance": "Achun",
+      "distanceFromVenue": "5 km",
+      "priceRange": "À consulter",
+      "address": "Achun",
+      "amenities": ["Gîtes de France"],
+      "website": "https://www.gites-de-france.com/fr/bourgogne-franche-comte/nievre/varigny-58g674"
+    },
+    {
+      "id": "6",
+      "name": "Bon Vivant",
+      "type": "chambre_hote",
+      "capacity": "14 personnes",
+      "distance": "Brinay",
+      "distanceFromVenue": "10 km",
+      "priceRange": "À consulter",
+      "address": "Brinay",
+      "amenities": ["Chambre d'hôtes"],
+      "website": "https://www.chambres-hotes.fr/chambres-hotes_bb-bon-vivant_brinay_h7948857.htm"
+    },
+    {
+      "id": "7",
+      "name": "La famille est dans les blés",
+      "type": "chambre_hote",
+      "capacity": "13 personnes",
+      "distance": "Brinay",
+      "distanceFromVenue": "10 km",
+      "priceRange": "À consulter",
+      "address": "Brinay",
+      "amenities": ["Chambre d'hôtes"],
+      "website": "https://la-famille-est-dans-les-bles.com/"
+    },
+    {
+      "id": "8",
+      "name": "Le Couvent en Bazois",
+      "type": "chambre_hote",
+      "capacity": "11 personnes",
+      "distance": "Châtillon-en-Bazois",
+      "distanceFromVenue": "6 km",
+      "priceRange": "À consulter",
+      "address": "Châtillon-en-Bazois",
+      "amenities": ["Chambre d'hôtes", "Cadre historique"],
+      "website": "https://www.chambres-hotes.fr/chambres-hotes_chambres-d-hotes-le-couvent-en-bazois_chatillon-en-bazois_66593.htm"
+    },
+    {
+      "id": "9",
+      "name": "Gîte La Chevêche",
+      "type": "gite",
+      "capacity": "8 personnes",
+      "distance": "Mont et Marré",
+      "distanceFromVenue": "1 km",
+      "priceRange": "À consulter",
+      "address": "Mont et Marré",
+      "amenities": ["Gîte"],
+      "phone": "06 22 39 10 54"
+    },
+    {
+      "id": "10",
+      "name": "Gite Charolais",
+      "type": "gite",
+      "capacity": "6 personnes",
+      "distance": "Mont et Marré",
+      "distanceFromVenue": "1 km",
+      "priceRange": "À consulter",
+      "address": "Mont et Marré",
+      "amenities": ["Gîte"],
+      "phone": "07 60 31 96 03"
+    }
+  ],
+  "giftList": [
+    {
+      "id": "1",
+      "title": "Cagnotte Voyage de Noces",
+      "description": "Aidez-nous à réaliser notre voyage de rêve",
+      "link": "#",
+      "type": "contribution",
+      "reserved": false
+    },
+    {
+      "id": "2",
+      "title": "Liste Galeries Lafayette",
+      "description": "Articles pour la maison",
+      "link": "#",
+      "type": "product",
+      "reserved": false
+    },
+    {
+      "id": "3",
+      "title": "Weekend Spa",
+      "description": "Un moment de détente à deux",
+      "link": "#",
+      "type": "experience",
+      "reserved": false
+    }
+  ],
+  "faq": [
+    {
+      "id": "1",
+      "category": "logistics",
+      "question": "Peut-on venir avec des enfants ?",
+      "answer": "Oui ! Nous attendons 19 enfants. Des baby-sitters seront présentes et des activités sont prévues."
+    },
+    {
+      "id": "2",
+      "category": "logistics",
+      "question": "Y a-t-il un parking ?",
+      "answer": "Oui, un parking gratuit est disponible au Domaine de Mont pour tous les invités."
+    },
+    {
+      "id": "3",
+      "category": "logistics",
+      "question": "Puis-je prendre des photos ?",
+      "answer": "Oui, mais nous vous demandons de respecter les moments de la cérémonie. Un photographe professionnel sera présent. Nous partagerons toutes les photos après le mariage."
+    },
+    {
+      "id": "4",
+      "category": "logistics",
+      "question": "Que faire si j'ai des allergies alimentaires ?",
+      "answer": "Merci de nous le signaler via le formulaire RSVP, le traiteur sera informé et préparera un menu adapté."
+    },
+    {
+      "id": "5",
+      "category": "accommodation",
+      "question": "Dois-je réserver mon hébergement ?",
+      "answer": "Oui, nous vous recommandons de réserver rapidement. Consultez notre liste d'hébergements recommandés ci-dessus."
+    },
+    {
+      "id": "6",
+      "category": "accommodation",
+      "question": "Y a-t-il des hébergements sur place ?",
+      "answer": "Oui, un nombre limité de chambres est disponible au domaine. Le cercle proche (29 personnes) y sera hébergé."
+    },
+    {
+      "id": "7",
+      "category": "gifts",
+      "question": "Où trouver la liste de mariage ?",
+      "answer": "La liste est disponible sur cette page, section 'Liste de Mariage' ci-dessus."
+    },
+    {
+      "id": "8",
+      "category": "gifts",
+      "question": "Puis-je offrir autre chose ?",
+      "answer": "Votre présence est le plus beau des cadeaux ! Si vous souhaitez nous gâter, la liste de mariage est à votre disposition."
+    },
+    {
+      "id": "9",
+      "category": "children",
+      "question": "Y a-t-il des activités pour les enfants ?",
+      "answer": "Oui ! Des baby-sitters seront présentes de 15h à 23h le samedi. Des activités et un espace dédié sont prévus."
+    },
+    {
+      "id": "10",
+      "category": "other",
+      "question": "Puis-je amener un accompagnant ?",
+      "answer": "Uniquement si mentionné sur votre faire-part. Pour des raisons d'organisation, nous ne pouvons accueillir de personnes supplémentaires."
+    }
+  ],
+  "childcare": {
+    "babySitters": {
+      "count": 2,
+      "schedule": "15h00 - 23h00 (Samedi)",
+      "ages": "0-12 ans",
+      "location": "Espace dédié au Domaine de Mont"
+    },
+    "activities": [
+      {
+        "time": "15h00 - 18h00",
+        "title": "Jeux Extérieurs",
+        "description": "Jeux de plein air dans le jardin, coloriages",
+        "ageRange": "Tous âges"
+      },
+      {
+        "time": "18h00 - 20h00",
+        "title": "Repas Enfants",
+        "description": "Menu spécial adapté aux enfants",
+        "ageRange": "Tous âges"
+      },
+      {
+        "time": "20h00 - 23h00",
+        "title": "Soirée Calme",
+        "description": "Projection de film, coin lecture, jeux calmes",
+        "ageRange": "Tous âges"
+      }
+    ],
+    "parentTips": [
+      "Prévoir des vêtements de rechange",
+      "Apporter doudou/tétine si nécessaire",
+      "Les repas enfants seront adaptés aux allergies (pensez à nous prévenir)",
+      "Espace change-bébé disponible",
+      "Les enfants peuvent rester avec leurs parents quand ils le souhaitent"
+    ]
+  },
+  "routes": [
+    {
+      "from": "Paris",
+      "distance": "~400 km",
+      "duration": "~4h",
+      "directions": "À compléter - Autoroute recommandée",
+      "transportType": "car"
+    },
+    {
+      "from": "Lyon",
+      "distance": "~150 km",
+      "duration": "~2h",
+      "directions": "À compléter",
+      "transportType": "car"
+    },
+    {
+      "from": "Clermont-Ferrand",
+      "distance": "~100 km",
+      "duration": "~1h30",
+      "directions": "À compléter",
+      "transportType": "car"
+    }
+  ]
+}

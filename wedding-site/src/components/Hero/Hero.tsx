@@ -31,7 +31,7 @@ export const Hero = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.6 }}
           >
-            Juin 2027
+            19 Juin 2027
           </motion.p>
 
           {/* SVG décoratif simple - exemple de path animation */}
