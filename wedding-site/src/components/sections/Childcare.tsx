@@ -12,7 +12,7 @@ export const Childcare = () => {
       background="cream"
     >
       {/* Info Baby-sitting */}
-      <div className="max-w-4xl mx-auto mb-12">
+      <div className="max-w-4xl mx-auto">
         <Card className="bg-gradient-to-r from-pastel-rose/20 to-pastel-blue/20">
           <div className="flex items-start space-x-4">
             <div className="w-12 h-12 bg-gold/30 rounded-full flex items-center justify-center flex-shrink-0">
@@ -22,13 +22,16 @@ export const Childcare = () => {
             </div>
             <div className="flex-1">
               <h3 className="font-heading text-2xl text-gold-dark mb-4">Baby-sitting</h3>
-              <div className="grid md:grid-cols-2 gap-4 text-sm">
+              <div className="grid md:grid-cols-2 gap-4 text-sm mb-6">
                 <div>
                   <p className="font-body text-gray-700">
                     <span className="font-semibold">Nombre de baby-sitters :</span> {childcare.babySitters.count}
                   </p>
-                  <p className="font-body text-gray-700">
+                  <p className="font-body text-gray-700 mb-3">
                     <span className="font-semibold">Horaires :</span> {childcare.babySitters.schedule}
+                  </p>
+                  <p className="font-body text-gray-600 text-sm italic">
+                    Repas adapté aux enfants (19h30)
                   </p>
                 </div>
                 <div>
@@ -40,44 +43,24 @@ export const Childcare = () => {
                   </p>
                 </div>
               </div>
+
+              {/* Conseils aux parents */}
+              <div className="border-t border-gray-200 pt-4">
+                <ul className="space-y-2">
+                  {childcare.parentTips.map((tip, index) => (
+                    <li key={index} className="flex items-start space-x-2">
+                      <svg className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <span className="font-body text-gray-700 text-sm">{tip}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </Card>
       </div>
-
-      {/* Activités */}
-      <div className="mb-12">
-        <h3 className="font-heading text-3xl text-gold-dark text-center mb-8">Activités Prévues</h3>
-        <div className="grid md:grid-cols-3 gap-6">
-          {childcare.activities.map((activity, index) => (
-            <Card key={index} delay={index * 0.1}>
-              <div className="text-center">
-                <p className="font-heading text-gold text-lg mb-2">{activity.time}</p>
-                <h4 className="font-heading text-xl text-gray-800 mb-3">{activity.title}</h4>
-                <p className="font-body text-gray-600 text-sm mb-2">{activity.description}</p>
-                <span className="inline-block px-3 py-1 bg-pastel-blue/30 text-gray-600 text-xs rounded-full">
-                  {activity.ageRange}
-                </span>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      {/* Conseils aux parents */}
-      <Card className="max-w-3xl mx-auto">
-        <h3 className="font-heading text-2xl text-gold-dark mb-4 text-center">Conseils aux Parents</h3>
-        <ul className="space-y-3">
-          {childcare.parentTips.map((tip, index) => (
-            <li key={index} className="flex items-start space-x-3">
-              <svg className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span className="font-body text-gray-700">{tip}</span>
-            </li>
-          ))}
-        </ul>
-      </Card>
     </Section>
   );
 };

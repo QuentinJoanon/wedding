@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
 interface CardProps {
@@ -6,9 +6,10 @@ interface CardProps {
   className?: string;
   hover?: boolean;
   delay?: number;
+  onClick?: () => void;
 }
 
-export const Card = ({ children, className = '', hover = true, delay = 0 }: CardProps) => {
+export const Card = ({ children, className = '', hover = true, delay = 0, onClick }: CardProps) => {
   const hoverAnimation = hover ? {
     scale: 1.02,
     boxShadow: '0 10px 30px rgba(212, 175, 55, 0.2)'
@@ -21,9 +22,11 @@ export const Card = ({ children, className = '', hover = true, delay = 0 }: Card
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
       whileHover={hoverAnimation}
+      onClick={onClick}
       className={`
         bg-white rounded-lg border-2 border-gold-light
         p-6 shadow-md transition-all duration-300
+        ${onClick ? 'cursor-pointer' : ''}
         ${className}
       `}
     >

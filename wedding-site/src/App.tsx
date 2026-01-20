@@ -7,7 +7,6 @@ import {
   RSVP,
   GiftList,
   Accommodations,
-  Access,
   Childcare,
   FAQ
 } from './components/sections';
@@ -30,11 +29,12 @@ function App() {
       {/* Hébergements */}
       <Accommodations />
 
-      {/* Sections MVP */}
-      <DressCode />
-      <GiftList />
-      <Access />
+      {/* Garde d'enfants */}
       <Childcare />
+
+      {/* Sections MVP */}
+      <GiftList />
+      <DressCode />
       <FAQ />
 
       {/* Footer avec contacts */}

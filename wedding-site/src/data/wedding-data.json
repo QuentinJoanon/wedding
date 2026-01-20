@@ -285,37 +285,24 @@
   ],
   "childcare": {
     "babySitters": {
-      "count": 2,
-      "schedule": "15h00 - 23h00 (Samedi)",
-      "ages": "0-12 ans",
-      "location": "Espace dédié au Domaine de Mont"
+      "count": 1,
+      "schedule": "19h00 - Minuit (Samedi)",
+      "ages": "3-10 ans",
+      "location": "Rez-de-chaussée du château du domaine"
     },
     "activities": [
       {
-        "time": "15h00 - 18h00",
-        "title": "Jeux Extérieurs",
-        "description": "Jeux de plein air dans le jardin, coloriages",
-        "ageRange": "Tous âges"
-      },
-      {
-        "time": "18h00 - 20h00",
-        "title": "Repas Enfants",
-        "description": "Menu spécial adapté aux enfants",
-        "ageRange": "Tous âges"
-      },
-      {
-        "time": "20h00 - 23h00",
+        "time": "20h00 - Minuit",
         "title": "Soirée Calme",
         "description": "Projection de film, coin lecture, jeux calmes",
         "ageRange": "Tous âges"
       }
     ],
     "parentTips": [
-      "Prévoir des vêtements de rechange",
-      "Apporter doudou/tétine si nécessaire",
-      "Les repas enfants seront adaptés aux allergies (pensez à nous prévenir)",
-      "Espace change-bébé disponible",
-      "Les enfants peuvent rester avec leurs parents quand ils le souhaitent"
+      "Apporter doudou/tétine si nécessaire, et une tenue du soir confortable",
+      "Vous pouvez apporter un jeu ou livre si vous le souhaitez",
+      "Jeux, livres et dessins animés seront mis à disposition",
+      "Une pièce annexe à la salle de jeu pourra accueillir vos matelas ou lits pliables"
     ]
   },
   "routes": [

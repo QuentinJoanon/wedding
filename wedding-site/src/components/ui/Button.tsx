@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
 interface ButtonProps {
@@ -9,6 +9,7 @@ interface ButtonProps {
   disabled?: boolean;
   href?: string;
   external?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export const Button = ({
@@ -18,7 +19,8 @@ export const Button = ({
   className = '',
   disabled = false,
   href,
-  external = false
+  external = false,
+  type = 'button'
 }: ButtonProps) => {
   const baseStyles = `
     px-6 py-3 rounded-md font-heading text-lg
@@ -51,6 +53,7 @@ export const Button = ({
 
   return (
     <motion.button
+      type={type}
       onClick={onClick}
       disabled={disabled}
       className={classes}
