@@ -27,7 +27,7 @@ export const Section = ({
   return (
     <section
       id={id}
-      className={`min-h-screen py-20 px-4 ${backgrounds[background]} ${className}`}
+      className={`py-20 px-4 ${backgrounds[background]} ${className}`}
     >
       <div className="max-w-7xl mx-auto">
         {title && (
