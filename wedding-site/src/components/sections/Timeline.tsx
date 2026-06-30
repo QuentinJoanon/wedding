@@ -5,27 +5,26 @@ import weddingData from '../../data/wedding-data.json';
 type ScheduleEvent = typeof weddingData.practicalInfo.schedule[0];
 
 // Version mobile (verticale)
-const EventItemMobile = ({ event, index, isLast }: { event: ScheduleEvent; index: number; isLast: boolean }) => (
+const EventItemMobile = ({ event, index, isFirst, isLast }: { event: ScheduleEvent; index: number; isFirst: boolean; isLast: boolean }) => (
   <motion.div
     initial={{ opacity: 0, x: -20 }}
     whileInView={{ opacity: 1, x: 0 }}
     viewport={{ once: true }}
     transition={{ delay: index * 0.05 }}
-    className="flex items-start space-x-6 group"
+    className="flex group"
   >
     {/* Timeline dot et ligne */}
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center mr-6">
+      <div className={`w-0.5 flex-1 ${isFirst ? 'bg-transparent' : 'bg-linear-to-b from-gold to-gold-light'}`} />
       <motion.div
         whileHover={{ scale: 1.3 }}
-        className="w-5 h-5 rounded-full bg-gold group-hover:bg-gold-dark transition-colors shadow-md"
+        className="w-5 h-5 rounded-full bg-gold group-hover:bg-gold-dark transition-colors shadow-md shrink-0 z-10"
       />
-      {!isLast && (
-        <div className="w-0.5 h-full bg-linear-to-b from-gold to-gold-light min-h-20" />
-      )}
+      <div className={`w-0.5 flex-1 ${isLast ? 'bg-transparent' : 'bg-linear-to-b from-gold-light to-gold'}`} />
     </div>
 
     {/* Event content */}
-    <div className="pb-10 flex-1">
+    <div className="py-4 flex-1">
       <p className="font-heading text-gold text-lg mb-1">{event.time}</p>
       <h4 className="font-heading text-2xl text-gray-800 mb-2">{event.title}</h4>
       {event.description && (
@@ -36,16 +35,16 @@ const EventItemMobile = ({ event, index, isLast }: { event: ScheduleEvent; index
 );
 
 // Version desktop (horizontale)
-const EventItemDesktop = ({ event, index, isLast }: { event: ScheduleEvent; index: number; isLast: boolean }) => (
+const EventItemDesktop = ({ event, index, isFirst, isLast }: { event: ScheduleEvent; index: number; isFirst: boolean; isLast: boolean }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay: index * 0.05 }}
-    className="flex flex-col items-center group relative"
+    className="flex flex-col items-center group relative flex-1"
   >
     {/* Event content (au-dessus) */}
-    <div className="text-center mb-4 min-w-35">
+    <div className="text-center mb-4">
       <p className="font-heading text-gold text-lg mb-1">{event.time}</p>
       <h4 className="font-heading text-xl text-gray-800 mb-1">{event.title}</h4>
       {event.description && (
@@ -54,17 +53,13 @@ const EventItemDesktop = ({ event, index, isLast }: { event: ScheduleEvent; inde
     </div>
 
     {/* Timeline dot et ligne horizontale */}
-    <div className="flex items-center">
-      {!isLast && (
-        <div className="h-0.5 w-full bg-linear-to-r from-gold to-gold-light min-w-12 lg:min-w-24" />
-      )}
+    <div className="flex items-center w-full">
+      <div className={`h-0.5 flex-1 ${isFirst ? 'bg-transparent' : 'bg-linear-to-r from-gold to-gold-light'}`} />
       <motion.div
         whileHover={{ scale: 1.3 }}
-        className="w-5 h-5 rounded-full bg-gold group-hover:bg-gold-dark transition-colors shadow-md shrink-0"
+        className="w-5 h-5 rounded-full bg-gold group-hover:bg-gold-dark transition-colors shadow-md shrink-0 z-10"
       />
-      {!isLast && (
-        <div className="h-0.5 w-full bg-linear-to-r from-gold-light to-gold min-w-12 lg:min-w-24" />
-      )}
+      <div className={`h-0.5 flex-1 ${isLast ? 'bg-transparent' : 'bg-linear-to-r from-gold-light to-gold'}`} />
     </div>
   </motion.div>
 );
@@ -114,6 +109,7 @@ export const Timeline = () => {
                 <EventItemMobile
                   event={event}
                   index={index}
+                  isFirst={index === 0}
                   isLast={index === schedule.length - 1}
                 />
               </div>
@@ -133,6 +129,7 @@ export const Timeline = () => {
                 key={index}
                 event={event}
                 index={index}
+                isFirst={index === 0}
                 isLast={index === saturdayEvents.length - 1}
               />
             ))}
@@ -148,6 +145,7 @@ export const Timeline = () => {
                 key={index}
                 event={event}
                 index={index}
+                isFirst={index === 0}
                 isLast={index === sundayEvents.length - 1}
               />
             ))}
