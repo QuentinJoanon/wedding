@@ -1,34 +1,30 @@
 import { motion } from 'framer-motion';
 import { AnimatedNames } from './AnimatedNames';
 
-export const Hero = () => {
+export const Hero = ({ animate }: { animate: boolean }) => {
   return (
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pastel-rose via-pastel-peach to-pastel-blue">
       <div className="text-center px-4">
-        {/* Animation d'ouverture - Effet "wow" */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 1.2,
-            ease: "easeOut"
-          }}
+          animate={animate ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
           className="space-y-8"
         >
           {/* Noms des mariés - Animation SVG qui s'écrit */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={animate ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
-            <AnimatedNames />
+            <AnimatedNames animate={animate} />
           </motion.div>
 
           {/* Date du mariage */}
           <motion.p
             className="font-body text-2xl md:text-3xl text-gray-700"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={animate ? { opacity: 1 } : { opacity: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
           >
             19 Juin 2027
@@ -50,7 +46,7 @@ export const Hero = () => {
               strokeWidth="2"
               className="text-gold"
               initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
+              animate={animate ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
               transition={{ delay: 1.2, duration: 1.5, ease: "easeInOut" }}
             />
           </motion.svg>
@@ -58,7 +54,7 @@ export const Hero = () => {
           {/* Call to action - Scroll indicator */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={animate ? { opacity: 1 } : { opacity: 0 }}
             transition={{ delay: 2, duration: 0.6 }}
             className="pt-8"
           >

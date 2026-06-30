@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-export const AnimatedNames = () => {
+export const AnimatedNames = ({ animate }: { animate: boolean }) => {
   return (
     <div className="relative inline-block">
       {/* Texte de base invisible pour garder l'espace */}
@@ -27,8 +27,8 @@ export const AnimatedNames = () => {
           textAnchor="middle"
           dominantBaseline="middle"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 4.5, duration: 1 }}
+          animate={animate ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ delay: 2.5, duration: 1.5 }}
         >
           Quentin & Élisa
         </motion.text>
@@ -47,14 +47,11 @@ export const AnimatedNames = () => {
           textAnchor="middle"
           dominantBaseline="middle"
           strokeDasharray="2000"
-          strokeDashoffset="2000"
-          animate={{
-            strokeDashoffset: 0,
-            opacity: [1, 1, 0]
-          }}
+          initial={{ strokeDashoffset: 2000, opacity: 1 }}
+          animate={animate ? { strokeDashoffset: 0, opacity: [1, 1, 0] } : { strokeDashoffset: 2000, opacity: 0 }}
           transition={{
-            strokeDashoffset: { duration: 8, ease: "easeInOut" },
-            opacity: { duration: 1, delay: 4, ease: "easeOut" }
+            strokeDashoffset: { duration: 6, ease: "easeInOut" },
+            opacity: { duration: 1, delay: 3, ease: "easeOut" }
           }}
         >
           Quentin & Élisa

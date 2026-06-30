@@ -15,7 +15,7 @@ function App() {
   return (
     <Layout>
       {/* Hero - Animation d'ouverture */}
-      <Hero />
+      <Hero animate={true} />
 
       {/* Venue avec image de fond */}
       <Venue />
