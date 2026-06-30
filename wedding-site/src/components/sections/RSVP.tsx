@@ -132,7 +132,7 @@ export const RSVP = () => {
                         placeholder="Ex: Léa (5 ans), Lucas (8 ans)"
                       />
                       <p className="text-sm text-gray-600 italic mt-2">
-                        Les enfants de 3 à 10 ans seront gardés dans le château par une baby-sitter après le cocktail
+                        Deux animatrices seront présentes pour garder et faire manger les enfants de 3 à 10 ans dans le château après le cocktail, jusqu'à 2h du matin. Merci de préciser les noms et âges pour qu'on puisse organiser au mieux les activités et le repas des enfants.
                       </p>
                     </div>
 
