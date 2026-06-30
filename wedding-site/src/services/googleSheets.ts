@@ -11,15 +11,6 @@ export interface Gift {
   reservePar: string;
 }
 
-interface SheetResponse {
-  values: string[][];
-}
-
-const getSheetUrl = (range: string) => {
-  const encodedRange = encodeURIComponent(`${SHEET_NAME}!${range}`);
-  return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
-};
-
 export const fetchGifts = async (): Promise<Gift[]> => {
   try {
     const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
