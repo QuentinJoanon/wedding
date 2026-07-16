@@ -1,20 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Section, Card, Button } from '../ui';
 import { fetchGifts, reserveGift } from '../../services/googleSheets';
 import type { Gift } from '../../services/googleSheets';
 
 export const GiftList = () => {
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [loading, setLoading] = useState(true);
-  const [reservingId, setReservingId] = useState<number | null>(null);
-  const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [selectedGift, setSelectedGift] = useState<Gift | null>(null);
   const [reserveName, setReserveName] = useState('');
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    loadGifts();
-  }, []);
+  const [reserving, setReserving] = useState(false);
 
   const loadGifts = async () => {
     setLoading(true);
@@ -23,191 +17,137 @@ export const GiftList = () => {
       const data = await fetchGifts();
       setGifts(data);
     } catch {
-      setError('Impossible de charger la liste de mariage');
+      setError('Impossible de charger la liste de mariage.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleReserveClick = (gift: Gift) => {
-    setSelectedGift(gift);
-    setShowModal(true);
-    setReserveName('');
-  };
+  useEffect(() => {
+    loadGifts();
+  }, []);
 
   const handleReserveConfirm = async () => {
     if (!selectedGift || !reserveName.trim()) return;
-
-    setReservingId(selectedGift.id);
+    setReserving(true);
     const success = await reserveGift(selectedGift.id - 1, reserveName.trim());
-
     if (success) {
-      // Recharger les données
       await loadGifts();
     }
-
-    setReservingId(null);
-    setShowModal(false);
+    setReserving(false);
     setSelectedGift(null);
     setReserveName('');
   };
 
-  if (loading) {
-    return (
-      <Section
-        id="liste-mariage"
-        title="Liste de Mariage"
-        subtitle="Votre présence est le plus beau des cadeaux !"
-        background="white"
-      >
-        <div className="flex justify-center items-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold"></div>
-        </div>
-      </Section>
-    );
-  }
-
-  if (error || gifts.length === 0) {
-    return (
-      <Section
-        id="liste-mariage"
-        title="Liste de Mariage"
-        subtitle="Votre présence est le plus beau des cadeaux !"
-        background="white"
-      >
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="font-body text-gray-600 text-lg">
-            {error || 'La liste de mariage sera bientôt disponible.'}
+  return (
+    <section className="section" id="cadeaux">
+      <div className="wrap">
+        <div className="section-head reveal">
+          <p className="kicker">
+            <span className="num">06</span>&nbsp;— La Liste
+          </p>
+          <h2 className="title">
+            Votre présence
+            <br />
+            est <em>déjà un cadeau.</em>
+          </h2>
+          <p className="lede">
+            Mais si le cœur vous en dit, voici quelques idées pour nous gâter.
           </p>
         </div>
-      </Section>
-    );
-  }
 
-  return (
-    <Section
-      id="liste-mariage"
-      title="Liste de Mariage"
-      subtitle="Votre présence est le plus beau des cadeaux !"
-      background="white"
-    >
-      <div className="max-w-4xl mx-auto mb-8 text-center">
-        <p className="font-body text-gray-600 text-lg">
-          Si toutefois vous souhaitez nous gâter, voici quelques idées qui nous feraient plaisir :
-        </p>
-      </div>
+        {loading ? (
+          <p className="gifts__status reveal">Chargement de la liste…</p>
+        ) : error || gifts.length === 0 ? (
+          <p className="gifts__status reveal">
+            {error || 'La liste de mariage sera bientôt disponible.'}
+          </p>
+        ) : (
+          <div className="gifts__grid">
+            {gifts.map((gift, i) => {
+              const num = String(i + 1).padStart(2, '0');
+              const isReserved = !!gift.reservePar;
+              return (
+                <article className={`gift reveal d${i % 3}`} key={gift.id}>
+                  <span className="gift__num">{num}</span>
+                  <h3 className="gift__title">{gift.nom}</h3>
+                  {gift.description && <p className="gift__desc">{gift.description}</p>}
+                  {gift.prix && <p className="gift__price">{gift.prix}</p>}
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {gifts.map((gift, index) => {
-          const isReserved = !!gift.reservePar;
-
-          return (
-            <Card key={gift.id} delay={index * 0.1} className="flex flex-col">
-              {gift.image && (
-                <div className="w-full h-48 mb-4 overflow-hidden rounded-lg">
-                  <img
-                    src={gift.image}
-                    alt={gift.nom}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              )}
-
-              <div className="flex-1">
-                <h3 className="font-heading text-xl text-gray-800 mb-2">
-                  {gift.nom}
-                </h3>
-
-                {gift.description && (
-                  <p className="font-body text-gray-600 text-sm mb-3">
-                    {gift.description}
-                  </p>
-                )}
-
-                {gift.prix && (
-                  <p className="font-body text-gold font-semibold mb-4">
-                    {gift.prix}
-                  </p>
-                )}
-              </div>
-
-              <div className="mt-auto space-y-2">
-                {isReserved ? (
-                  <div className="bg-gray-100 text-gray-500 text-center py-2 px-4 rounded-lg text-sm">
-                    ✓ Réservé par {gift.reservePar}
-                  </div>
-                ) : (
-                  <>
+                  <div className="gift__actions">
                     {gift.lien && (
-                      <Button
-                        variant="secondary"
-                        href={gift.lien}
-                        external
-                        className="w-full text-sm"
-                      >
-                        Voir le produit
-                      </Button>
+                      <a className="card__link gift__cta" href={gift.lien} target="_blank" rel="noreferrer">
+                        Voir le produit <span>→</span>
+                      </a>
                     )}
-                    <Button
-                      variant="primary"
-                      onClick={() => handleReserveClick(gift)}
-                      disabled={reservingId === gift.id}
-                      className="w-full"
-                    >
-                      {reservingId === gift.id ? 'Réservation...' : 'Réserver ce cadeau'}
-                    </Button>
-                  </>
-                )}
-              </div>
-            </Card>
-          );
-        })}
+                    {isReserved ? (
+                      <span className="gift__reserved">✓ Réservé par {gift.reservePar}</span>
+                    ) : (
+                      <button
+                        type="button"
+                        className="gift__reserve"
+                        onClick={() => {
+                          setSelectedGift(gift);
+                          setReserveName('');
+                        }}
+                      >
+                        Réserver ce cadeau
+                      </button>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        )}
       </div>
 
-      {/* Modal de réservation */}
-      {showModal && selectedGift && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl">
-            <h3 className="font-heading text-2xl text-gray-800 mb-4">
-              Réserver "{selectedGift.nom}"
+      {selectedGift && (
+        <div
+          className="gift-modal"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => !reserving && setSelectedGift(null)}
+        >
+          <div className="gift-modal__panel" onClick={(e) => e.stopPropagation()}>
+            <h3 className="gift-modal__title">
+              Réserver <em>{selectedGift.nom}</em>
             </h3>
-
-            <p className="font-body text-gray-600 mb-4">
-              Merci de nous indiquer votre nom pour que nous sachions qui a réservé ce cadeau.
+            <p className="gift-modal__text">
+              Indiquez votre nom pour que nous sachions qui a réservé ce cadeau.
             </p>
-
-            <input
-              type="text"
-              value={reserveName}
-              onChange={(e) => setReserveName(e.target.value)}
-              placeholder="Votre nom"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent outline-none mb-4"
-            />
-
-            <div className="flex gap-3">
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  setShowModal(false);
-                  setSelectedGift(null);
-                  setReserveName('');
-                }}
-                className="flex-1"
+            <div className="field">
+              <label htmlFor="reserve-name">Votre nom</label>
+              <input
+                id="reserve-name"
+                type="text"
+                placeholder="Prénom et nom"
+                value={reserveName}
+                onChange={(e) => setReserveName(e.target.value)}
+                autoFocus
+              />
+            </div>
+            <div className="gift-modal__actions">
+              <button
+                type="button"
+                className="gift__reserve"
+                onClick={() => setSelectedGift(null)}
+                disabled={reserving}
               >
                 Annuler
-              </Button>
-              <Button
-                variant="primary"
+              </button>
+              <button
+                type="button"
+                className="btn"
                 onClick={handleReserveConfirm}
-                disabled={!reserveName.trim() || reservingId === selectedGift.id}
-                className="flex-1"
+                disabled={!reserveName.trim() || reserving}
               >
-                {reservingId === selectedGift.id ? 'Réservation...' : 'Confirmer'}
-              </Button>
+                {reserving ? 'Réservation…' : 'Confirmer'} <span className="arr">→</span>
+              </button>
             </div>
           </div>
         </div>
       )}
-    </Section>
+    </section>
   );
 };

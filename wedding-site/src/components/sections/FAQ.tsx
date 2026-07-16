@@ -1,90 +1,76 @@
-import { Section, Card } from '../ui';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useRef, useState } from 'react';
 import weddingData from '../../data/wedding-data.json';
+import type { FAQItem as FAQItemType } from '../../types';
 
-export const FAQ = () => {
-  const { faq } = weddingData;
-  const [openId, setOpenId] = useState<string | null>(null);
+const { faq } = weddingData as { faq: FAQItemType[] };
 
-  const categories = {
-    logistics: 'Logistique',
-    accommodation: 'Hébergement',
-    gifts: 'Cadeaux',
-    children: 'Enfants',
-    other: 'Autre'
+const FAQRow = ({ item }: { item: FAQItemType }) => {
+  const [open, setOpen] = useState(false);
+  const paneRef = useRef<HTMLDivElement>(null);
+
+  const toggle = () => {
+    const pane = paneRef.current;
+    if (!pane) {
+      setOpen((o) => !o);
+      return;
+    }
+    if (open) {
+      // refermer : repartir de la hauteur réelle puis animer vers 0
+      pane.style.height = `${pane.scrollHeight}px`;
+      requestAnimationFrame(() => {
+        pane.style.height = '0px';
+      });
+      setOpen(false);
+    } else {
+      setOpen(true);
+      pane.style.height = `${pane.scrollHeight}px`;
+      const onEnd = () => {
+        pane.style.height = 'auto';
+        pane.removeEventListener('transitionend', onEnd);
+      };
+      pane.addEventListener('transitionend', onEnd);
+    }
   };
 
-  const groupedFAQ = faq.reduce((acc, item) => {
-    if (!acc[item.category]) acc[item.category] = [];
-    acc[item.category].push(item);
-    return acc;
-  }, {} as Record<string, typeof faq>);
-
   return (
-    <Section
-      id="faq"
-      title="Questions Fréquentes"
-      subtitle="Vous avez des questions ? Nous avons les réponses !"
-      background="white"
-    >
-      <div className="max-w-4xl mx-auto">
-        {Object.entries(groupedFAQ).map(([category, items]) => (
-          <div key={category} className="mb-8">
-            <h3 className="font-heading text-2xl text-gold-dark mb-4">
-              {categories[category as keyof typeof categories]}
-            </h3>
-            <div className="space-y-3">
-              {items.map((item) => (
-                <Card
-                  key={item.id}
-                  hover={false}
-                  className="cursor-pointer"
-                  onClick={() => setOpenId(openId === item.id ? null : item.id)}
-                >
-                  <div className="flex items-start justify-between">
-                    <h4 className="font-heading text-lg text-gray-800 pr-4">
-                      {item.question}
-                    </h4>
-                    <motion.svg
-                      animate={{ rotate: openId === item.id ? 180 : 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="w-5 h-5 text-gold flex-shrink-0"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </motion.svg>
-                  </div>
-                  <AnimatePresence>
-                    {openId === item.id && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
-                      >
-                        <p className="font-body text-gray-600 mt-3 pt-3 border-t border-gray-200">
-                          {item.answer}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </Card>
-              ))}
-            </div>
-          </div>
-        ))}
-
-        {/* Contact si question non trouvée */}
-        <Card className="bg-gradient-to-r from-gold/10 to-pastel-peach/20 text-center mt-8">
-          <p className="font-body text-gray-700">
-            Votre question n'est pas ici ? N'hésitez pas à nous contacter directement !
-          </p>
-        </Card>
+    <div className={`faq__item${open ? ' open' : ''}`}>
+      <button className="faq__q" type="button" onClick={toggle} aria-expanded={open}>
+        <span>
+          <span className="faq__cat">{item.cat}</span>
+          {item.q}
+        </span>
+        <span className="faq__sign"></span>
+      </button>
+      <div className="faq__a" ref={paneRef}>
+        <div className="inner">{item.a}</div>
       </div>
-    </Section>
+    </div>
+  );
+};
+
+export const FAQ = () => {
+  return (
+    <>
+      <div className="section-head reveal">
+        <p className="kicker">
+          <span className="num">08</span>&nbsp;— Questions
+        </p>
+        <h2 className="title">
+          On répond
+          <br />
+          <em>à tout.</em>
+        </h2>
+      </div>
+      <div className="faq__grid">
+        <p className="lede reveal" style={{ fontStyle: 'italic' }}>
+          Une question qui n'est pas ici&nbsp;? Écrivez-nous, on est là.
+        </p>
+        <div className="faq__list reveal d1">
+          {faq.map((item) => (
+            <FAQRow item={item} key={item.q} />
+          ))}
+        </div>
+      </div>
+    </>
   );
 };

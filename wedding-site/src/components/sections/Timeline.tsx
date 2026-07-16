@@ -1,157 +1,50 @@
-import { Section } from '../ui';
-import { motion } from 'framer-motion';
 import weddingData from '../../data/wedding-data.json';
 
-type ScheduleEvent = typeof weddingData.practicalInfo.schedule[0];
-
-// Version mobile (verticale)
-const EventItemMobile = ({ event, index, isFirst, isLast }: { event: ScheduleEvent; index: number; isFirst: boolean; isLast: boolean }) => (
-  <motion.div
-    initial={{ opacity: 0, x: -20 }}
-    whileInView={{ opacity: 1, x: 0 }}
-    viewport={{ once: true }}
-    transition={{ delay: index * 0.05 }}
-    className="flex group"
-  >
-    {/* Timeline dot et ligne */}
-    <div className="flex flex-col items-center mr-6">
-      <div className={`w-0.5 flex-1 ${isFirst ? 'bg-transparent' : 'bg-linear-to-b from-gold to-gold-light'}`} />
-      <motion.div
-        whileHover={{ scale: 1.3 }}
-        className="w-5 h-5 rounded-full bg-gold group-hover:bg-gold-dark transition-colors shadow-md shrink-0 z-10"
-      />
-      <div className={`w-0.5 flex-1 ${isLast ? 'bg-transparent' : 'bg-linear-to-b from-gold-light to-gold'}`} />
-    </div>
-
-    {/* Event content */}
-    <div className="py-4 flex-1">
-      <p className="font-heading text-gold text-lg mb-1">{event.time}</p>
-      <h4 className="font-heading text-2xl text-gray-800 mb-2">{event.title}</h4>
-      {event.description && (
-        <p className="font-body text-gray-600">{event.description}</p>
-      )}
-    </div>
-  </motion.div>
-);
-
-// Version desktop (horizontale)
-const EventItemDesktop = ({ event, index, isFirst, isLast }: { event: ScheduleEvent; index: number; isFirst: boolean; isLast: boolean }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ delay: index * 0.05 }}
-    className="flex flex-col items-center group relative flex-1"
-  >
-    {/* Event content (au-dessus) */}
-    <div className="text-center mb-4">
-      <p className="font-heading text-gold text-lg mb-1">{event.time}</p>
-      <h4 className="font-heading text-xl text-gray-800 mb-1">{event.title}</h4>
-      {event.description && (
-        <p className="font-body text-gray-600 text-sm">{event.description}</p>
-      )}
-    </div>
-
-    {/* Timeline dot et ligne horizontale */}
-    <div className="flex items-center w-full">
-      <div className={`h-0.5 flex-1 ${isFirst ? 'bg-transparent' : 'bg-linear-to-r from-gold to-gold-light'}`} />
-      <motion.div
-        whileHover={{ scale: 1.3 }}
-        className="w-5 h-5 rounded-full bg-gold group-hover:bg-gold-dark transition-colors shadow-md shrink-0 z-10"
-      />
-      <div className={`h-0.5 flex-1 ${isLast ? 'bg-transparent' : 'bg-linear-to-r from-gold-light to-gold'}`} />
-    </div>
-  </motion.div>
-);
-
-const DaySeparator = ({ day }: { day: string }) => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.9 }}
-    whileInView={{ opacity: 1, scale: 1 }}
-    viewport={{ once: true }}
-    className="flex items-center space-x-4 my-8"
-  >
-    <div className="h-px flex-1 bg-linear-to-r from-transparent via-gold to-transparent" />
-    <div className="flex items-center space-x-2 px-4 py-2 bg-linear-to-r from-pastel-blue/20 to-pastel-cream rounded-full">
-      <svg className="w-6 h-6 text-gold" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-      </svg>
-      <span className="font-heading text-xl text-gold-dark">{day}</span>
-    </div>
-    <div className="h-px flex-1 bg-linear-to-r from-gold via-gold-light to-transparent" />
-  </motion.div>
-);
+const { schedule } = weddingData;
 
 export const Timeline = () => {
-  const { schedule } = weddingData.practicalInfo;
-  const saturdayEvents = schedule.filter(event => event.day === 'saturday');
-  const sundayEvents = schedule.filter(event => event.day === 'sunday');
-
   return (
-    <Section
-      id="timeline"
-      title="Déroulé du Weekend"
-      subtitle="Programme du 19-20 juin 2027"
-      background="white"
-    >
-      {/* Version mobile (verticale) */}
-      <div className="lg:hidden max-w-3xl mx-auto">
-        <div className="relative">
-          {schedule.map((event, index) => {
-            const previousEvent = index > 0 ? schedule[index - 1] : null;
-            const showDaySeparator = previousEvent && previousEvent.day !== event.day;
-            const isFirstEvent = index === 0;
+    <section className="section panel" id="programme">
+      <div className="wrap">
+        <div className="section-head reveal">
+          <p className="kicker">
+            <span className="num">03</span>&nbsp;— Le Programme
+          </p>
+          <h2 className="title">
+            Deux jours
+            <br />
+            pour <em>tout fêter</em>.
+          </h2>
+          <p className="lede">
+            Le déroulé du weekend, du « oui » de samedi au brunch du dimanche.
+          </p>
+        </div>
 
-            return (
-              <div key={index}>
-                {isFirstEvent && <DaySeparator day="Samedi" />}
-                {showDaySeparator && <DaySeparator day="Dimanche" />}
-                <EventItemMobile
-                  event={event}
-                  index={index}
-                  isFirst={index === 0}
-                  isLast={index === schedule.length - 1}
-                />
+        <div className="tl__days">
+          {schedule.map((day) => (
+            <div className="tl-day reveal" key={day.day}>
+              <div className="tl-day__head">
+                <span className="d">
+                  <em>{day.day}</em>
+                </span>
+                <span className="meta">{day.date}</span>
               </div>
-            );
-          })}
+              <div className="tl-day__rail">
+                {day.items.map((item) => (
+                  <div className="tl-item" key={`${day.day}-${item.time}`}>
+                    <div className="tl-body">
+                      <div className="tl-time">{item.time}</div>
+                      <div className="tl-title">{item.title}</div>
+                      <div className="tl-desc">{item.desc}</div>
+                    </div>
+                    <div className="tl-spacer"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-
-      {/* Version desktop (horizontale) */}
-      <div className="hidden lg:block max-w-7xl mx-auto">
-        {/* Samedi */}
-        <div className="mb-12">
-          <DaySeparator day="Samedi" />
-          <div className="flex justify-center items-start mt-8">
-            {saturdayEvents.map((event, index) => (
-              <EventItemDesktop
-                key={index}
-                event={event}
-                index={index}
-                isFirst={index === 0}
-                isLast={index === saturdayEvents.length - 1}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Dimanche */}
-        <div>
-          <DaySeparator day="Dimanche" />
-          <div className="flex justify-center items-start mt-8">
-            {sundayEvents.map((event, index) => (
-              <EventItemDesktop
-                key={index}
-                event={event}
-                index={index}
-                isFirst={index === 0}
-                isLast={index === sundayEvents.length - 1}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </Section>
+    </section>
   );
 };

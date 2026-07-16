@@ -1,15 +1,21 @@
 import type { ReactNode } from 'react';
+import { Intro } from './Intro';
+import { Nav } from './Nav';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 export const Layout = ({ children }: LayoutProps) => {
+  useScrollReveal();
+
   return (
-    <div className="min-h-screen bg-pastel-cream">
-      <main className="w-full">
-        {children}
-      </main>
-    </div>
+    <>
+      <Intro />
+      <Nav />
+      <span id="top"></span>
+      <main>{children}</main>
+    </>
   );
 };

@@ -1,99 +1,84 @@
-// Types pour le site de mariage
+// Types pour le site de mariage — alignés sur le contenu réel (wedding-data.json)
 
-export interface PracticalInfo {
-  venue: {
-    name: string;
-    address: string;
-    website?: string;
-  };
-  schedule: TimelineEvent[];
-  dressCode: {
-    men: string;
-    women: string;
-    children: string;
-    note: string;
-  };
-  emergencyContacts: Contact[];
-}
-
-export interface TimelineEvent {
-  time: string;
-  title: string;
-  description?: string;
-  icon?: string;
-  day: 'friday' | 'saturday' | 'sunday';
+export interface Couple {
+  groom: string;
+  bride: string;
+  date: string;
+  dateShort: string;
+  venue: string;
+  venueWebsite: string;
+  location: string;
+  rsvpDeadline: string;
 }
 
 export interface Contact {
-  name: string;
-  phone?: string;
-  email?: string;
   role: string;
+  name: string;
+  phone: string;
 }
+
+export interface ScheduleItem {
+  time: string;
+  title: string;
+  desc: string;
+}
+
+export interface ScheduleDay {
+  day: string;
+  date: string;
+  items: ScheduleItem[];
+}
+
+export type AccommodationType = 'hotel' | 'gite' | 'chambre_hote';
 
 export interface Accommodation {
-  id: string;
   name: string;
-  type: 'hotel' | 'gite' | 'chambre_hote' | 'camping';
+  type: AccommodationType;
   capacity: string;
-  distance: string;
-  priceRange: string;
-  phone?: string;
+  town: string;
+  dist: string;
+  tags: string[];
   website?: string;
-  email?: string;
-  address: string;
-  amenities: string[];
-  image?: string;
+  phone?: string;
 }
 
-export interface GiftListItem {
-  id: string;
+export interface KidsFact {
+  k: string;
+  v: string;
+}
+
+export interface Gift {
   title: string;
-  description: string;
+  desc: string;
+  cta: string;
   link: string;
-  type: 'product' | 'experience' | 'contribution';
-  reserved: boolean;
-  image?: string;
+}
+
+export interface DressCodeColumn {
+  title: string;
+  swatches: string[];
+  text: string;
+}
+
+export interface DressCode {
+  columns: DressCodeColumn[];
+  note: string;
 }
 
 export interface FAQItem {
-  id: string;
-  category: 'logistics' | 'accommodation' | 'gifts' | 'children' | 'other';
-  question: string;
-  answer: string;
-}
-
-export interface ChildcareInfo {
-  babySitters: {
-    count: number;
-    schedule: string;
-    ages: string;
-    location: string;
-  };
-  activities: Activity[];
-  parentTips: string[];
-}
-
-export interface Activity {
-  time: string;
-  title: string;
-  description: string;
-  ageRange: string;
-}
-
-export interface RouteInfo {
-  from: string;
-  distance: string;
-  duration: string;
-  directions: string;
-  transportType: 'car' | 'train' | 'plane';
+  cat: string;
+  q: string;
+  a: string;
 }
 
 export interface WeddingData {
-  practicalInfo: PracticalInfo;
+  couple: Couple;
+  contacts: Contact[];
+  schedule: ScheduleDay[];
   accommodations: Accommodation[];
-  giftList: GiftListItem[];
+  kidsFacts: KidsFact[];
+  kidsTips: string[];
+  gifts: Gift[];
+  dressCode: DressCode;
   faq: FAQItem[];
-  childcare: ChildcareInfo;
-  routes: RouteInfo[];
 }
