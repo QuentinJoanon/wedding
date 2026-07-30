@@ -18,11 +18,11 @@
       "day": "Samedi",
       "date": "19 juin",
       "items": [
-        { "time": "14h30", "title": "Arrivée des invités", "desc": "Accueil au domaine." },
-        { "time": "15h00", "title": "Cérémonie laïque", "desc": "Dans les jardins, sous les arbres." },
-        { "time": "16h00", "title": "Garden party & photos", "desc": "Le moment convivial, et les souvenirs." },
-        { "time": "17h30", "title": "Vin d'honneur", "desc": "Bulles et bouchées." },
-        { "time": "19h30", "title": "Dîner", "desc": "Sous la verrière de l'orangerie." },
+        { "time": "15h00", "title": "Arrivée des invités", "desc": "Accueil au domaine." },
+        { "time": "15h30", "title": "Cérémonie laïque", "desc": "Dans les jardins, sous les arbres." },
+        { "time": "16h30", "title": "Garden party & photos", "desc": "Le moment convivial, et les souvenirs." },
+        { "time": "18h00", "title": "Vin d'honneur", "desc": "Bulles et bouchées." },
+        { "time": "20h00", "title": "Dîner", "desc": "Sous la verrière de l'orangerie." },
         { "time": "23h00", "title": "On danse", "desc": "Jusqu'au bout de la nuit." }
       ]
     },
