@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Q & É — ardoise satiné + or champagne, esperluette Garamond italique -->
+  <rect width="32" height="32" rx="6" fill="#1b1917"/>
+  <rect x="1.75" y="1.75" width="28.5" height="28.5" rx="4.5" fill="none" stroke="#b8954f" stroke-opacity="0.42" stroke-width="1"/>
+  <text x="16" y="16" fill="#d8bd86"
+        font-family="'Cormorant Garamond', 'EB Garamond', Georgia, 'Times New Roman', serif"
+        font-style="italic" font-weight="500" font-size="24"
+        text-anchor="middle" dominant-baseline="central">&#38;</text>
+</svg>
