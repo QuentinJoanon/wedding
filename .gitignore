@@ -1,0 +1,10 @@
+# livrables de design exportés (lourds, hors périmètre du site)
+design_handoff_wedding_redesign/
+
+# dépendances / builds
+node_modules/
+dist/
+
+# système
+.DS_Store
+Thumbs.db

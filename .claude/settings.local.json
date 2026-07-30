@@ -3,7 +3,19 @@
     "allow": [
       "Bash(node node_modules/tailwindcss/lib/cli.js:*)",
       "Bash(npm run dev:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(rm -rf src/components/CurtainIntro)",
+      "Bash(rm -f \"public/Vidéo_prête_sans_bandes_noires.mp4\" public/*.mp4)",
+      "Bash(npm run *)",
+      "Bash(git stash *)",
+      "mcp__chrome-devtools__new_page",
+      "mcp__chrome-devtools__resize_page",
+      "mcp__chrome-devtools__list_console_messages",
+      "mcp__chrome-devtools__evaluate_script",
+      "mcp__chrome-devtools__take_screenshot",
+      "Bash(npx tsc *)",
+      "Skill(commit)",
+      "Bash(node -e \"console.log\\(JSON.stringify\\(require\\('./package.json'\\).scripts,null,2\\)\\)\")"
     ]
   }
 }
