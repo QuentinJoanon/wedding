@@ -3,85 +3,325 @@
     "groom": "Quentin",
     "bride": "Élisa",
     "date": "Samedi 19 juin 2027",
-    "dateShort": "Le 19 juin 2027 · Bourgogne",
+    "dateShort": "Le 19 juin 2027",
     "venue": "Domaine de Mont",
     "venueWebsite": "https://www.domainedemont.com/",
     "location": "Mont-et-Marré, Nièvre",
     "rsvpDeadline": "1ᵉʳ mars 2027"
   },
   "contacts": [
-    { "role": "Le marié", "name": "Quentin", "phone": "06 75 95 30 02" },
-    { "role": "La mariée", "name": "Élisa", "phone": "06 89 37 02 14" }
+    {
+      "role": "Le marié",
+      "name": "Quentin",
+      "phone": "06 75 95 30 02"
+    },
+    {
+      "role": "La mariée",
+      "name": "Élisa",
+      "phone": "06 89 37 02 14"
+    }
   ],
   "schedule": [
     {
       "day": "Samedi",
       "date": "19 juin",
       "items": [
-        { "time": "15h00", "title": "Arrivée des invités", "desc": "Accueil au domaine." },
-        { "time": "15h30", "title": "Cérémonie laïque", "desc": "Dans les jardins, sous les arbres." },
-        { "time": "16h30", "title": "Garden party & photos", "desc": "Le moment convivial, et les souvenirs." },
-        { "time": "18h00", "title": "Vin d'honneur", "desc": "Bulles et bouchées." },
-        { "time": "20h00", "title": "Dîner", "desc": "Sous la verrière de l'orangerie." },
-        { "time": "23h00", "title": "On danse", "desc": "Jusqu'au bout de la nuit." }
+        {
+          "time": "15h00",
+          "title": "Arrivée des invités",
+          "desc": "Accueil au domaine."
+        },
+        {
+          "time": "15h30",
+          "title": "Cérémonie laïque",
+          "desc": "Dans les jardins, sous les arbres.",
+          "icon": "no-phone",
+          "tip": "Un moment 100 % déconnecté."
+        },
+        {
+          "time": "16h30",
+          "title": "Garden party",
+          "desc": "Place aux jeux et aux photos."
+        },
+        {
+          "time": "18h00",
+          "title": "Vin d'honneur",
+          "desc": "Bulles et bouchées."
+        },
+        {
+          "time": "20h00",
+          "title": "Dîner",
+          "desc": "Sous la verrière de l'orangerie."
+        },
+        {
+          "time": "23h00",
+          "title": "On danse",
+          "desc": "Jusqu'au bout de la nuit."
+        }
       ]
     },
     {
       "day": "Dimanche",
       "date": "20 juin",
       "items": [
-        { "time": "11h00", "title": "Brunch", "desc": "Un dernier moment ensemble, tranquille." },
-        { "time": "15h00", "title": "Au revoir", "desc": "Tout à une fin, il est l'heure pour nous de ranger." }
+        {
+          "time": "11h00",
+          "title": "Brunch",
+          "desc": "Un dernier moment ensemble, tranquille."
+        },
+        {
+          "time": "15h00",
+          "title": "Au revoir",
+          "desc": "Tout à une fin, il est l'heure pour nous de ranger."
+        }
       ]
     }
   ],
   "accommodations": [
-    { "name": "Au Foudre du Bazois", "type": "gite", "capacity": "28 pers.", "town": "Châtillon-en-Bazois", "dist": "6 km", "tags": ["Grand gîte", "Idéal groupes"], "website": "https://www.gite-au-foudre-du-bazois.com/accueil" },
-    { "name": "Hôtel Buissonnière", "type": "hotel", "capacity": "20 pers.", "town": "Corbigny", "dist": "15 km", "tags": ["Hôtel", "Restaurant"], "website": "https://www.hotel-buissonniere-corbigny.fr/" },
-    { "name": "Hôtel Cœur de Nièvre", "type": "hotel", "capacity": "19 pers.", "town": "Saint-Saulge", "dist": "10 km", "tags": ["Hôtel", "Restaurant"], "website": "https://www.hotelrestaurant-coeurdenievre.fr/" },
-    { "name": "Gîte Semelin", "type": "gite", "capacity": "15 pers.", "town": "Semelin", "dist": "2 km", "tags": ["Gîte", "Tout près"], "phone": "06 20 31 10 65" },
-    { "name": "Le Gîte de Varigny", "type": "gite", "capacity": "14 pers.", "town": "Achun", "dist": "5 km", "tags": ["Gîtes de France"], "website": "https://www.gites-de-france.com/fr/bourgogne-franche-comte/nievre/varigny-58g674" },
-    { "name": "Bon Vivant", "type": "chambre_hote", "capacity": "14 pers.", "town": "Brinay", "dist": "10 km", "tags": ["Chambre d'hôtes"], "website": "https://www.chambres-hotes.fr/chambres-hotes_bb-bon-vivant_brinay_h7948857.htm" },
-    { "name": "La famille est dans les blés", "type": "chambre_hote", "capacity": "13 pers.", "town": "Brinay", "dist": "10 km", "tags": ["Chambre d'hôtes"], "website": "https://la-famille-est-dans-les-bles.com/" },
-    { "name": "Le Couvent en Bazois", "type": "chambre_hote", "capacity": "11 pers.", "town": "Châtillon-en-Bazois", "dist": "6 km", "tags": ["Cadre historique"], "website": "https://www.chambres-hotes.fr/chambres-hotes_chambres-d-hotes-le-couvent-en-bazois_chatillon-en-bazois_66593.htm" },
-    { "name": "Gîte La Chevêche", "type": "gite", "capacity": "8 pers.", "town": "Mont-et-Marré", "dist": "1 km", "tags": ["Gîte", "Tout près"], "phone": "06 22 39 10 54" },
-    { "name": "Gîte Charolais", "type": "gite", "capacity": "6 pers.", "town": "Mont-et-Marré", "dist": "1 km", "tags": ["Gîte", "Tout près"], "phone": "07 60 31 96 03" }
+    {
+      "name": "Au Foudre du Bazois",
+      "type": "gite",
+      "capacity": "28 pers.",
+      "town": "Châtillon-en-Bazois",
+      "dist": "6 km",
+      "tags": [
+        "Grand gîte",
+        "Idéal groupes"
+      ],
+      "website": "https://www.gite-au-foudre-du-bazois.com/accueil"
+    },
+    {
+      "name": "Hôtel Buissonnière",
+      "type": "hotel",
+      "capacity": "20 pers.",
+      "town": "Corbigny",
+      "dist": "15 km",
+      "tags": [
+        "Hôtel",
+        "Restaurant"
+      ],
+      "website": "https://www.hotel-buissonniere-corbigny.fr/"
+    },
+    {
+      "name": "Hôtel Cœur de Nièvre",
+      "type": "hotel",
+      "capacity": "19 pers.",
+      "town": "Saint-Saulge",
+      "dist": "10 km",
+      "tags": [
+        "Hôtel",
+        "Restaurant"
+      ],
+      "website": "https://www.hotelrestaurant-coeurdenievre.fr/"
+    },
+    {
+      "name": "Gîte Semelin",
+      "type": "gite",
+      "capacity": "15 pers.",
+      "town": "Semelin",
+      "dist": "2 km",
+      "tags": [
+        "Gîte",
+        "Tout près"
+      ],
+      "phone": "06 20 31 10 65"
+    },
+    {
+      "name": "Le Gîte de Varigny",
+      "type": "gite",
+      "capacity": "14 pers.",
+      "town": "Achun",
+      "dist": "5 km",
+      "tags": [
+        "Gîtes de France"
+      ],
+      "website": "https://www.gites-de-france.com/fr/bourgogne-franche-comte/nievre/varigny-58g674"
+    },
+    {
+      "name": "Bon Vivant",
+      "type": "chambre_hote",
+      "capacity": "14 pers.",
+      "town": "Brinay",
+      "dist": "10 km",
+      "tags": [
+        "Chambre d'hôtes"
+      ],
+      "website": "https://www.chambres-hotes.fr/chambres-hotes_bb-bon-vivant_brinay_h7948857.htm"
+    },
+    {
+      "name": "La famille est dans les blés",
+      "type": "chambre_hote",
+      "capacity": "13 pers.",
+      "town": "Brinay",
+      "dist": "10 km",
+      "tags": [
+        "Chambre d'hôtes"
+      ],
+      "website": "https://la-famille-est-dans-les-bles.com/"
+    },
+    {
+      "name": "Le Couvent en Bazois",
+      "type": "chambre_hote",
+      "capacity": "11 pers.",
+      "town": "Châtillon-en-Bazois",
+      "dist": "6 km",
+      "tags": [
+        "Cadre historique"
+      ],
+      "website": "https://www.chambres-hotes.fr/chambres-hotes_chambres-d-hotes-le-couvent-en-bazois_chatillon-en-bazois_66593.htm"
+    },
+    {
+      "name": "Gîte La Chevêche",
+      "type": "gite",
+      "capacity": "8 pers.",
+      "town": "Mont-et-Marré",
+      "dist": "1 km",
+      "tags": [
+        "Gîte",
+        "Tout près"
+      ],
+      "phone": "06 22 39 10 54"
+    },
+    {
+      "name": "Gîte Charolais",
+      "type": "gite",
+      "capacity": "6 pers.",
+      "town": "Mont-et-Marré",
+      "dist": "1 km",
+      "tags": [
+        "Gîte",
+        "Tout près"
+      ],
+      "phone": "07 60 31 96 03"
+    }
   ],
+  "onSiteCamping": {
+    "title": "Bivouac, vans & camping-cars",
+    "desc": "Pour ceux qui souhaitent rester sur place, un champ en bordure du domaine sera à disposition pour poser la tente, et le parking peut accueillir vans et camping-cars.",
+    "facts": [
+      {
+        "k": "Installation",
+        "v": "Montage des tentes possible dès 13h00, ou plus tard pendant le cocktail et la soirée."
+      },
+      {
+        "k": "Sur place",
+        "v": "Sanitaires et point de rafraîchissement accessibles au domaine."
+      }
+    ]
+  },
   "kidsFacts": [
-    { "k": "Baby-sitter", "v": "Présente de 19h à 2h" },
-    { "k": "Pour quels âges", "v": "De 3 à 10 ans" },
-    { "k": "Où", "v": "Au château, au rez-de-chaussée" },
-    { "k": "Au programme", "v": "Film, lecture & jeux calmes" }
+    {
+      "k": "Baby-sitter",
+      "v": "Présente de 19h à 2h"
+    },
+    {
+      "k": "Pour quels âges",
+      "v": "De 3 à 10 ans"
+    },
+    {
+      "k": "Où",
+      "v": "Au château, au rez-de-chaussée"
+    },
+    {
+      "k": "Au programme",
+      "v": "Dîner, film tous âges, lecture & jeux calmes"
+    }
   ],
   "kidsTips": [
+    "Dîner adapté servi directement sur place avec la baby-sitter.",
     "Apportez doudou ou tétine, et une tenue de nuit confortable.",
     "Un jeu ou un livre préféré ? Glissez-le dans le sac.",
     "Jeux, livres et dessins animés seront sur place.",
     "Une pièce annexe pourra accueillir vos matelas ou lits pliables."
   ],
   "gifts": [
-    { "title": "Cagnotte voyage de noces", "desc": "Aidez-nous à réaliser le voyage dont nous rêvons.", "cta": "Participer", "link": "#" },
-    { "title": "Liste Galeries Lafayette", "desc": "Quelques jolies choses pour notre maison.", "cta": "Voir la liste", "link": "#" },
-    { "title": "Week-end spa", "desc": "Un moment de détente à deux, bien mérité.", "cta": "Offrir", "link": "#" }
+    {
+      "title": "Cagnotte voyage de noces",
+      "desc": "Aidez-nous à réaliser le voyage dont nous rêvons.",
+      "cta": "Participer",
+      "link": "#"
+    },
+    {
+      "title": "Liste Galeries Lafayette",
+      "desc": "Quelques jolies choses pour notre maison.",
+      "cta": "Voir la liste",
+      "link": "#"
+    },
+    {
+      "title": "Week-end spa",
+      "desc": "Un moment de détente à deux, bien mérité.",
+      "cta": "Offrir",
+      "link": "#"
+    }
   ],
   "dressCode": {
     "columns": [
-      { "title": "Elles", "swatches": ["#e3a878", "#9fbace", "#efe1ca"], "text": "Robe élégante, longueurs et couleurs libres. Évitez simplement le blanc et le crème, réservés à la mariée." },
-      { "title": "Eux", "swatches": ["#7c8a6a", "#b8954f", "#cabfa6"], "text": "Costume ou tenue élégante. Les teintes pastel et terreuses sont les bienvenues — accordez-vous à la saison." },
-      { "title": "Les enfants", "swatches": ["#e0b3ae", "#9fbace", "#e3a878"], "text": "Tenue confortable et élégante — ils vont courir, jouer et danser : prévoyez de quoi être libres de leurs mouvements." }
+      {
+        "title": "Elles",
+        "swatches": [
+          "#e3a878",
+          "#9fbace",
+          "#efe1ca"
+        ],
+        "text": "Robe élégante, longueurs et couleurs libres. Évitez simplement le blanc et le crème, réservés à la mariée."
+      },
+      {
+        "title": "Eux",
+        "swatches": [
+          "#7c8a6a",
+          "#b8954f",
+          "#cabfa6"
+        ],
+        "text": "Costume ou tenue élégante. Les teintes pastel et terreuses sont les bienvenues — accordez-vous à la saison."
+      },
+      {
+        "title": "Les enfants",
+        "swatches": [
+          "#e0b3ae",
+          "#9fbace",
+          "#e3a878"
+        ],
+        "text": "Tenue confortable et élégante — ils vont courir, jouer et danser : prévoyez de quoi être libres de leurs mouvements."
+      }
     ],
     "note": "Le mariage se déroule en extérieur et sur l'herbe : oubliez les talons aiguilles, préférez des chaussures qui ne s'enfoncent pas."
   },
   "faq": [
-    { "cat": "Logistique", "q": "Peut-on venir avec des enfants ?", "a": "Oui, avec plaisir ! Une baby-sitter sera présente et des activités calmes sont prévues pour eux dans le château." },
-    { "cat": "Logistique", "q": "Y a-t-il un parking ?", "a": "Oui, un parking gratuit est disponible au Domaine de Mont pour tous les invités." },
-    { "cat": "Logistique", "q": "Puis-je prendre des photos ?", "a": "Bien sûr, mais merci de respecter les moments de la cérémonie. Un photographe sera là, et nous partagerons toutes les photos après le mariage." },
-    { "cat": "Logistique", "q": "Et mes allergies alimentaires ?", "a": "Signalez-les simplement dans le formulaire de réponse : le traiteur préparera un menu adapté." },
-    { "cat": "Hébergement", "q": "Dois-je réserver mon hébergement ?", "a": "Oui, et plutôt tôt. Consultez notre sélection d'adresses ci-dessus : les meilleures partent vite." },
-    { "cat": "Hébergement", "q": "Peut-on dormir sur place ?", "a": "Un nombre limité de chambres est réservé au cercle proche. Pour les autres invités, voyez notre liste d'hébergements." },
-    { "cat": "Cadeaux", "q": "Où trouver la liste de mariage ?", "a": "Juste au-dessus, dans la section « La Liste ». Votre présence reste le plus beau des cadeaux." },
-    { "cat": "Le jour J", "q": "À quelle heure arriver ?", "a": "L'accueil se fait à partir de 14h, pour une cérémonie à 15h. Prévoyez un peu de marge pour la route." },
-    { "cat": "Le jour J", "q": "Que se passe-t-il le dimanche ?", "a": "Un brunch convivial à partir de 11h pour prolonger la fête en douceur, jusqu'à 15h." },
-    { "cat": "Divers", "q": "Puis-je amener un·e accompagnant·e ?", "a": "Uniquement si cela est mentionné sur votre faire-part. Pour l'organisation, nous ne pouvons accueillir de personnes supplémentaires." }
+    {
+      "q": "Peut-on venir avec des enfants ?",
+      "a": "Oui, avec plaisir ! Une baby-sitter sera présente et des activités sont prévues pour eux dans le château."
+    },
+    {
+      "q": "Y a-t-il un parking ?",
+      "a": "Oui, un parking gratuit est disponible pour tous les invités."
+    },
+    {
+      "q": "Puis-je prendre des photos ?",
+      "a": "Pas pendant la cérémonie.\n\nNous avons à cœur de vivre ce moment précieux avec toute votre attention, les yeux dans les yeux. Notre duo photographe & vidéaste s'occupe d'immortaliser l'instant — nous vous partagerons toutes les photos et vidéos après le week-end.\n\nPour le reste des festivités (dès la garden party), vos smartphones et appareils sont évidemment les bienvenus !"
+    },
+    {
+      "q": "Et mes allergies alimentaires ?",
+      "a": "Signalez-les simplement dans le formulaire de réponse : le traiteur préparera un menu adapté."
+    },
+    {
+      "q": "Peut-on dormir sur place ?",
+      "a": "Les hébergements sur place étant limités, ils sont réservés à notre cortège (témoins, demoiselles et garçons d'honneur) et à nos familles proches.\n\nPour vous loger à proximité, retrouvez ci-dessous notre sélection d'adresses aux alentours."
+    },
+    {
+      "q": "Où trouver la liste de mariage ?",
+      "a": "Juste au-dessus, dans la section « Liste de mariage ». Votre présence reste le plus beau des cadeaux."
+    },
+    {
+      "q": "À quelle heure arriver ?",
+      "a": "Accueil à partir de 15h — début de la cérémonie à 15h30. Comptez un peu de marge pour la route : le charme des virages et des paysages du Morvan se savoure sans se presser."
+    },
+    {
+      "q": "Que se passe-t-il le dimanche ?",
+      "a": "Un brunch convivial à partir de 11h pour prolonger la fête en douceur, jusqu'à 15h."
+    },
+    {
+      "q": "Puis-je amener un·e accompagnant·e ?",
+      "a": "Uniquement si cela est mentionné sur votre faire-part. Pour l'organisation, nous ne pouvons accueillir de personnes supplémentaires."
+    }
   ]
 }

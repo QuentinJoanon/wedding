@@ -19,8 +19,8 @@ export const Childcare = () => {
             </em>
           </h2>
           <p className="reveal d1">
-            Pendant que les grands dansent, les petits sont entre de bonnes mains&nbsp;: baby-sitter,
-            coin lecture, films et jeux calmes dans le château.
+            Pendant que les grands festoient, les petits profitent de leur propre soirée&nbsp;:
+            dîner dédié, baby-sitter, coin lecture, films et jeux calmes dans le château.
           </p>
           <ul className="kids__tips reveal d2">
             {kidsTips.map((tip) => (

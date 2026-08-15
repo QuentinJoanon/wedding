@@ -1,7 +1,10 @@
 import weddingData from '../../data/wedding-data.json';
-import type { Accommodation, AccommodationType } from '../../types';
+import type { Accommodation, AccommodationType, OnSiteCamping } from '../../types';
 
-const { accommodations } = weddingData as { accommodations: Accommodation[] };
+const { accommodations, onSiteCamping } = weddingData as {
+  accommodations: Accommodation[];
+  onSiteCamping: OnSiteCamping;
+};
 
 const TYPE_LABEL: Record<AccommodationType, string> = {
   gite: 'Gîte',
@@ -67,6 +70,20 @@ export const Accommodations = () => {
             </article>
           ))}
         </div>
+
+        <aside className="onsite reveal d1">
+          <p className="kicker no-rule onsite__eyebrow">Dormir sur place</p>
+          <h3 className="onsite__title">{onSiteCamping.title}</h3>
+          <p className="onsite__desc">{onSiteCamping.desc}</p>
+          <dl className="onsite__facts">
+            {onSiteCamping.facts.map((f) => (
+              <div className="onsite__fact" key={f.k}>
+                <dt>{f.k}</dt>
+                <dd>{f.v}</dd>
+              </div>
+            ))}
+          </dl>
+        </aside>
       </div>
     </section>
   );

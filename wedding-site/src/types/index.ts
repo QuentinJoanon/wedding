@@ -21,6 +21,10 @@ export interface ScheduleItem {
   time: string;
   title: string;
   desc: string;
+  /** Pictogramme optionnel affiché à côté du titre (ex. « no-phone »). */
+  icon?: string;
+  /** Info-bulle associée au pictogramme. */
+  tip?: string;
 }
 
 export interface ScheduleDay {
@@ -47,6 +51,12 @@ export interface KidsFact {
   v: string;
 }
 
+export interface OnSiteCamping {
+  title: string;
+  desc: string;
+  facts: KidsFact[];
+}
+
 export interface Gift {
   title: string;
   desc: string;
@@ -66,8 +76,8 @@ export interface DressCode {
 }
 
 export interface FAQItem {
-  cat: string;
   q: string;
+  /** Les paragraphes sont séparés par un double saut de ligne. */
   a: string;
 }
 
@@ -76,6 +86,7 @@ export interface WeddingData {
   contacts: Contact[];
   schedule: ScheduleDay[];
   accommodations: Accommodation[];
+  onSiteCamping: OnSiteCamping;
   kidsFacts: KidsFact[];
   kidsTips: string[];
   gifts: Gift[];

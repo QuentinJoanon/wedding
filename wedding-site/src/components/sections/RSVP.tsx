@@ -8,6 +8,7 @@ interface RsvpForm {
   lastName: string;
   email: string;
   attending: boolean;
+  nextDay: boolean;
   adults: string;
   children: string;
   dietary: string;
@@ -19,6 +20,7 @@ const INITIAL: RsvpForm = {
   lastName: '',
   email: '',
   attending: true,
+  nextDay: true,
   adults: '2',
   children: '0',
   dietary: '',
@@ -90,7 +92,7 @@ export const RSVP = () => {
       <div className="wrap rsvp__grid">
         <div className="rsvp__intro">
           <p className="kicker no-rule reveal">
-            <span className="num">02</span>&nbsp;— Réponse
+            <span className="num">02</span>&nbsp;— Votre présence
           </p>
           <h2 className="title reveal d1">
             Serez-vous
@@ -98,10 +100,12 @@ export const RSVP = () => {
             <em>des nôtres&nbsp;?</em>
           </h2>
           <p className="reveal d1">
-            Un seul formulaire, et tout est dit. Pensez à nous signaler vos allergies — le traiteur
-            s'occupe du reste.
+            Remplissez ce petit formulaire pour nous aider à tout préparer. N'oubliez pas de
+            préciser vos régimes ou allergies, on s'occupe du reste.
           </p>
-          <p className="deadline reveal d2">Merci de répondre avant le {couple.rsvpDeadline}</p>
+          <p className="deadline reveal d2">
+            Merci de nous confirmer votre venue avant le {couple.rsvpDeadline}.
+          </p>
         </div>
 
         <form className="form reveal d1" onSubmit={handleSubmit}>
@@ -159,6 +163,26 @@ export const RSVP = () => {
             </div>
           </div>
 
+          <div className="field">
+            <label>Serez-vous présent·e le lendemain&nbsp;?</label>
+            <div className="choice">
+              <button
+                type="button"
+                aria-pressed={form.nextDay}
+                onClick={() => set('nextDay', true)}
+              >
+                J'en serai avec plaisir
+              </button>
+              <button
+                type="button"
+                aria-pressed={!form.nextDay}
+                onClick={() => set('nextDay', false)}
+              >
+                Repos bien mérité
+              </button>
+            </div>
+          </div>
+
           <div className="field--row">
             <Stepper
               id="rsvp-adults"
@@ -175,7 +199,7 @@ export const RSVP = () => {
           </div>
 
           <div className="field">
-            <label htmlFor="rsvp-dietary">Régime / allergies</label>
+            <label htmlFor="rsvp-dietary">Régimes particuliers &amp; allergies</label>
             <input
               id="rsvp-dietary"
               type="text"
@@ -186,11 +210,11 @@ export const RSVP = () => {
           </div>
 
           <div className="field">
-            <label htmlFor="rsvp-message">Un mot pour les mariés</label>
+            <label htmlFor="rsvp-message">Un petit mot pour nous&nbsp;?</label>
             <textarea
               id="rsvp-message"
               rows={2}
-              placeholder="Optionnel"
+              placeholder="Votre message, une chanson en tête… (facultatif)"
               value={form.message}
               onChange={(e) => set('message', e.target.value)}
             />

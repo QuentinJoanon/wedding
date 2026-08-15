@@ -273,6 +273,19 @@ img.cover, .hero__bg img {
 .hero--split .hero__art .arch { height: 100%; min-height: 420px; }
 .hero--split .hero-detail { display: grid; gap: 4px; color: var(--ink-soft); font-style: italic; font-size: clamp(17px,1.4vw,21px); }
 
+/* écrans larges mais peu hauts (13 pouces, 1280×800…) : le titre et le texte
+   doivent tenir ensemble dans la fenêtre — on borne la typo par la hauteur. */
+@media (min-width: 861px) {
+  .hero--split .hero__type {
+    gap: clamp(14px, 2.4vh, 40px);
+    padding-block: clamp(84px, 11vh, 150px) clamp(32px, 6vh, 80px);
+  }
+  .hero--split .hero-names { font-size: clamp(48px, min(10vw, 15.5vh), 150px); }
+  .hero--split .hero-detail { font-size: clamp(15px, min(1.4vw, 2.3vh), 21px); }
+  .hero--split .hero__art { padding-block: clamp(64px, 9vh, 120px) clamp(24px, 5vh, 64px); }
+  .hero--split .hero__art .arch { min-height: 0; }
+}
+
 @media (max-width: 860px) {
   .hero--split { grid-template-columns: 1fr; }
   .hero--split .hero__art { padding: 0 var(--gutter) var(--gutter); }
@@ -414,6 +427,32 @@ img.cover, .hero__bg img {
   .tl-spacer { display: none !important; }
 }
 
+/* pastille « moment déconnecté » : téléphone barré dans un rond + info-bulle */
+.tl-badge {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; margin-inline-start: 12px; vertical-align: middle;
+  border: 1px solid var(--accent); border-radius: 50%; color: var(--accent-ink);
+  cursor: help;
+}
+.tl-badge svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+.tl-badge__tip {
+  position: absolute; inset-block-end: calc(100% + 10px); inset-inline-start: 50%;
+  translate: -50% 4px; z-index: 5;
+  width: max-content; max-width: 210px;
+  padding: 8px 12px; border-radius: 4px;
+  background: var(--deep); color: var(--paper);
+  font-family: var(--font-body); font-size: 13px; font-style: normal; font-weight: 400;
+  line-height: 1.35; text-align: center; letter-spacing: 0;
+  opacity: 0; pointer-events: none; transition: opacity .22s ease, translate .22s ease;
+}
+.tl-badge__tip::after {
+  content: ""; position: absolute; inset-block-start: 100%; inset-inline-start: 50%;
+  translate: -50% 0; border: 5px solid transparent; border-block-start-color: var(--deep);
+}
+.tl-badge:hover .tl-badge__tip,
+.tl-badge:focus-visible .tl-badge__tip { opacity: 1; translate: -50% 0; }
+.panel .tl-badge__tip { background: var(--ink); }
+
 /* ============================================================= CARDS === */
 /* style frame : cartes encadrées (keyline) */
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: clamp(14px,1.6vw,22px); }
@@ -435,6 +474,34 @@ img.cover, .hero__bg img {
 }
 .card__link { font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.18em; font-size: 11px; color: var(--accent-ink); border-bottom: 1px solid var(--accent); padding-bottom: 3px; display: inline-flex; gap: 7px; transition: gap .25s; align-self: start; }
 .card__link:hover { gap: 12px; }
+
+/* cartouche « dormir sur place » — bivouac, vans & camping-cars */
+.onsite {
+  margin-block-start: clamp(28px, 4vw, 46px);
+  padding: clamp(24px, 3vw, 40px);
+  border: 1px solid var(--line);
+  background: var(--paper-2);
+  display: grid; gap: 12px;
+}
+.panel .onsite { background: var(--paper); }
+.onsite__eyebrow { margin-bottom: 2px; }
+.onsite__title {
+  font-family: var(--font-display); font-weight: var(--display-weight);
+  font-size: clamp(24px, 2.6vw, 34px); line-height: 1.1;
+}
+.onsite__desc { color: var(--ink-soft); max-width: 68ch; }
+.onsite__facts {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: clamp(14px, 2vw, 28px);
+  margin-block-start: 6px; padding-block-start: clamp(14px, 2vw, 22px);
+  border-block-start: 1px solid var(--line);
+}
+.onsite__fact { display: grid; gap: 6px; align-content: start; }
+.onsite__fact dt {
+  font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.2em;
+  font-size: 10.5px; color: var(--accent-ink);
+}
+.onsite__fact dd { color: var(--ink-soft); }
 
 /* ========================================================== CHILDCARE === */
 .kids__grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(34px,5vw,80px); align-items: center; }
@@ -528,7 +595,7 @@ img.cover, .hero__bg img {
 .faq__item.open .faq__sign::after { transform: translateX(-50%) scaleY(0); }
 .faq__a { overflow: hidden; height: 0; transition: height .35s ease; }
 .faq__a .inner { padding-bottom: clamp(20px,2.4vw,30px); color: var(--ink-soft); max-width: 64ch; }
-.faq__cat { font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.2em; font-size: 10.5px; color: var(--accent); margin-bottom: 7px; display: block; }
+.faq__a .inner p + p { margin-block-start: 0.9em; }
 @media (max-width: 860px) { .faq__grid { grid-template-columns: 1fr; } }
 
 /* ============================================================ FOOTER === */

@@ -35,14 +35,15 @@ const FAQRow = ({ item }: { item: FAQItemType }) => {
   return (
     <div className={`faq__item${open ? ' open' : ''}`}>
       <button className="faq__q" type="button" onClick={toggle} aria-expanded={open}>
-        <span>
-          <span className="faq__cat">{item.cat}</span>
-          {item.q}
-        </span>
+        <span>{item.q}</span>
         <span className="faq__sign"></span>
       </button>
       <div className="faq__a" ref={paneRef}>
-        <div className="inner">{item.a}</div>
+        <div className="inner">
+          {item.a.split('\n\n').map((para) => (
+            <p key={para}>{para}</p>
+          ))}
+        </div>
       </div>
     </div>
   );

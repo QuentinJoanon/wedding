@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 
 const LINKS = [
   { href: '#lieu', label: 'Le Lieu' },
-  { href: '#programme', label: 'Le Programme' },
-  { href: '#sejour', label: 'Le Séjour' },
-  { href: '#cadeaux', label: 'La Liste' },
-  { href: '#infos', label: 'Infos' },
+  { href: '#programme', label: 'Le Déroulé' },
+  { href: '#sejour', label: 'Hébergements' },
+  { href: '#cadeaux', label: 'Liste de mariage' },
+  { href: '#infos', label: 'Infos pratiques' },
 ];
 
 export const Nav = () => {
@@ -30,7 +30,7 @@ export const Nav = () => {
           </a>
         ))}
         <a href="#rsvp" className="nav__cta">
-          Répondre
+          RSVP
         </a>
       </div>
       <button className="nav__burger" aria-label="Menu" type="button">
