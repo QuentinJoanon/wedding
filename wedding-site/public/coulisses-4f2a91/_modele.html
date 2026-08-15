@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <title>Modèle — Coulisses · Quentin & Élisa</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="orga.css">
+</head>
+<body>
+
+<!-- ===================================================== BARRE DU HAUT === -->
+<header class="topbar no-print">
+  <a class="topbar__mark" href="index.html">Q <span class="amp">&amp;</span> É</a>
+  <nav class="topbar__links">
+    <a href="index.html">Sommaire</a>
+    <a href="#composants" aria-current="page">Modèle</a>
+    <a href="#" onclick="Orga.print(); return false;">Imprimer</a>
+  </nav>
+</header>
+
+<!-- ============================================================== TITRE === -->
+<section class="section section--tight">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><span class="num">00</span> &nbsp;Gabarit</span>
+      <h1 class="title display">Le <em>modèle</em></h1>
+      <p class="lede">Toutes les briques disponibles, dans le style du site. Copie ce qui te sert, jette le reste.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== CHIFFRES === -->
+<section class="section section--tight panel" id="composants">
+  <div class="wrap">
+    <span class="kicker">Bloc chiffres — <code>.stats</code></span>
+    <div class="stats" style="margin-top:20px">
+      <div class="stat">
+        <span class="stat__k">Invités confirmés</span>
+        <span class="stat__v" id="demo-count">—</span>
+        <span class="stat__note">sur 120 invitations</span>
+      </div>
+      <div class="stat">
+        <span class="stat__k">Jours restants</span>
+        <span class="stat__v" id="demo-days">—</span>
+        <span class="stat__note">avant le 19 juin 2027</span>
+      </div>
+      <div class="stat">
+        <span class="stat__k">Budget engagé</span>
+        <span class="stat__v">62 %</span>
+        <span class="stat__note">acomptes versés</span>
+      </div>
+      <div class="stat">
+        <span class="stat__k">Prestataires</span>
+        <span class="stat__v">7</span>
+        <span class="stat__note">dont 5 signés</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== TABLEAU === -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><span class="num">01</span> &nbsp;Tableau branché sur Google Sheets</span>
+      <h2 class="title display">Un tableau <em>vivant</em></h2>
+      <p class="lede">Le contenu vient directement de la feuille de calcul. Rien à recopier : on modifie le Sheet, la page suit.</p>
+    </div>
+
+    <div class="row no-print" style="margin-bottom:16px">
+      <input class="search" id="demo-search" type="search" placeholder="Rechercher…" aria-label="Rechercher dans le tableau">
+      <button class="btn btn--ghost btn--sm push" onclick="Orga.print()">Imprimer <span class="arr">→</span></button>
+    </div>
+
+    <!-- Branchement automatique : il suffit des attributs data-*.
+         data-sheet  = l'ID du classeur (dans l'URL entre /d/ et /edit)
+         data-tab    = le nom exact de l'onglet
+         data-columns= les colonnes à afficher, dans l'ordre (facultatif)
+         data-pill   = les colonnes à afficher en pastille de statut (facultatif) -->
+    <div class="table-wrap">
+      <table class="t" id="demo-table"
+             data-sheet="1Tg3sYe_AQoFxKrnq-M-Onpg-2Q9ZsaDuwZqiZpJQhQY"
+             data-tab="Liste de Mariage"
+             data-empty="La feuille est vide.">
+      </table>
+    </div>
+    <p class="loading" style="margin-top:12px;font-size:15px">Exemple branché sur la liste de mariage existante — remplace l'ID et l'onglet par les tiens.</p>
+  </div>
+</section>
+
+<!-- ========================================================== STATUTS === -->
+<section class="section section--tight panel">
+  <div class="wrap">
+    <span class="kicker">Pastilles de statut — <code>.pill</code></span>
+    <div class="row" style="margin-top:18px">
+      <span class="pill pill--ok">Confirmé</span>
+      <span class="pill pill--warn">En attente</span>
+      <span class="pill pill--todo">À faire</span>
+      <span class="pill pill--alert">Annulé</span>
+      <span class="tag">Étiquette neutre</span>
+      <span class="tag">Table 4</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CARTES === -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><span class="num">02</span> &nbsp;Cartes</span>
+      <h2 class="title display">Des <em>fiches</em></h2>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Traiteur</h3>
+          <span class="card__cap">Signé</span>
+        </div>
+        <p class="card__sub">Devis validé le 12 mars, acompte versé.</p>
+        <div class="row"><span class="pill pill--ok">Payé</span><span class="tag">Cocktail + dîner</span></div>
+        <a class="card__link" href="#">Voir le contrat <span class="arr">→</span></a>
+      </article>
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Fleuriste</h3>
+          <span class="card__cap">Devis</span>
+        </div>
+        <p class="card__sub">Trois propositions reçues, choix à arbitrer.</p>
+        <div class="row"><span class="pill pill--warn">En attente</span></div>
+      </article>
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Photographe</h3>
+          <span class="card__cap">À relancer</span>
+        </div>
+        <p class="card__sub">Pas de réponse depuis deux semaines.</p>
+        <div class="row"><span class="pill pill--alert">Relance</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= CHECKLIST === -->
+<section class="section section--tight panel">
+  <div class="wrap wrap--narrow">
+    <span class="kicker">Liste à cocher — <code>.checklist</code></span>
+    <div class="checklist" style="margin-top:20px">
+      <label class="check">
+        <input type="checkbox" checked>
+        <span class="check__label"><b>Réserver le domaine</b><span>Acompte de 30 % versé</span></span>
+        <span class="card__cap">Mars</span>
+      </label>
+      <label class="check">
+        <input type="checkbox">
+        <span class="check__label"><b>Envoyer les faire-part</b><span>Attendre la liste définitive</span></span>
+        <span class="card__cap">Sept.</span>
+      </label>
+      <label class="check">
+        <input type="checkbox">
+        <span class="check__label"><b>Essayage costume</b><span>Prendre rendez-vous</span></span>
+        <span class="card__cap">Oct.</span>
+      </label>
+    </div>
+    <p class="loading" style="margin-top:12px;font-size:15px">Les cases cochées ne sont pas mémorisées : pour un suivi durable, passer par le Google Sheet.</p>
+  </div>
+</section>
+
+<!-- ========================================================== TIMELINE === -->
+<section class="section">
+  <div class="wrap wrap--narrow">
+    <div class="section-head">
+      <span class="kicker"><span class="num">03</span> &nbsp;Déroulé</span>
+      <h2 class="title display">Une <em>journée</em>, heure par heure</h2>
+    </div>
+    <div class="tl">
+      <div class="tl__item">
+        <span class="tl__time">15h00</span>
+        <span><span class="tl__title">Accueil des invités</span><br><span class="tl__desc">Cour de l'orangerie, rafraîchissements</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">16h00</span>
+        <span><span class="tl__title">Cérémonie</span><br><span class="tl__desc">Sous les tilleuls</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">19h30</span>
+        <span><span class="tl__title">Dîner</span><br><span class="tl__desc">Orangerie</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= BLOC SOMBRE === -->
+<section class="section deep">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Bloc sombre — <code>.deep</code></span>
+      <h2 class="title display">Pour <em>mettre en avant</em></h2>
+      <p class="lede">Le fond ardoise du site. À utiliser avec parcimonie : une section par page, pas plus.</p>
+    </div>
+    <div class="row">
+      <span class="pill pill--plain">Rappel</span>
+      <a class="btn" href="#composants">Remonter <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= PIED === -->
+<footer class="section section--tight">
+  <div class="wrap">
+    <hr class="rule">
+    <p class="loading" style="font-size:15px">Coulisses — page privée, non référencée. Imprimé le <span id="today"></span>.</p>
+  </div>
+</footer>
+
+<script src="orga.js"></script>
+<script>
+  // Compteurs d'exemple
+  Orga.text('#demo-days', Orga.daysLeft());
+  Orga.text('#today', Orga.today());
+
+  // Le tableau prévient quand ses données sont arrivées
+  document.getElementById('demo-table').addEventListener('orga:loaded', (e) => {
+    Orga.text('#demo-count', e.detail.rows.length);
+  });
+
+  // Recherche en direct
+  Orga.filterTable('#demo-search', '#demo-table');
+</script>
+
+</body>
+</html>

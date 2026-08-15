@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <title>Coulisses — Quentin & Élisa</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="orga.css">
+</head>
+<body>
+
+<header class="topbar no-print">
+  <a class="topbar__mark" href="index.html">Q <span class="amp">&amp;</span> É</a>
+  <nav class="topbar__links">
+    <a href="index.html" aria-current="page">Sommaire</a>
+    <a href="_modele.html">Modèle</a>
+    <a href="/">Le site</a>
+  </nav>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker no-rule">Espace privé · ne pas partager</span>
+      <h1 class="title display">Les <em>coulisses</em></h1>
+      <p class="lede">L'envers du décor : nos tableaux d'organisation, branchés sur les feuilles de calcul et prêts à imprimer.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat__k">Jours restants</span>
+        <span class="stat__v" id="days">—</span>
+        <span class="stat__note">avant le 19 juin 2027</span>
+      </div>
+      <div class="stat">
+        <span class="stat__k">Pages</span>
+        <span class="stat__v" id="pages">1</span>
+        <span class="stat__note">outils en ligne</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight panel">
+  <div class="wrap">
+    <span class="kicker">Les outils</span>
+    <!-- ▼▼ AJOUTER ICI UNE CARTE PAR NOUVELLE PAGE ▼▼ -->
+    <div class="cards" style="margin-top:24px" id="outils">
+      <article class="card">
+        <div class="card__top">
+          <h2 class="card__name">Le modèle</h2>
+          <span class="card__cap">Gabarit</span>
+        </div>
+        <p class="card__sub">Toutes les briques de style disponibles, avec un tableau d'exemple branché sur Google Sheets.</p>
+        <a class="card__link" href="_modele.html">Ouvrir <span class="arr">→</span></a>
+      </article>
+    </div>
+    <!-- ▲▲ ------------------------------------------ ▲▲ -->
+  </div>
+</section>
+
+<footer class="section section--tight deep">
+  <div class="wrap">
+    <p class="lede" style="font-style:normal;font-size:16px">
+      Cette adresse n'est liée depuis nulle part et n'est pas indexée par les moteurs de recherche.
+      Elle reste néanmoins publique pour qui la connaît : n'y mettre ni mot de passe, ni coordonnées bancaires.
+    </p>
+  </div>
+</footer>
+
+<script src="orga.js"></script>
+<script>
+  Orga.text('#days', Orga.daysLeft());
+  Orga.text('#pages', document.querySelectorAll('#outils .card').length);
+</script>
+
+</body>
+</html>
