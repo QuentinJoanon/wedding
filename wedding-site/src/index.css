@@ -424,6 +424,21 @@ img.cover, .hero__bg img {
 .btn:hover .arr { transform: translateX(4px); }
 .form__status { font-style: italic; color: color-mix(in oklab, var(--paper) 80%, transparent); font-size: 16px; }
 
+.btn[disabled] { opacity: .55; cursor: default; transform: none; }
+.btn[disabled]:hover { transform: none; background: var(--accent); }
+.form__status { font-size: 15px; line-height: 1.45; }
+.form__status--error { color: var(--c-peach); }
+.rsvp__done {
+  display: grid; gap: 14px; align-content: center;
+  padding: clamp(30px, 4vw, 50px);
+  border: 1px solid color-mix(in oklab, var(--paper) 22%, transparent);
+}
+.rsvp__done h3 {
+  font-family: var(--font-display); font-weight: var(--display-weight);
+  font-size: clamp(30px, 3.4vw, 46px); line-height: 1.05; color: var(--accent-2);
+}
+.rsvp__done p { color: color-mix(in oklab, var(--paper) 76%, transparent); font-style: italic; font-size: clamp(17px, 1.4vw, 20px); }
+
 @media (max-width: 860px) { .rsvp__grid { grid-template-columns: 1fr; } .field--row { grid-template-columns: 1fr; } }
 
 /* ========================================================== TIMELINE === */

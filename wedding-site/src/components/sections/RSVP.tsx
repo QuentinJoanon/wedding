@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import weddingData from '../../data/wedding-data.json';
+import { submitRsvp } from '../../services/googleSheets';
 
 const { couple } = weddingData;
 
@@ -74,17 +75,21 @@ const Stepper = ({ id, label, value, min = 0, onChange }: StepperProps) => {
   );
 };
 
+type Status = 'idle' | 'sending' | 'sent' | 'error';
+
 export const RSVP = () => {
   const [form, setForm] = useState<RsvpForm>(INITIAL);
+  const [status, setStatus] = useState<Status>('idle');
 
   const set = <K extends keyof RsvpForm>(key: K, value: RsvpForm[K]) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO (stub) : brancher la soumission réelle ici (form contient toutes les
-    // valeurs contrôlées). Aucun envoi n'est effectué pour l'instant.
-    console.log('RSVP soumis (stub) :', form);
+    if (status === 'sending') return;
+    setStatus('sending');
+    const ok = await submitRsvp(form);
+    setStatus(ok ? 'sent' : 'error');
   };
 
   return (
@@ -108,6 +113,15 @@ export const RSVP = () => {
           </p>
         </div>
 
+        {status === 'sent' ? (
+          <div className="rsvp__done reveal d1" role="status">
+            <h3>Merci&nbsp;!</h3>
+            <p>
+              Votre réponse est bien arrivée. Nous revenons vers vous avec les derniers
+              détails à l'approche du jour J.
+            </p>
+          </div>
+        ) : (
         <form className="form reveal d1" onSubmit={handleSubmit}>
           <div className="field--row">
             <div className="field">
@@ -116,6 +130,7 @@ export const RSVP = () => {
                 id="rsvp-firstName"
                 type="text"
                 placeholder="Votre prénom"
+                required
                 value={form.firstName}
                 onChange={(e) => set('firstName', e.target.value)}
               />
@@ -126,6 +141,7 @@ export const RSVP = () => {
                 id="rsvp-lastName"
                 type="text"
                 placeholder="Votre nom"
+                required
                 value={form.lastName}
                 onChange={(e) => set('lastName', e.target.value)}
               />
@@ -138,6 +154,7 @@ export const RSVP = () => {
               id="rsvp-email"
               type="email"
               placeholder="vous@email.com"
+              required
               value={form.email}
               onChange={(e) => set('email', e.target.value)}
             />
@@ -220,10 +237,19 @@ export const RSVP = () => {
             />
           </div>
 
-          <button className="btn" type="submit">
-            Envoyer ma réponse <span className="arr">→</span>
+          <button className="btn" type="submit" disabled={status === 'sending'}>
+            {status === 'sending' ? 'Envoi…' : 'Envoyer ma réponse'}{' '}
+            <span className="arr">→</span>
           </button>
+
+          {status === 'error' && (
+            <p className="form__status form__status--error" role="alert">
+              L'envoi n'a pas abouti. Réessayez dans un instant, ou prévenez-nous
+              directement — nos numéros sont en bas de page.
+            </p>
+          )}
         </form>
+        )}
       </div>
     </section>
   );

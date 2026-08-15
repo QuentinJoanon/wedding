@@ -171,3 +171,26 @@ L'adresse `/coulisses-4f2a91/` n'est liée depuis aucune page et n'est pas index
 connaît l'URL** : c'est un rideau, pas une serrure. Ne rien y mettre de réellement sensible
 (coordonnées bancaires, mots de passe). Les Google Sheets branchés dessus sont eux aussi
 publics en lecture — même règle.
+
+---
+
+## Le formulaire RSVP
+
+Les réponses des invités arrivent dans l'onglet **`RSVP`** du même classeur que la
+liste de mariage. L'onglet et ses en-têtes sont créés automatiquement à la première
+réponse reçue — il n'y a rien à préparer côté Sheet.
+
+Le site poste sur l'Apps Script déjà utilisé par la liste de cadeaux
+(`VITE_GOOGLE_SCRIPT_URL`), avec `action: 'rsvp'`.
+
+**À faire une fois, sinon le formulaire affiche une erreur aux invités :**
+
+1. Ouvrir le projet Apps Script du classeur.
+2. Y coller le contenu de `google-apps-script/rsvp.gs`, en suivant les
+   instructions en tête de fichier (le `doPost` existant, qui gère la
+   réservation des cadeaux, doit appeler `routeRsvp` en premier).
+3. Déployer → Gérer les déploiements → modifier le déploiement existant →
+   **Nouvelle version**. L'URL `/exec` ne change pas, rien à modifier côté site.
+
+Pour afficher les réponses dans une page des coulisses, c'est le cas simple :
+`data-sheet` = l'ID du classeur, `data-tab="RSVP"`.
