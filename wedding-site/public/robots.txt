@@ -1,0 +1,22 @@
+# Site privé — merci de ne pas indexer.
+# Le crawl reste autorisé pour que les robots puissent LIRE le noindex
+# (meta robots + en-tête X-Robots-Tag). Un Disallow global empêcherait
+# la lecture de cette consigne et l'URL pourrait rester listée.
+User-agent: *
+Disallow:
+
+# Aspirateurs de contenu et robots d'entraînement : refus complet.
+User-agent: GPTBot
+Disallow: /
+User-agent: CCBot
+Disallow: /
+User-agent: Google-Extended
+Disallow: /
+User-agent: anthropic-ai
+Disallow: /
+User-agent: ClaudeBot
+Disallow: /
+User-agent: PerplexityBot
+Disallow: /
+User-agent: Bytespider
+Disallow: /
