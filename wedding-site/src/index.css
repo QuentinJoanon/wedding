@@ -245,11 +245,43 @@ img.cover, .hero__bg img {
   color: var(--ink);
 }
 .nav__burger { display: none; }
+/* le repère et le bouton restent au-dessus du panneau plein écran */
+.nav__mark, .nav__burger { position: relative; z-index: 2; }
 
 @media (max-width: 860px) {
   .nav__links { display: none; }
   .nav__burger { display: inline-flex; flex-direction: column; gap: 5px; padding: 8px; }
-  .nav__burger span { width: 26px; height: 1.5px; background: currentColor; display: block; }
+  .nav__burger span {
+    width: 26px; height: 1.5px; background: currentColor; display: block;
+    transition: translate .3s ease, rotate .3s ease, opacity .2s ease;
+  }
+
+  /* menu ouvert : panneau plein écran, liens empilés.
+     Le backdrop-filter de .nav--solid ferait de la barre le bloc conteneur du
+     panneau « fixed » : on le neutralise le temps de l'ouverture. */
+  .nav--open { color: var(--ink); }
+  .nav--open.nav--solid { background: transparent; backdrop-filter: none; box-shadow: none; }
+  .nav--open .nav__links {
+    display: grid; align-content: center; justify-items: center;
+    position: fixed; inset: 0; z-index: 1;
+    gap: clamp(20px, 4vh, 36px);
+    padding: clamp(88px, 14vh, 140px) var(--gutter) clamp(40px, 8vh, 72px);
+    background: var(--paper);
+    animation: navReveal .3s ease both;
+  }
+  .nav--open .nav__links a { font-size: 13px; opacity: 1; }
+  .nav--open .nav__cta { margin-block-start: clamp(6px, 2vh, 16px); padding: 13px 30px; }
+
+  /* burger → croix */
+  .nav--open .nav__burger span:nth-child(1) { translate: 0 6.5px; rotate: 45deg; }
+  .nav--open .nav__burger span:nth-child(2) { opacity: 0; }
+  .nav--open .nav__burger span:nth-child(3) { translate: 0 -6.5px; rotate: -45deg; }
+}
+
+@keyframes navReveal { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .nav--open .nav__links { animation: none; }
+  .nav__burger span { transition: none; }
 }
 
 /* ============================================================== HERO === */
