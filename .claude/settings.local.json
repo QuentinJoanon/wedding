@@ -17,7 +17,9 @@
       "Skill(commit)",
       "Bash(node -e \"console.log\\(JSON.stringify\\(require\\('./package.json'\\).scripts,null,2\\)\\)\")",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(node --check wedding-site/public/coulisses-4f2a91/orga.js)",
+      "Bash(node --check \"C:/Users/Quentin/Documents/Projets/wedding/wedding-site/public/coulisses-4f2a91/orga.js\")"
     ]
   }
 }
