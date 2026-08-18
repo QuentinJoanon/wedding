@@ -625,6 +625,20 @@ img.cover, .hero__bg img {
 .gift-modal__panel .field input::placeholder { color: var(--ink-mute); }
 .gift-modal__panel .field input:focus { border-bottom-color: var(--accent); }
 .gift-modal__actions { display: flex; gap: 12px; align-items: center; margin-top: 6px; }
+.gift-modal__price { font-family: var(--font-display); font-weight: var(--display-weight); font-size: clamp(20px,2.2vw,26px); color: var(--accent-ink); margin-top: -6px; }
+.gift-modal__panel .field label { color: var(--ink-mute); }
+.gift-modal__panel .choice button { border-color: var(--line); color: var(--ink); }
+.gift-modal__panel .choice button[aria-pressed='true'] { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.gift-modal__panel .choice button:disabled { opacity: .4; cursor: default; }
+.gift-modal__panel .field input[type='number'] { color: var(--ink); border-bottom-color: var(--line); }
+
+/* cadeau déjà offert : présent dans la liste, mais hors d'atteinte */
+.gift--taken { opacity: .55; }
+.gift--taken:hover { border-color: var(--line); transform: none; }
+.gift__ongoing {
+  font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.18em;
+  font-size: 10.5px; color: var(--accent-ink);
+}
 
 /* =============================================================== FAQ === */
 .faq__grid { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: clamp(30px,5vw,80px); align-items: start; }

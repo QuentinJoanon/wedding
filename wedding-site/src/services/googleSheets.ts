@@ -2,10 +2,13 @@ const SHEET_ID = '1Tg3sYe_AQoFxKrnq-M-Onpg-2Q9ZsaDuwZqiZpJQhQY';
 const SHEET_NAME = 'Liste de Mariage';
 
 /**
- * Colonnes de l'onglet « Liste de Mariage », dans l'ordre du classeur.
- * Toute colonne ajoutée en amont décale la lecture : cet index est la seule
- * source de vérité, à tenir à jour avec le Sheet.
+ * Colonnes lues dans l'onglet « Liste de Mariage », en notation Sheets.
+ * On sélectionne explicitement : la colonne G (qui a offert quoi) et la
+ * colonne H (montants) ne doivent jamais parvenir au navigateur des invités.
  */
+const GIFT_QUERY = 'select A, B, C, D, E, F, I';
+
+/** Index des colonnes dans le résultat, dans l'ordre de GIFT_QUERY. */
 const COL = {
   theme: 0,
   nom: 1,
@@ -13,12 +16,11 @@ const COL = {
   prix: 3,
   lien: 4,
   image: 5,
-  reservePar: 6,
-  urne: 7,
+  statut: 6,
 } as const;
 
-/** Colonne « ReservePar » en numérotation Sheets (A = 1). */
-const RESERVE_COLUMN = COL.reservePar + 1;
+/** Valeurs possibles de la colonne « Statut », écrites par le script Google. */
+export type GiftStatus = '' | 'En cours' | 'Offert';
 
 export interface Gift {
   id: number;
@@ -28,12 +30,14 @@ export interface Gift {
   prix: string;
   lien: string;
   image: string;
-  reservePar: string;
+  statut: GiftStatus;
 }
 
 export const fetchGifts = async (): Promise<Gift[]> => {
   try {
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+    const url =
+      `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json` +
+      `&sheet=${encodeURIComponent(SHEET_NAME)}&tq=${encodeURIComponent(GIFT_QUERY)}`;
     const response = await fetch(url);
     const text = await response.text();
 
@@ -50,58 +54,92 @@ export const fetchGifts = async (): Promise<Gift[]> => {
     // Ignorer la première ligne (en-têtes)
     const rows = data.table.rows.slice(1);
 
-    return rows.map((row: { c: ({ v: string | null } | null)[] }, index: number) => {
-      const cells = row.c || [];
-      return {
-        id: index + 1,
-        theme: cells[COL.theme]?.v || '',
-        nom: cells[COL.nom]?.v || '',
-        description: cells[COL.description]?.v || '',
-        prix: cells[COL.prix]?.v || '',
-        lien: cells[COL.lien]?.v || '',
-        image: cells[COL.image]?.v || '',
-        reservePar: cells[COL.reservePar]?.v || '',
-      };
-    }).filter((gift: Gift) => gift.nom); // Filtrer les lignes vides
+    return rows
+      .map((row: { c: ({ v: string | null } | null)[] }, index: number) => {
+        const cells = row.c || [];
+        return {
+          id: index + 1,
+          theme: cells[COL.theme]?.v || '',
+          nom: cells[COL.nom]?.v || '',
+          description: cells[COL.description]?.v || '',
+          prix: cells[COL.prix]?.v || '',
+          lien: cells[COL.lien]?.v || '',
+          image: cells[COL.image]?.v || '',
+          statut: (cells[COL.statut]?.v || '') as GiftStatus,
+        };
+      })
+      .filter((gift: Gift) => gift.nom); // Filtrer les lignes vides
   } catch (error) {
     console.error('Erreur lors de la récupération des cadeaux:', error);
     return [];
   }
 };
 
-export const reserveGift = async (rowIndex: number, name: string): Promise<boolean> => {
+/* ------------------------------------------------------- PARTICIPATIONS */
+
+/** Ce que la personne prend en charge. */
+export type ContributionKind = 'entier' | 'participation';
+
+/** Comment elle règle. */
+export type ContributionMethod = 'urne' | 'lien';
+
+export interface ContributionPayload {
+  /** Rang du cadeau dans la liste (Gift.id), converti en ligne côté script. */
+  giftId: number;
+  giftName: string;
+  kind: ContributionKind;
+  method: ContributionMethod;
+  /** Montant en euros, vide si participation libre sans montant précisé. */
+  amount: string;
+  name: string;
+  email: string;
+}
+
+export interface ContributionResult {
+  ok: boolean;
+  /** Renseigné quand le cadeau vient d'être pris par quelqu'un d'autre. */
+  error?: string;
+}
+
+/**
+ * Enregistre une participation. Comme pour le RSVP, on lit vraiment la réponse
+ * du script : c'est le seul moyen de savoir qu'un cadeau a été pris entre
+ * l'affichage de la page et l'envoi du formulaire.
+ */
+export const contributeToGift = async (
+  payload: ContributionPayload
+): Promise<ContributionResult> => {
   const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
 
   if (!scriptUrl) {
     console.error('VITE_GOOGLE_SCRIPT_URL non configuré');
-    return false;
+    return { ok: false };
   }
 
+  const body = JSON.stringify({
+    action: 'participate',
+    sheetId: SHEET_ID,
+    sheetName: SHEET_NAME,
+    row: payload.giftId + 1,
+    giftName: payload.giftName,
+    kind: payload.kind,
+    method: payload.method,
+    amount: payload.amount,
+    name: payload.name,
+    email: payload.email,
+  });
+
   try {
-    const params = new URLSearchParams({
-      action: 'reserve',
-      sheetId: SHEET_ID,
-      sheetName: SHEET_NAME,
-      row: String(rowIndex + 2),
-      col: String(RESERVE_COLUMN),
-      name: name,
-    });
-
-    // Utiliser mode no-cors avec application/x-www-form-urlencoded
-    await fetch(scriptUrl, {
+    const response = await fetch(scriptUrl, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: params.toString(),
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body,
     });
-
-    // Avec no-cors on ne peut pas vérifier le résultat, on assume le succès
-    return true;
+    const result = (await response.json()) as ContributionResult;
+    return { ok: !!result.ok, error: result.error };
   } catch (error) {
-    console.error('Erreur lors de la réservation:', error);
-    return false;
+    console.error("Échec de l'enregistrement de la participation :", error);
+    return { ok: false };
   }
 };
 

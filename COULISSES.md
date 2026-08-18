@@ -186,11 +186,59 @@ Le site poste sur l'Apps Script déjà utilisé par la liste de cadeaux
 **À faire une fois, sinon le formulaire affiche une erreur aux invités :**
 
 1. Ouvrir le projet Apps Script du classeur.
-2. Y coller le contenu de `google-apps-script/rsvp.gs`, en suivant les
-   instructions en tête de fichier (le `doPost` existant, qui gère la
-   réservation des cadeaux, doit appeler `routeRsvp` en premier).
+2. Y coller le contenu de `google-apps-script/Code.gs`, **en remplacement
+   complet** du script actuel : il gère à la fois le RSVP et la liste de mariage.
 3. Déployer → Gérer les déploiements → modifier le déploiement existant →
    **Nouvelle version**. L'URL `/exec` ne change pas, rien à modifier côté site.
 
 Pour afficher les réponses dans une page des coulisses, c'est le cas simple :
 `data-sheet` = l'ID du classeur, `data-tab="RSVP"`.
+
+---
+
+## La liste de mariage
+
+### Les colonnes
+
+L'onglet `Liste de Mariage` se lit ainsi, **dans cet ordre** :
+
+| Col. | En-tête                      | Rempli par                             |
+| ---- | ---------------------------- | -------------------------------------- |
+| A    | Thème                        | vous — sert d'intitulé sur la carte     |
+| B    | Nom                          | vous                                    |
+| C    | Description                  | vous                                    |
+| D    | Prix                         | vous — facultatif                       |
+| E    | Lien                         | vous — produit ou carte cadeau          |
+| F    | Image                        | vous — pas encore affichée              |
+| G    | ReservePar                   | le script — qui offre le cadeau entier  |
+| H    | Je met dans l'urne pour ça   | le script — somme des participations urne |
+| I    | Statut                       | le script — `En cours` ou `Offert`      |
+
+⚠️ **Insérer une colonne au milieu casse l'affichage.** Le site lit les colonnes
+par leur position (`GIFT_QUERY` dans `googleSheets.ts`, `GIFT_COL` dans
+`Code.gs`). Ajoutez plutôt à droite de I, ou prévenez-moi.
+
+Les colonnes G, H et I sont créées avec leur en-tête au premier envoi.
+
+### Ce que voient les invités
+
+Le site ne demande au classeur que les colonnes A à F et I : **les noms et les
+montants ne parviennent jamais au navigateur des invités**, même en inspectant
+la page. Un cadeau affiche seulement son état — rien, `Participation en cours`,
+ou `Déjà offert` (carte grisée, plus de bouton).
+
+### Participer
+
+Deux questions à l'invité :
+
+- **Quoi** — il offre le cadeau en entier, ou il participe à hauteur d'un montant.
+  Sans prix dans la colonne D, la participation est libre.
+- **Comment** — il met dans l'urne le jour J, ou il s'en occupe lui-même
+  (typiquement les cartes cadeau Décathlon, CEWE, GetYourGuide).
+
+Chaque participation est journalisée dans l'onglet **`Participations`** :
+horodatage, cadeau, nom, email, type, montant, moyen. C'est là que vit le détail —
+la colonne `ReservePar` ne retient que celui qui offre un cadeau entier.
+
+Le script pose un verrou le temps d'écrire : deux invités qui cliquent en même
+temps ne peuvent pas offrir le même cadeau tous les deux.

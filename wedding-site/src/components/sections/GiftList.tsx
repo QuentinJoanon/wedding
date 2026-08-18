@@ -1,14 +1,231 @@
 import { useState, useEffect } from 'react';
-import { fetchGifts, reserveGift } from '../../services/googleSheets';
-import type { Gift } from '../../services/googleSheets';
+import { fetchGifts, contributeToGift } from '../../services/googleSheets';
+import type { Gift, ContributionKind, ContributionMethod } from '../../services/googleSheets';
+
+interface FormState {
+  kind: ContributionKind;
+  method: ContributionMethod;
+  amount: string;
+  name: string;
+  email: string;
+}
+
+const emptyForm = (gift: Gift): FormState => ({
+  kind: 'entier',
+  method: gift.lien ? 'lien' : 'urne',
+  amount: gift.prix ? String(gift.prix) : '',
+  name: '',
+  email: '',
+});
+
+/** Le prix n'est pas toujours renseigné : la participation est alors libre. */
+const formatPrice = (prix: string) => (prix ? `${prix} €` : '');
+
+interface ModalProps {
+  gift: Gift;
+  onClose: () => void;
+  onDone: () => void;
+}
+
+const ContributionModal = ({ gift, onClose, onDone }: ModalProps) => {
+  const [form, setForm] = useState<FormState>(() => emptyForm(gift));
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [error, setError] = useState<string | null>(null);
+
+  const set = <K extends keyof FormState>(key: K, value: FormState[K]) =>
+    setForm((prev) => ({ ...prev, [key]: value }));
+
+  // « Je l'offre en entier » suppose le prix ; une participation repart à vide.
+  const setKind = (kind: ContributionKind) =>
+    setForm((prev) => ({
+      ...prev,
+      kind,
+      amount: kind === 'entier' && gift.prix ? String(gift.prix) : '',
+    }));
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (status === 'sending') return;
+    setStatus('sending');
+    setError(null);
+
+    const result = await contributeToGift({
+      giftId: gift.id,
+      giftName: gift.nom,
+      kind: form.kind,
+      method: form.method,
+      amount: form.amount,
+      name: form.name.trim(),
+      email: form.email.trim(),
+    });
+
+    if (result.ok) {
+      setStatus('sent');
+      onDone();
+      return;
+    }
+
+    setStatus('error');
+    setError(
+      result.error === 'Déjà offert'
+        ? "Quelqu'un vient d'offrir ce cadeau en entier. Vous pouvez encore participer à un autre."
+        : "L'enregistrement n'a pas abouti. Réessayez dans un instant."
+    );
+  };
+
+  if (status === 'sent') {
+    return (
+      <div className="gift-modal" role="dialog" aria-modal="true" onClick={onClose}>
+        <div className="gift-modal__panel" onClick={(e) => e.stopPropagation()}>
+          <h3 className="gift-modal__title">Merci&nbsp;!</h3>
+          <p className="gift-modal__text">
+            C'est noté.{' '}
+            {form.method === 'urne'
+              ? "Rien à faire d'ici là : vous glisserez votre participation dans l'urne le jour J."
+              : "Il ne vous reste qu'à suivre le lien quand vous le souhaitez."}
+          </p>
+          {form.method === 'lien' && gift.lien && (
+            <a className="card__link" href={gift.lien} target="_blank" rel="noreferrer">
+              Ouvrir le lien <span>↗</span>
+            </a>
+          )}
+          <div className="gift-modal__actions">
+            <button type="button" className="btn" onClick={onClose}>
+              Fermer <span className="arr">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="gift-modal"
+      role="dialog"
+      aria-modal="true"
+      onClick={() => status !== 'sending' && onClose()}
+    >
+      <form className="gift-modal__panel" onClick={(e) => e.stopPropagation()} onSubmit={submit}>
+        <h3 className="gift-modal__title">
+          Participer à <em>{gift.nom}</em>
+        </h3>
+        {gift.prix && <p className="gift-modal__price">{formatPrice(gift.prix)}</p>}
+
+        <div className="field">
+          <label>Que souhaitez-vous faire&nbsp;?</label>
+          <div className="choice">
+            <button
+              type="button"
+              aria-pressed={form.kind === 'entier'}
+              onClick={() => setKind('entier')}
+            >
+              Je l'offre en entier
+            </button>
+            <button
+              type="button"
+              aria-pressed={form.kind === 'participation'}
+              onClick={() => setKind('participation')}
+            >
+              Je participe
+            </button>
+          </div>
+        </div>
+
+        {form.kind === 'participation' && (
+          <div className="field">
+            <label htmlFor="gift-amount">Montant {gift.prix ? '' : '(libre)'}</label>
+            <input
+              id="gift-amount"
+              type="number"
+              min="1"
+              inputMode="numeric"
+              placeholder={gift.prix ? `Jusqu'à ${gift.prix} €` : 'Comme il vous plaira'}
+              value={form.amount}
+              onChange={(e) => set('amount', e.target.value)}
+            />
+          </div>
+        )}
+
+        <div className="field">
+          <label>Comment&nbsp;?</label>
+          <div className="choice">
+            <button
+              type="button"
+              aria-pressed={form.method === 'urne'}
+              onClick={() => set('method', 'urne')}
+            >
+              Dans l'urne le jour J
+            </button>
+            <button
+              type="button"
+              aria-pressed={form.method === 'lien'}
+              onClick={() => set('method', 'lien')}
+              disabled={!gift.lien}
+            >
+              {gift.lien ? "Je m'en occupe" : 'Pas de lien'}
+            </button>
+          </div>
+        </div>
+
+        <div className="field">
+          <label htmlFor="gift-name">Votre nom</label>
+          <input
+            id="gift-name"
+            type="text"
+            placeholder="Prénom et nom"
+            value={form.name}
+            onChange={(e) => set('name', e.target.value)}
+            required
+            autoFocus
+          />
+        </div>
+
+        <div className="field">
+          <label htmlFor="gift-email">Email (facultatif)</label>
+          <input
+            id="gift-email"
+            type="email"
+            placeholder="vous@email.com"
+            value={form.email}
+            onChange={(e) => set('email', e.target.value)}
+          />
+        </div>
+
+        <p className="gift-modal__text">
+          Votre nom nous sert uniquement à savoir qui remercier — il n'apparaît nulle part sur
+          le site.
+        </p>
+
+        {error && (
+          <p className="form__status form__status--error" role="alert">
+            {error}
+          </p>
+        )}
+
+        <div className="gift-modal__actions">
+          <button
+            type="button"
+            className="gift__reserve"
+            onClick={onClose}
+            disabled={status === 'sending'}
+          >
+            Annuler
+          </button>
+          <button className="btn" type="submit" disabled={status === 'sending'}>
+            {status === 'sending' ? 'Envoi…' : 'Confirmer'} <span className="arr">→</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
 
 export const GiftList = () => {
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedGift, setSelectedGift] = useState<Gift | null>(null);
-  const [reserveName, setReserveName] = useState('');
-  const [reserving, setReserving] = useState(false);
 
   const loadGifts = async () => {
     setLoading(true);
@@ -27,18 +244,6 @@ export const GiftList = () => {
     loadGifts();
   }, []);
 
-  const handleReserveConfirm = async () => {
-    if (!selectedGift || !reserveName.trim()) return;
-    setReserving(true);
-    const success = await reserveGift(selectedGift.id - 1, reserveName.trim());
-    if (success) {
-      await loadGifts();
-    }
-    setReserving(false);
-    setSelectedGift(null);
-    setReserveName('');
-  };
-
   return (
     <section className="section" id="cadeaux">
       <div className="wrap">
@@ -52,7 +257,8 @@ export const GiftList = () => {
             est <em>déjà un cadeau.</em>
           </h2>
           <p className="lede">
-            Mais si le cœur vous en dit, voici quelques idées pour nous gâter.
+            Mais si le cœur vous en dit, voici quelques idées. Offrez-en un en entier, ou
+            participez à plusieurs&nbsp;: dans l'urne le jour J, ou par vos propres moyens.
           </p>
         </div>
 
@@ -66,33 +272,43 @@ export const GiftList = () => {
           <div className="gifts__grid">
             {gifts.map((gift, i) => {
               const num = String(i + 1).padStart(2, '0');
-              const isReserved = !!gift.reservePar;
+              const taken = gift.statut === 'Offert';
               return (
-                <article className={`gift reveal d${i % 3}`} key={gift.id}>
+                <article
+                  className={`gift reveal d${i % 3}${taken ? ' gift--taken' : ''}`}
+                  key={gift.id}
+                >
                   <span className="gift__num">{gift.theme || num}</span>
                   <h3 className="gift__title">{gift.nom}</h3>
                   {gift.description && <p className="gift__desc">{gift.description}</p>}
-                  {gift.prix && <p className="gift__price">{gift.prix}</p>}
+                  {gift.prix && <p className="gift__price">{formatPrice(gift.prix)}</p>}
 
                   <div className="gift__actions">
-                    {gift.lien && (
-                      <a className="card__link gift__cta" href={gift.lien} target="_blank" rel="noreferrer">
+                    {gift.lien && !taken && (
+                      <a
+                        className="card__link gift__cta"
+                        href={gift.lien}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         Voir le produit <span>→</span>
                       </a>
                     )}
-                    {isReserved ? (
+                    {taken ? (
                       <span className="gift__reserved">✓ Déjà offert</span>
                     ) : (
-                      <button
-                        type="button"
-                        className="gift__reserve"
-                        onClick={() => {
-                          setSelectedGift(gift);
-                          setReserveName('');
-                        }}
-                      >
-                        Je participe
-                      </button>
+                      <>
+                        {gift.statut === 'En cours' && (
+                          <span className="gift__ongoing">Participation en cours</span>
+                        )}
+                        <button
+                          type="button"
+                          className="gift__reserve"
+                          onClick={() => setSelectedGift(gift)}
+                        >
+                          Je participe
+                        </button>
+                      </>
                     )}
                   </div>
                 </article>
@@ -103,51 +319,11 @@ export const GiftList = () => {
       </div>
 
       {selectedGift && (
-        <div
-          className="gift-modal"
-          role="dialog"
-          aria-modal="true"
-          onClick={() => !reserving && setSelectedGift(null)}
-        >
-          <div className="gift-modal__panel" onClick={(e) => e.stopPropagation()}>
-            <h3 className="gift-modal__title">
-              Participer à <em>{selectedGift.nom}</em>
-            </h3>
-            <p className="gift-modal__text">
-              Indiquez votre nom pour que nous sachions qui participe. Il ne sera
-              affiché nulle part sur le site.
-            </p>
-            <div className="field">
-              <label htmlFor="reserve-name">Votre nom</label>
-              <input
-                id="reserve-name"
-                type="text"
-                placeholder="Prénom et nom"
-                value={reserveName}
-                onChange={(e) => setReserveName(e.target.value)}
-                autoFocus
-              />
-            </div>
-            <div className="gift-modal__actions">
-              <button
-                type="button"
-                className="gift__reserve"
-                onClick={() => setSelectedGift(null)}
-                disabled={reserving}
-              >
-                Annuler
-              </button>
-              <button
-                type="button"
-                className="btn"
-                onClick={handleReserveConfirm}
-                disabled={!reserveName.trim() || reserving}
-              >
-                {reserving ? 'Envoi…' : 'Confirmer'} <span className="arr">→</span>
-              </button>
-            </div>
-          </div>
-        </div>
+        <ContributionModal
+          gift={selectedGift}
+          onClose={() => setSelectedGift(null)}
+          onDone={loadGifts}
+        />
       )}
     </section>
   );
