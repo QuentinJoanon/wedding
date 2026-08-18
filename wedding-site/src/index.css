@@ -576,6 +576,20 @@ img.cover, .hero__bg img {
 
 /* ============================================================= GIFTS === */
 .gifts__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: clamp(14px,1.6vw,22px); }
+
+/* groupe thématique au sein de la liste — la lune de miel a son propre chapeau */
+.gifts__group { margin-block-start: clamp(52px, 7vw, 96px); }
+.gifts__group-head {
+  display: grid; gap: 14px; max-width: 62ch;
+  margin-block-end: clamp(24px, 3vw, 40px);
+  padding-block-start: clamp(28px, 4vw, 48px);
+  border-block-start: 1px solid var(--line);
+}
+.gifts__group-title {
+  font-family: var(--font-display); font-weight: var(--display-weight);
+  font-size: clamp(28px, 3.4vw, 48px); line-height: 1.04; letter-spacing: -0.01em;
+  color: var(--accent-ink);
+}
 .gift {
   border: 1px solid var(--line); padding: clamp(26px,3vw,40px); display: grid; gap: 16px; align-content: start;
   background: var(--paper); transition: border-color .3s, transform .3s; min-height: 230px; position: relative;

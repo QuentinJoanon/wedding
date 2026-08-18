@@ -64,6 +64,14 @@ export interface Gift {
   link: string;
 }
 
+export interface Honeymoon {
+  /** Valeur exacte de la colonne « Thème » qui bascule dans cette section. */
+  theme: string;
+  kicker: string;
+  title: string;
+  text: string;
+}
+
 export interface DressCodeColumn {
   title: string;
   swatches: string[];
@@ -90,6 +98,7 @@ export interface WeddingData {
   kidsFacts: KidsFact[];
   kidsTips: string[];
   gifts: Gift[];
+  honeymoon: Honeymoon;
   dressCode: DressCode;
   faq: FAQItem[];
 }

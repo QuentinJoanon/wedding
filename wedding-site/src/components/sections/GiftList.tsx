@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
+import weddingData from '../../data/wedding-data.json';
 import { fetchGifts, contributeToGift } from '../../services/googleSheets';
 import type { Gift, ContributionKind, ContributionMethod } from '../../services/googleSheets';
+
+const { honeymoon } = weddingData;
 
 interface FormState {
   kind: ContributionKind;
@@ -221,6 +224,58 @@ const ContributionModal = ({ gift, onClose, onDone }: ModalProps) => {
   );
 };
 
+interface GridProps {
+  gifts: Gift[];
+  /** Dans un groupe déjà titré, répéter le thème sur chaque carte n'apporte rien. */
+  showTheme?: boolean;
+  onPick: (gift: Gift) => void;
+}
+
+const GiftGrid = ({ gifts, showTheme = true, onPick }: GridProps) => (
+  <div className="gifts__grid">
+    {gifts.map((gift, i) => {
+      const num = String(i + 1).padStart(2, '0');
+      const taken = gift.statut === 'Offert';
+      return (
+        <article
+          className={`gift reveal d${i % 3}${taken ? ' gift--taken' : ''}`}
+          key={gift.id}
+        >
+          <span className="gift__num">{(showTheme && gift.theme) || num}</span>
+          <h3 className="gift__title">{gift.nom}</h3>
+          {gift.description && <p className="gift__desc">{gift.description}</p>}
+          {gift.prix && <p className="gift__price">{formatPrice(gift.prix)}</p>}
+
+          <div className="gift__actions">
+            {gift.lien && !taken && (
+              <a
+                className="card__link gift__cta"
+                href={gift.lien}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Voir le produit <span>→</span>
+              </a>
+            )}
+            {taken ? (
+              <span className="gift__reserved">✓ Déjà offert</span>
+            ) : (
+              <>
+                {gift.statut === 'En cours' && (
+                  <span className="gift__ongoing">Participation en cours</span>
+                )}
+                <button type="button" className="gift__reserve" onClick={() => onPick(gift)}>
+                  Je participe
+                </button>
+              </>
+            )}
+          </div>
+        </article>
+      );
+    })}
+  </div>
+);
+
 export const GiftList = () => {
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [loading, setLoading] = useState(true);
@@ -243,6 +298,12 @@ export const GiftList = () => {
   useEffect(() => {
     loadGifts();
   }, []);
+
+  // Le voyage de noces a son propre chapeau ; le reste garde la grille commune.
+  const isHoneymoon = (gift: Gift) =>
+    gift.theme.trim().toLowerCase() === honeymoon.theme.trim().toLowerCase();
+  const honeymoonGifts = gifts.filter(isHoneymoon);
+  const others = gifts.filter((gift) => !isHoneymoon(gift));
 
   return (
     <section className="section" id="cadeaux">
@@ -269,52 +330,22 @@ export const GiftList = () => {
             {error || 'La liste de mariage sera bientôt disponible.'}
           </p>
         ) : (
-          <div className="gifts__grid">
-            {gifts.map((gift, i) => {
-              const num = String(i + 1).padStart(2, '0');
-              const taken = gift.statut === 'Offert';
-              return (
-                <article
-                  className={`gift reveal d${i % 3}${taken ? ' gift--taken' : ''}`}
-                  key={gift.id}
-                >
-                  <span className="gift__num">{gift.theme || num}</span>
-                  <h3 className="gift__title">{gift.nom}</h3>
-                  {gift.description && <p className="gift__desc">{gift.description}</p>}
-                  {gift.prix && <p className="gift__price">{formatPrice(gift.prix)}</p>}
+          <>
+            {others.length > 0 && (
+              <GiftGrid gifts={others} onPick={setSelectedGift} />
+            )}
 
-                  <div className="gift__actions">
-                    {gift.lien && !taken && (
-                      <a
-                        className="card__link gift__cta"
-                        href={gift.lien}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Voir le produit <span>→</span>
-                      </a>
-                    )}
-                    {taken ? (
-                      <span className="gift__reserved">✓ Déjà offert</span>
-                    ) : (
-                      <>
-                        {gift.statut === 'En cours' && (
-                          <span className="gift__ongoing">Participation en cours</span>
-                        )}
-                        <button
-                          type="button"
-                          className="gift__reserve"
-                          onClick={() => setSelectedGift(gift)}
-                        >
-                          Je participe
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+            {honeymoonGifts.length > 0 && (
+              <div className="gifts__group">
+                <div className="gifts__group-head reveal">
+                  <p className="kicker no-rule">{honeymoon.kicker}</p>
+                  <h3 className="gifts__group-title">{honeymoon.title}</h3>
+                  <p className="lede">{honeymoon.text}</p>
+                </div>
+                <GiftGrid gifts={honeymoonGifts} showTheme={false} onPick={setSelectedGift} />
+              </div>
+            )}
+          </>
         )}
       </div>
 
