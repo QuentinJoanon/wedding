@@ -1,8 +1,28 @@
 const SHEET_ID = '1Tg3sYe_AQoFxKrnq-M-Onpg-2Q9ZsaDuwZqiZpJQhQY';
 const SHEET_NAME = 'Liste de Mariage';
 
+/**
+ * Colonnes de l'onglet « Liste de Mariage », dans l'ordre du classeur.
+ * Toute colonne ajoutée en amont décale la lecture : cet index est la seule
+ * source de vérité, à tenir à jour avec le Sheet.
+ */
+const COL = {
+  theme: 0,
+  nom: 1,
+  description: 2,
+  prix: 3,
+  lien: 4,
+  image: 5,
+  reservePar: 6,
+  urne: 7,
+} as const;
+
+/** Colonne « ReservePar » en numérotation Sheets (A = 1). */
+const RESERVE_COLUMN = COL.reservePar + 1;
+
 export interface Gift {
   id: number;
+  theme: string;
   nom: string;
   description: string;
   prix: string;
@@ -34,12 +54,13 @@ export const fetchGifts = async (): Promise<Gift[]> => {
       const cells = row.c || [];
       return {
         id: index + 1,
-        nom: cells[0]?.v || '',
-        description: cells[1]?.v || '',
-        prix: cells[2]?.v || '',
-        lien: cells[3]?.v || '',
-        image: cells[4]?.v || '',
-        reservePar: cells[5]?.v || '',
+        theme: cells[COL.theme]?.v || '',
+        nom: cells[COL.nom]?.v || '',
+        description: cells[COL.description]?.v || '',
+        prix: cells[COL.prix]?.v || '',
+        lien: cells[COL.lien]?.v || '',
+        image: cells[COL.image]?.v || '',
+        reservePar: cells[COL.reservePar]?.v || '',
       };
     }).filter((gift: Gift) => gift.nom); // Filtrer les lignes vides
   } catch (error) {
@@ -62,6 +83,7 @@ export const reserveGift = async (rowIndex: number, name: string): Promise<boole
       sheetId: SHEET_ID,
       sheetName: SHEET_NAME,
       row: String(rowIndex + 2),
+      col: String(RESERVE_COLUMN),
       name: name,
     });
 

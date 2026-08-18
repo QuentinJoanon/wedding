@@ -581,7 +581,7 @@ img.cover, .hero__bg img {
   background: var(--paper); transition: border-color .3s, transform .3s; min-height: 230px; position: relative;
 }
 .gift:hover { border-color: var(--accent); transform: translateY(-3px); }
-.gift__num { font-family: var(--font-label); letter-spacing: 0.2em; font-size: 12px; color: var(--accent); }
+.gift__num { font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.2em; font-size: 11px; color: var(--accent); }
 .gift__title { font-family: var(--font-display); font-weight: var(--display-weight); font-size: clamp(25px,2.8vw,36px); line-height: 1.04; }
 .gift__desc { color: var(--ink-soft); font-style: italic; }
 .gift__price { font-family: var(--font-label); letter-spacing: 0.14em; font-size: 13px; color: var(--accent-ink); }

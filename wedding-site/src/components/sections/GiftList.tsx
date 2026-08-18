@@ -69,7 +69,7 @@ export const GiftList = () => {
               const isReserved = !!gift.reservePar;
               return (
                 <article className={`gift reveal d${i % 3}`} key={gift.id}>
-                  <span className="gift__num">{num}</span>
+                  <span className="gift__num">{gift.theme || num}</span>
                   <h3 className="gift__title">{gift.nom}</h3>
                   {gift.description && <p className="gift__desc">{gift.description}</p>}
                   {gift.prix && <p className="gift__price">{gift.prix}</p>}
@@ -81,7 +81,7 @@ export const GiftList = () => {
                       </a>
                     )}
                     {isReserved ? (
-                      <span className="gift__reserved">✓ Réservé par {gift.reservePar}</span>
+                      <span className="gift__reserved">✓ Déjà offert</span>
                     ) : (
                       <button
                         type="button"
@@ -91,7 +91,7 @@ export const GiftList = () => {
                           setReserveName('');
                         }}
                       >
-                        Réserver ce cadeau
+                        Je participe
                       </button>
                     )}
                   </div>
@@ -111,10 +111,11 @@ export const GiftList = () => {
         >
           <div className="gift-modal__panel" onClick={(e) => e.stopPropagation()}>
             <h3 className="gift-modal__title">
-              Réserver <em>{selectedGift.nom}</em>
+              Participer à <em>{selectedGift.nom}</em>
             </h3>
             <p className="gift-modal__text">
-              Indiquez votre nom pour que nous sachions qui a réservé ce cadeau.
+              Indiquez votre nom pour que nous sachions qui participe. Il ne sera
+              affiché nulle part sur le site.
             </p>
             <div className="field">
               <label htmlFor="reserve-name">Votre nom</label>
@@ -142,7 +143,7 @@ export const GiftList = () => {
                 onClick={handleReserveConfirm}
                 disabled={!reserveName.trim() || reserving}
               >
-                {reserving ? 'Réservation…' : 'Confirmer'} <span className="arr">→</span>
+                {reserving ? 'Envoi…' : 'Confirmer'} <span className="arr">→</span>
               </button>
             </div>
           </div>
