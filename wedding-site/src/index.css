@@ -669,6 +669,7 @@ img.cover, .hero__bg img {
 
 /* ============================================================ FOOTER === */
 .footer { background: var(--deep); color: var(--paper); padding-block: clamp(60px,8vw,110px); text-align: center; position: relative; }
+.footer p { max-width: none; margin-inline: auto; }
 .footer .names { font-family: var(--font-display); font-weight: var(--display-weight); font-size: clamp(46px,8vw,120px); line-height: .9; }
 .footer .names .amp { font-style: italic; color: var(--accent); }
 .footer .date { font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.34em; font-size: clamp(12px,1vw,14px); margin-top: 22px; color: color-mix(in oklab, var(--paper) 70%, transparent); }
