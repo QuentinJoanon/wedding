@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import weddingData from '../../data/wedding-data.json';
 import { FAQ } from './FAQ';
 
@@ -12,32 +13,36 @@ export const DressCode = () => {
             <span className="num">06</span>&nbsp;— La Tenue
           </p>
           <h2 className="title">
-            Élégance <em>champêtre</em>,
+            Élégance,
             <br />
-            palette pastel.
+            palette <em>fleurie</em>.
           </h2>
-          <p className="lede">
-            Nous célébrons en plein air&nbsp;: pensez chic, pensez confortable, pensez herbe et
-            lumière dorée.
-          </p>
+          <p className="lede">{dressCode.paletteIntro}</p>
         </div>
 
-        <div className="dress__grid reveal d1">
-          {dressCode.columns.map((col) => (
-            <div className="dress__col" key={col.title}>
-              <div className="swatches">
-                {col.swatches.map((c) => (
-                  <span className="sw" style={{ background: c }} key={c}></span>
-                ))}
-              </div>
-              <h3>{col.title}</h3>
-              <p>{col.text}</p>
-            </div>
+        <ul className="dress__palette reveal d1">
+          {dressCode.palette.map((flower) => (
+            <li key={flower.src}>
+              <img src={flower.src} alt={flower.alt} loading="lazy" />
+            </li>
           ))}
-        </div>
-        <p className="dress__note reveal d2">
-          <span className="kicker no-rule">À noter</span> {dressCode.note}
+        </ul>
+
+        <p className="dress__caption reveal d1">
+          {dressCode.paletteCaption} <em>{dressCode.paletteHighlight}</em>
         </p>
+
+        <div className="dress__text reveal d1">
+          <p>
+            {dressCode.text.map((line, i) => (
+              <Fragment key={line}>
+                {i > 0 && <br />}
+                {line}
+              </Fragment>
+            ))}
+          </p>
+          <p className="dress__avoid">{dressCode.avoid}</p>
+        </div>
 
         <div className="rule" style={{ marginBlock: 'clamp(56px,8vw,110px)' }}></div>
 

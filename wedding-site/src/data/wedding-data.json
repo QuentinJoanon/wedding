@@ -261,36 +261,40 @@
     "text": "Nous partons en croisièreau large de l’Islande : cascades, lagons, terres noires et, si la chance est avec nous, quelques baleines. Voici les envies qui composent ce voyage."
   },
   "dressCode": {
-    "columns": [
+    "paletteIntro": "Pour que les photos aient des airs de bouquet, nous vous proposons d'accorder vos tenues à cette palette.",
+    "palette": [
       {
-        "title": "Elles",
-        "swatches": [
-          "#e3a878",
-          "#9fbace",
-          "#efe1ca"
-        ],
-        "text": "Robe élégante, longueurs et couleurs libres. Évitez simplement le blanc et le crème, réservés à la mariée."
+        "src": "/fleurs/delphinium.webp",
+        "alt": "Delphinium bleu ciel"
       },
       {
-        "title": "Eux",
-        "swatches": [
-          "#7c8a6a",
-          "#b8954f",
-          "#cabfa6"
-        ],
-        "text": "Costume ou tenue élégante. Les teintes pastel et terreuses sont les bienvenues — accordez-vous à la saison."
+        "src": "/fleurs/rose.webp",
+        "alt": "Rose poudrée"
       },
       {
-        "title": "Les enfants",
-        "swatches": [
-          "#e0b3ae",
-          "#9fbace",
-          "#e3a878"
-        ],
-        "text": "Tenue confortable et élégante — ils vont courir, jouer et danser : prévoyez de quoi être libres de leurs mouvements."
+        "src": "/fleurs/oeillet.webp",
+        "alt": "Œillet corail"
+      },
+      {
+        "src": "/fleurs/pivoine.webp",
+        "alt": "Pivoine jaune miel"
+      },
+      {
+        "src": "/fleurs/hellebore.webp",
+        "alt": "Hellébore vert sauge"
+      },
+      {
+        "src": "/fleurs/feuillage.webp",
+        "alt": "Feuillage doré"
       }
     ],
-    "note": "Le mariage se déroule en extérieur et sur l'herbe : oubliez les talons aiguilles, préférez des chaussures qui ne s'enfoncent pas."
+    "paletteCaption": "Des teintes douces et naturelles :",
+    "paletteHighlight": "ni trop vives, ni trop pâles.",
+    "text": [
+      "Une tenue élégante unie, inspirée par les couleurs de la palette,",
+      "un chapeau si le cœur vous en dit."
+    ],
+    "avoid": "Nous vous remercions d'éviter le blanc et le crème, ainsi que le rouge et le noir."
   },
   "faq": [
     {

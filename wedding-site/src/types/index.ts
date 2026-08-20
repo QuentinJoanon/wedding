@@ -72,15 +72,21 @@ export interface Honeymoon {
   text: string;
 }
 
-export interface DressCodeColumn {
-  title: string;
-  swatches: string[];
-  text: string;
+export interface DressCodeFlower {
+  src: string;
+  alt: string;
 }
 
 export interface DressCode {
-  columns: DressCodeColumn[];
-  note: string;
+  paletteIntro: string;
+  /** Les aquarelles qui donnent le ton de la palette. */
+  palette: DressCodeFlower[];
+  paletteCaption: string;
+  /** La phrase mise en avant sous la palette. */
+  paletteHighlight: string;
+  /** Une ligne par entrée : les sauts sont volontaires. */
+  text: string[];
+  avoid: string;
 }
 
 export interface FAQItem {
