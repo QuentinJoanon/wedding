@@ -40,7 +40,8 @@ export interface Accommodation {
   type: AccommodationType;
   capacity: string;
   town: string;
-  dist: string;
+  /** Absente tant que la distance depuis le domaine n'est pas confirmée. */
+  dist?: string;
   tags: string[];
   website?: string;
   phone?: string;
@@ -100,6 +101,8 @@ export interface WeddingData {
   contacts: Contact[];
   schedule: ScheduleDay[];
   accommodations: Accommodation[];
+  accommodationsNote: string;
+  accommodationsNoteLink: { label: string; href: string };
   onSiteCamping: OnSiteCamping;
   kidsFacts: KidsFact[];
   kidsTips: string[];

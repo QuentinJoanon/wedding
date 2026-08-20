@@ -1,16 +1,23 @@
+import { useState } from 'react';
 import weddingData from '../../data/wedding-data.json';
 import type { Accommodation, AccommodationType, OnSiteCamping } from '../../types';
 
-const { accommodations, onSiteCamping } = weddingData as {
-  accommodations: Accommodation[];
-  onSiteCamping: OnSiteCamping;
-};
+const { accommodations, accommodationsNote, accommodationsNoteLink, onSiteCamping } =
+  weddingData as {
+    accommodations: Accommodation[];
+    accommodationsNote: string;
+    accommodationsNoteLink: { label: string; href: string };
+    onSiteCamping: OnSiteCamping;
+  };
 
 const TYPE_LABEL: Record<AccommodationType, string> = {
   gite: 'Gîte',
   hotel: 'Hôtel',
   chambre_hote: "Chambre d'hôtes",
 };
+
+/** Nombre d'adresses affichées avant de dérouler le reste de la liste. */
+const VISIBLE = 9;
 
 const BookLink = ({ a }: { a: Accommodation }) => {
   if (a.website) {
@@ -31,6 +38,10 @@ const BookLink = ({ a }: { a: Accommodation }) => {
 };
 
 export const Accommodations = () => {
+  const [expanded, setExpanded] = useState(false);
+  const shown = expanded ? accommodations : accommodations.slice(0, VISIBLE);
+  const rest = accommodations.length - VISIBLE;
+
   return (
     <section className="section" id="sejour">
       <div className="wrap">
@@ -50,11 +61,11 @@ export const Accommodations = () => {
         </div>
 
         <div className="cards">
-          {accommodations.map((a) => (
+          {shown.map((a) => (
             <article className="card reveal" key={a.name}>
               <div className="card__top">
                 <div className="card__name">{a.name}</div>
-                <span className="card__cap">{a.dist}</span>
+                {a.dist && <span className="card__cap">{a.dist}</span>}
               </div>
               <div className="card__sub">
                 {TYPE_LABEL[a.type]} · {a.town} · {a.capacity}
@@ -70,6 +81,19 @@ export const Accommodations = () => {
             </article>
           ))}
         </div>
+
+        {rest > 0 && !expanded && (
+          <button type="button" className="linklike cards__more" onClick={() => setExpanded(true)}>
+            Voir les {rest} autres adresses <span>↓</span>
+          </button>
+        )}
+
+        <p className="cards__note reveal">
+          {accommodationsNote}{' '}
+          <a href={accommodationsNoteLink.href} target="_blank" rel="noopener">
+            {accommodationsNoteLink.label} ↗
+          </a>
+        </p>
 
         <aside className="onsite reveal d1">
           <p className="kicker no-rule onsite__eyebrow">Dormir sur place</p>

@@ -516,6 +516,17 @@ img.cover, .hero__bg img {
 .card__link { font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.18em; font-size: 11px; color: var(--accent-ink); border-bottom: 1px solid var(--accent); padding-bottom: 3px; display: inline-flex; gap: 7px; transition: gap .25s; align-self: start; }
 .card__link:hover { gap: 12px; }
 
+.cards__more {
+  margin: clamp(26px, 3vw, 38px) auto 0; background: none; border: 0;
+  border-bottom: 1px solid var(--accent); cursor: pointer;
+}
+.cards__note {
+  max-width: 68ch; margin: clamp(26px, 3vw, 38px) auto 0; text-align: center;
+  color: var(--ink-mute); font-style: italic; font-size: 15px;
+}
+.cards__note a { color: var(--accent-ink); border-bottom: 1px solid var(--line); }
+.cards__note a:hover { border-color: var(--accent); }
+
 /* cartouche « dormir sur place » — bivouac, vans & camping-cars */
 .onsite {
   margin-block-start: clamp(28px, 4vw, 46px);

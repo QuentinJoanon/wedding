@@ -79,105 +79,24 @@
   ],
   "accommodations": [
     {
-      "name": "Au Foudre du Bazois",
-      "type": "gite",
-      "capacity": "28 pers.",
-      "town": "Châtillon-en-Bazois",
-      "dist": "6 km",
-      "tags": [
-        "Grand gîte",
-        "Idéal groupes"
-      ],
-      "website": "https://www.gite-au-foudre-du-bazois.com/accueil"
-    },
-    {
-      "name": "Hôtel Buissonnière",
-      "type": "hotel",
-      "capacity": "20 pers.",
-      "town": "Corbigny",
-      "dist": "15 km",
-      "tags": [
-        "Hôtel",
-        "Restaurant"
-      ],
-      "website": "https://www.hotel-buissonniere-corbigny.fr/"
-    },
-    {
-      "name": "Hôtel Cœur de Nièvre",
-      "type": "hotel",
-      "capacity": "19 pers.",
-      "town": "Saint-Saulge",
-      "dist": "10 km",
-      "tags": [
-        "Hôtel",
-        "Restaurant"
-      ],
-      "website": "https://www.hotelrestaurant-coeurdenievre.fr/"
-    },
-    {
-      "name": "Gîte Semelin",
-      "type": "gite",
-      "capacity": "15 pers.",
-      "town": "Semelin",
-      "dist": "2 km",
-      "tags": [
-        "Gîte",
-        "Tout près"
-      ],
-      "phone": "06 20 31 10 65"
-    },
-    {
       "name": "Le Gîte de Varigny",
       "type": "gite",
       "capacity": "14 pers.",
       "town": "Achun",
       "dist": "5 km",
       "tags": [
+        "Tout près",
         "Gîtes de France"
       ],
-      "website": "https://www.gites-de-france.com/fr/bourgogne-franche-comte/nievre/varigny-58g674"
-    },
-    {
-      "name": "Bon Vivant",
-      "type": "chambre_hote",
-      "capacity": "14 pers.",
-      "town": "Brinay",
-      "dist": "10 km",
-      "tags": [
-        "Chambre d'hôtes"
-      ],
-      "website": "https://www.chambres-hotes.fr/chambres-hotes_bb-bon-vivant_brinay_h7948857.htm"
-    },
-    {
-      "name": "La famille est dans les blés",
-      "type": "chambre_hote",
-      "capacity": "13 pers.",
-      "town": "Brinay",
-      "dist": "10 km",
-      "tags": [
-        "Chambre d'hôtes"
-      ],
-      "website": "https://la-famille-est-dans-les-bles.com/"
-    },
-    {
-      "name": "Le Couvent en Bazois",
-      "type": "chambre_hote",
-      "capacity": "11 pers.",
-      "town": "Châtillon-en-Bazois",
-      "dist": "6 km",
-      "tags": [
-        "Cadre historique"
-      ],
-      "website": "https://www.chambres-hotes.fr/chambres-hotes_chambres-d-hotes-le-couvent-en-bazois_chatillon-en-bazois_66593.htm"
+      "website": "https://www.gites-de-france.com/fr/bourgogne-franche-comte/nievre/varigny-h58g028311"
     },
     {
       "name": "Gîte La Chevêche",
       "type": "gite",
       "capacity": "8 pers.",
       "town": "Mont-et-Marré",
-      "dist": "1 km",
+      "dist": "5 km",
       "tags": [
-        "Gîte",
         "Tout près"
       ],
       "phone": "06 22 39 10 54"
@@ -187,12 +106,205 @@
       "type": "gite",
       "capacity": "6 pers.",
       "town": "Mont-et-Marré",
-      "dist": "1 km",
+      "dist": "5 km",
       "tags": [
-        "Gîte",
         "Tout près"
       ],
       "phone": "07 60 31 96 03"
+    },
+    {
+      "name": "En Bazois",
+      "type": "chambre_hote",
+      "capacity": "2 pers.",
+      "town": "Mont-et-Marré",
+      "dist": "5 km",
+      "tags": [
+        "Tout près"
+      ],
+      "website": "https://fr.enbazois.com/"
+    },
+    {
+      "name": "Domaine du Pré des Saules",
+      "type": "gite",
+      "capacity": "26 pers.",
+      "town": "Achun",
+      "dist": "7 km",
+      "tags": [
+        "Idéal groupes"
+      ],
+      "website": "https://domainedupredessaules.fr/"
+    },
+    {
+      "name": "Le Moulin",
+      "type": "chambre_hote",
+      "capacity": "7 pers.",
+      "town": "Montapas",
+      "tags": [],
+      "dist": "7 km"
+    },
+    {
+      "name": "Gîte Semelin",
+      "type": "gite",
+      "capacity": "15 pers.",
+      "town": "Semelin",
+      "dist": "9 km",
+      "tags": [],
+      "phone": "06 20 31 10 65"
+    },
+    {
+      "name": "Au Foudre du Bazois",
+      "type": "gite",
+      "capacity": "28 pers.",
+      "town": "Châtillon-en-Bazois",
+      "dist": "10 km",
+      "tags": [
+        "Idéal groupes"
+      ],
+      "website": "https://www.gite-au-foudre-du-bazois.com/accueil"
+    },
+    {
+      "name": "Le Couvent en Bazois",
+      "type": "chambre_hote",
+      "capacity": "11 pers.",
+      "town": "Châtillon-en-Bazois",
+      "dist": "10 km",
+      "tags": [],
+      "website": "http://www.lecouventenbazois.com/"
+    },
+    {
+      "name": "La Grimpette",
+      "type": "gite",
+      "capacity": "6 pers.",
+      "town": "Châtillon-en-Bazois",
+      "dist": "10 km",
+      "tags": [],
+      "website": "https://www.gites.fr/gites_la-grimpette_chatillon-en-bazois_h6358284.htm"
+    },
+    {
+      "name": "Écluse Mingot",
+      "type": "gite",
+      "capacity": "4 pers.",
+      "town": "Châtillon-en-Bazois",
+      "dist": "10 km",
+      "tags": [
+        "Gîtes de France"
+      ],
+      "website": "https://www.gites-de-france.com/fr/bourgogne-franche-comte/nievre/ecluse-mingot-h58g028546"
+    },
+    {
+      "name": "Le Bateau du Foudre",
+      "type": "gite",
+      "capacity": "4 pers.",
+      "town": "Châtillon-en-Bazois",
+      "dist": "10 km",
+      "tags": [],
+      "website": "https://www.rivesdumorvan.fr/offres/hebergements-insolites/le-foudre-bateau-gite/"
+    },
+    {
+      "name": "Les Barboulottes",
+      "type": "gite",
+      "capacity": "4 pers.",
+      "town": "Châtillon-en-Bazois",
+      "dist": "10 km",
+      "tags": [],
+      "website": "https://www.gites.fr/gites_les-barboulottes_chatillon-en-bazois_h5133540.htm"
+    },
+    {
+      "name": "Le Beauvais",
+      "type": "gite",
+      "capacity": "11 pers.",
+      "town": "Saint-Saulge",
+      "dist": "11 km",
+      "tags": [],
+      "website": "https://www.bourgogne-tourisme.com/chambres-d-hotes/les-chambres-du-beauvais"
+    },
+    {
+      "name": "Gîte de Savenay",
+      "type": "gite",
+      "capacity": "8 pers.",
+      "town": "Aunay-en-Bazois",
+      "tags": [
+        "Gîtes de France"
+      ],
+      "website": "https://www.gites-de-france.com/fr/bourgogne-franche-comte/nievre/gite-de-savenay-h58g028592",
+      "dist": "11 km"
+    },
+    {
+      "name": "Ranceau",
+      "type": "gite",
+      "capacity": "4 pers.",
+      "town": "Saint-Saulge",
+      "dist": "11 km",
+      "tags": [
+        "Gîtes de France"
+      ],
+      "website": "https://www.gites-de-france.com/fr/bourgogne-franche-comte/nievre/ranceau-h58g028523"
+    },
+    {
+      "name": "Paul Metch",
+      "type": "chambre_hote",
+      "capacity": "3 pers.",
+      "town": "Baye",
+      "tags": [],
+      "phone": "06 28 36 94 36",
+      "dist": "12 km"
+    },
+    {
+      "name": "Sylvie Mathé",
+      "type": "chambre_hote",
+      "capacity": "2 pers.",
+      "town": "Baye",
+      "tags": [],
+      "phone": "06 77 55 15 92",
+      "dist": "12 km"
+    },
+    {
+      "name": "Écluse d'Aiguilly",
+      "type": "gite",
+      "capacity": "5 pers.",
+      "town": "Alluy",
+      "tags": [
+        "Gîtes de France"
+      ],
+      "website": "https://www.gites-de-france.com/fr/bourgogne-franche-comte/nievre/ecluse-daiguilly-h58g028545",
+      "dist": "15 km"
+    },
+    {
+      "name": "Gîte de l'Ouche",
+      "type": "gite",
+      "capacity": "6 pers.",
+      "town": "Maux",
+      "tags": [],
+      "dist": "21 km"
+    },
+    {
+      "name": "Hôtel Buissonnière",
+      "type": "hotel",
+      "capacity": "20 pers.",
+      "town": "Corbigny",
+      "dist": "22 km",
+      "tags": [
+        "Idéal groupes",
+        "Restaurant"
+      ],
+      "website": "https://www.hotel-buissonniere-corbigny.fr/"
+    },
+    {
+      "name": "La famille est dans les blés",
+      "type": "chambre_hote",
+      "capacity": "13 pers.",
+      "town": "Brinay",
+      "dist": "22 km",
+      "tags": [],
+      "website": "https://la-famille-est-dans-les-bles.com/"
+    },
+    {
+      "name": "La Petite Maison",
+      "type": "chambre_hote",
+      "capacity": "4 pers.",
+      "town": "Maux",
+      "tags": [],
+      "dist": "26 km"
     }
   ],
   "onSiteCamping": {
@@ -258,7 +370,7 @@
     "theme": "Pour la Lune de Miel",
     "kicker": "La lune de miel",
     "title": "Cap sur l’Islande",
-    "text": "Nous partons en croisièreau large de l’Islande : cascades, lagons, terres noires et, si la chance est avec nous, quelques baleines. Voici les envies qui composent ce voyage."
+    "text": "Nous partons en croisière autour de l’Islande : cascades, lagons, terres noires et, si la chance est avec nous, quelques baleines. Voici quelques envies qui contribueront à ce voyage."
   },
   "dressCode": {
     "paletteIntro": "Pour que les photos aient des airs de bouquet, nous vous proposons d'accorder vos tenues à cette palette.",
@@ -333,5 +445,10 @@
       "q": "Puis-je amener un·e accompagnant·e ?",
       "a": "Uniquement si cela est mentionné sur votre faire-part. Pour l'organisation, nous ne pouvons accueillir de personnes supplémentaires."
     }
-  ]
+  ],
+  "accommodationsNote": "Distances routières approximatives depuis le domaine. Liste non exhaustive : Airbnb, les Gîtes de France et l'office de tourisme des Rives du Morvan recensent d'autres adresses alentour.",
+  "accommodationsNoteLink": {
+    "label": "Rives du Morvan",
+    "href": "https://www.rivesdumorvan.fr/"
+  }
 }
