@@ -310,7 +310,7 @@ export const GiftList = () => {
       <div className="wrap">
         <div className="section-head reveal">
           <p className="kicker">
-            <span className="num">06</span>&nbsp;— La Liste
+            <span className="num">05</span>&nbsp;— La Liste
           </p>
           <h2 className="title">
             Votre présence

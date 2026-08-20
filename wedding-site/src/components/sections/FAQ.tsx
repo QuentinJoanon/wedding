@@ -54,7 +54,7 @@ export const FAQ = () => {
     <>
       <div className="section-head reveal">
         <p className="kicker">
-          <span className="num">08</span>&nbsp;— Questions
+          <span className="num">07</span>&nbsp;— Questions
         </p>
         <h2 className="title">
           On répond

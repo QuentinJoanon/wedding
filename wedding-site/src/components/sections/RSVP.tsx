@@ -97,7 +97,7 @@ export const RSVP = () => {
       <div className="wrap rsvp__grid">
         <div className="rsvp__intro">
           <p className="kicker no-rule reveal">
-            <span className="num">02</span>&nbsp;— Votre présence
+            <span className="num">01</span>&nbsp;— Votre présence
           </p>
           <h2 className="title reveal d1">
             Serez-vous

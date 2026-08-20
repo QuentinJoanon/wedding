@@ -324,19 +324,15 @@ img.cover, .hero__bg img {
   .hero--split .hero__art .arch { min-height: 64vh; }
 }
 
-/* ============================================================= VENUE === */
-.venue__grid { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: clamp(34px, 6vw, 90px); align-items: center; }
-.venue__art .arch { aspect-ratio: 3/3.5; }
-.venue__body { display: grid; gap: clamp(20px, 2.6vw, 34px); }
-.venue__body .big {
+/* ======================================================= SECTION BODY === */
+.section__body { display: grid; gap: clamp(20px, 2.6vw, 34px); }
+.section__body .big {
   font-family: var(--font-display); font-weight: var(--display-weight);
   font-size: clamp(30px, 4vw, 56px); line-height: 1.04; letter-spacing: -0.01em;
 }
-.venue__body .big em { font-style: italic; color: var(--accent-ink); }
-.venue__meta { display: flex; flex-wrap: wrap; gap: clamp(18px,3vw,48px); padding-top: 6px; }
-.venue__meta .item { display: grid; gap: 4px; }
-.venue__meta .item .k { font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.22em; font-size: 11px; color: var(--accent-ink); }
-.venue__meta .item .v { font-size: clamp(17px,1.4vw,20px); }
+.section__body .big em { font-style: italic; color: var(--accent-ink); }
+
+/* ============================================================== LINK === */
 .linklike {
   display: inline-flex; align-items: center; gap: 9px; align-self: start;
   font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.2em; font-size: 12px; font-weight: 500;
@@ -344,8 +340,6 @@ img.cover, .hero__bg img {
   transition: gap .25s, color .25s;
 }
 .linklike:hover { gap: 15px; color: var(--accent); }
-
-@media (max-width: 860px) { .venue__grid { grid-template-columns: 1fr; } }
 
 /* ============================================================== RSVP === */
 .rsvp { color: var(--paper); position: relative; overflow: hidden; background: var(--deep); }

@@ -1,4 +1,3 @@
-export { Venue } from './Venue';
 export { RSVP } from './RSVP';
 export { Timeline } from './Timeline';
 export { Accommodations } from './Accommodations';

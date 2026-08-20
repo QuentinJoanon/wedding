@@ -9,7 +9,7 @@ export const DressCode = () => {
       <div className="wrap">
         <div className="section-head reveal">
           <p className="kicker">
-            <span className="num">07</span>&nbsp;— La Tenue
+            <span className="num">06</span>&nbsp;— La Tenue
           </p>
           <h2 className="title">
             Élégance <em>champêtre</em>,

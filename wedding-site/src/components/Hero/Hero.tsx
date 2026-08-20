@@ -15,8 +15,7 @@ export const Hero = () => {
           {couple.bride}
         </h1>
         <div className="hero-detail">
-          <span>Nous célébrons notre union au Domaine de Mont,</span>
-          <span>et nous serions heureux de vous compter parmi nous.</span>
+          <span>Nous célébrons notre union au {couple.venue}, à Mont-et-Marré dans la Nièvre, et nous serions heureux de vous compter parmi nous.</span>
         </div>
         <a href="#rsvp" className="linklike">
           Confirmer votre présence <span>→</span>

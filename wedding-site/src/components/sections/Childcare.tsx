@@ -6,9 +6,9 @@ export const Childcare = () => {
   return (
     <section className="section panel" id="enfants">
       <div className="wrap kids__grid">
-        <div className="venue__body">
+        <div className="section__body">
           <p className="kicker reveal">
-            <span className="num">05</span>&nbsp;— Les Enfants
+            <span className="num">04</span>&nbsp;— Les Enfants
           </p>
           <h2 className="big reveal d1">
             Une{' '}

@@ -36,7 +36,7 @@ export const Accommodations = () => {
       <div className="wrap">
         <div className="section-head reveal">
           <p className="kicker">
-            <span className="num">04</span>&nbsp;— Où Dormir
+            <span className="num">03</span>&nbsp;— Où Dormir
           </p>
           <h2 className="title">
             Posez vos valises

@@ -25,7 +25,7 @@ export const Timeline = () => {
       <div className="wrap">
         <div className="section-head reveal">
           <p className="kicker">
-            <span className="num">03</span>&nbsp;— Le Déroulé
+            <span className="num">02</span>&nbsp;— Le Déroulé
           </p>
           <h2 className="title">
             Deux jours pour
