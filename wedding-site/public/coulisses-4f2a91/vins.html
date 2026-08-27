@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <title>Les boissons — Coulisses · Quentin &amp; Élisa</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="orga.css">
+</head>
+<body>
+
+<!-- ===================================================== BARRE DU HAUT === -->
+<header class="topbar no-print">
+  <a class="topbar__mark" href="index.html">Q <span class="amp">&amp;</span> É</a>
+  <nav class="topbar__links">
+    <a href="index.html">Sommaire</a>
+    <a href="traiteur.html">Traiteur</a>
+    <a href="vins.html" aria-current="page">Boissons</a>
+    <a href="_modele.html">Modèle</a>
+    <a href="/">Le site</a>
+    <a href="#" onclick="Orga.print(); return false;">Imprimer</a>
+  </nav>
+</header>
+
+<!-- ============================================================== TITRE === -->
+<section class="section section--tight">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><span class="num">01</span> &nbsp;Achat direct · hors traiteur</span>
+      <h1 class="title display">Les <em>boissons</em></h1>
+      <p class="lede">Tout le bar est à notre charge : BF évent's ne fournit aucune boisson le samedi. Les vins d'abord — un rouge arrêté, un blanc à départager en dégustation — puis le reste, avec les quantités calculées pour la journée.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== CHIFFRES === -->
+<section class="section section--tight panel">
+  <div class="wrap">
+    <span class="kicker">En bref</span>
+    <div class="stats" style="margin-top:20px">
+      <div class="stat">
+        <span class="stat__k">Bouteilles</span>
+        <span class="stat__v">96</span>
+        <span class="stat__note">42 blanc + 54 rouge</span>
+      </div>
+      <div class="stat">
+        <span class="stat__k">Budget mini</span>
+        <span class="stat__v">1 539 €</span>
+        <span class="stat__note">avec le Chardonnay remisé</span>
+      </div>
+      <div class="stat">
+        <span class="stat__k">Budget maxi</span>
+        <span class="stat__v">1 728 €</span>
+        <span class="stat__note">avec le Rully blanc</span>
+      </div>
+      <div class="stat">
+        <span class="stat__k">Jours restants</span>
+        <span class="stat__v" id="days">—</span>
+        <span class="stat__note">avant le 19 juin 2027</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= CANDIDATS === -->
+<section class="section" id="candidats">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><span class="num">02</span> &nbsp;Programme de dégustation</span>
+      <h2 class="title display">Les trois <em>bouteilles</em> à goûter</h2>
+      <p class="lede">Les deux blancs sont concurrents : un seul sera retenu, pour le cocktail et le fromage. Le rouge, lui, est acquis.</p>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Bourgogne Chardonnay</h3>
+          <span class="card__cap">Candidat blanc</span>
+        </div>
+        <p class="card__sub">
+          Élevé en fût, millésime 2023<br>
+          Famille Gauffroy<br>
+          15,00 € la bouteille — remise de 10 % visée, soit environ 13,50 €
+        </p>
+        <div class="row"><span class="pill pill--warn">À déguster</span><span class="tag">42 btl — 7 cartons</span><span class="tag">Cocktail &amp; fromage</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Rully Blanc 1<sup>er</sup> Cru</h3>
+          <span class="card__cap">Candidat blanc</span>
+        </div>
+        <p class="card__sub">
+          « Rabourcé », millésime 2024<br>
+          Domaine Duvernay<br>
+          18,00 € la bouteille
+        </p>
+        <div class="row"><span class="pill pill--warn">À déguster</span><span class="tag">42 btl — 7 cartons</span><span class="tag">Cocktail &amp; fromage</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Rully Rouge 1<sup>er</sup> Cru</h3>
+          <span class="card__cap">Retenu</span>
+        </div>
+        <p class="card__sub">
+          « Les Champs Cloux », millésime 2024<br>
+          Domaine Duvernay<br>
+          18,00 € la bouteille — quantité revue à la hausse
+        </p>
+        <div class="row"><span class="pill pill--ok">Acquis</span><span class="tag">54 btl — 9 cartons</span><span class="tag">Plat &amp; fromage</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ BUDGET === -->
+<section class="section section--tight panel">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><span class="num">03</span> &nbsp;Budget</span>
+      <h2 class="title display">Deux <em>scénarios</em></h2>
+      <p class="lede">Le rouge est identique dans les deux cas : seul le choix du blanc fait bouger le total. 189 € séparent les deux options.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="t">
+        <thead>
+          <tr><th>Scénario</th><th>Blanc</th><th>Rouge</th><th>Total TTC</th></tr>
+        </thead>
+        <tbody>
+          <tr class="row--done">
+            <td>Chardonnay retenu</td>
+            <td>42 × 13,50 € = 567 €</td>
+            <td>54 × 18,00 € = 972 €</td>
+            <td class="num">1 539,00 €</td>
+          </tr>
+          <tr>
+            <td>Rully blanc retenu</td>
+            <td>42 × 18,00 € = 756 €</td>
+            <td>54 × 18,00 € = 972 €</td>
+            <td class="num">1 728,00 €</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="loading" style="margin-top:12px;font-size:15px">Le scénario bas suppose la remise de 10 % obtenue chez Gauffroy. Sans elle, le Chardonnay revient à 630 € et le total à 1 602 €.</p>
+  </div>
+</section>
+
+<!-- ======================================================= LE RESTE DU BAR === -->
+<section class="section" id="bar">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><span class="num">04</span> &nbsp;Le reste du bar</span>
+      <h2 class="title display">Tout ce qu'il faut <em>acheter</em></h2>
+      <p class="lede">Quantités calculées pour 104 adultes et 20 enfants, de la garden party de 16h30 jusqu'au bout de la nuit — un mariage de fin juin, en extérieur, où l'eau compte autant que le reste.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="t">
+        <thead>
+          <tr><th>Boisson</th><th>Moment</th><th>À prévoir</th><th>Base du calcul</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sirops</td>
+            <td>Garden party</td>
+            <td class="num">6 btl</td>
+            <td>Grenadine, menthe, citron, fraise, pêche, cassis — ~5 L dilués donnent ~35 L</td>
+          </tr>
+          <tr>
+            <td>Crémant</td>
+            <td>Vin d'honneur et dessert</td>
+            <td class="num">45 btl</td>
+            <td>1 flûte par adulte au vin d'honneur (18 btl), 1,5 au dessert (27 btl)</td>
+          </tr>
+          <tr>
+            <td>Vin blanc</td>
+            <td>Cocktail et fromage</td>
+            <td class="num">42 btl</td>
+            <td>Besoin estimé à 30 — le cocktail ne dure que deux heures et le crémant l'ouvre</td>
+          </tr>
+          <tr>
+            <td>Vin rouge</td>
+            <td>Plat et fromage</td>
+            <td class="num">54 btl</td>
+            <td>Besoin estimé à 44 — la quantité prévue laisse de la marge</td>
+          </tr>
+          <tr>
+            <td>Bière — tireuse</td>
+            <td>Samedi et brunch du dimanche</td>
+            <td class="num">90 L</td>
+            <td>3 fûts de 30 L pris d'avance, les non entamés rendus. Le gros part en soirée, le reste au brunch</td>
+          </tr>
+          <tr>
+            <td>Cocktail granité</td>
+            <td>Cocktail</td>
+            <td class="num">~100 portions</td>
+            <td>Environ 15 L — quantité et tarif à confirmer par le traiteur</td>
+          </tr>
+          <tr>
+            <td>Cocktail au Birlou</td>
+            <td>Cocktail</td>
+            <td class="num">~10 L</td>
+            <td>En bonbonne, préparé à l'avance : ~75 verres de 12 cl, soit une bonbonne de 10 L ou deux de 5 L. Les proportions dépendent de la recette d'Élisa</td>
+          </tr>
+          <tr>
+            <td>Softs</td>
+            <td>Toute la journée</td>
+            <td class="num">~60 L</td>
+            <td>~30 bouteilles de 2 L : jus, colas, limonade, sirops</td>
+          </tr>
+          <tr>
+            <td>Eau plate</td>
+            <td>Toute la journée</td>
+            <td class="num">~130 L</td>
+            <td>~90 bouteilles de 1,5 L, dont une trentaine de litres pour diluer les sirops</td>
+          </tr>
+          <tr>
+            <td>Eau gazeuse</td>
+            <td>Toute la journée</td>
+            <td class="num">~55 L</td>
+            <td>~36 bouteilles de 1,5 L</td>
+          </tr>
+          <tr>
+            <td>Glaçons</td>
+            <td>Garden party et cocktail</td>
+            <td class="num">~20 kg</td>
+            <td>Uniquement pour les verres : le camion frigorifique tient les bouteilles au frais et le granité se fait en machine réfrigérée</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="loading" style="margin-top:16px;font-size:15px">Repères retenus : 6 verres de 12,5 cl par bouteille, bière au demi de 25 cl, 1,25 L d'eau par personne sur la journée. Les enfants ne comptent que dans l'eau, les sirops et les softs. La garden party, en plein après-midi de juin, est le pic de consommation d'eau.</p>
+  </div>
+</section>
+
+<!-- =========================================================== SERVICE === -->
+<section class="section section--tight panel">
+  <div class="wrap wrap--narrow">
+    <div class="section-head">
+      <span class="kicker"><span class="num">05</span> &nbsp;Au repas</span>
+      <h2 class="title display">Qui va <em>où</em></h2>
+    </div>
+    <div class="tl">
+      <div class="tl__item">
+        <span class="tl__time">16h30</span>
+        <span><span class="tl__title">Garden party</span><br><span class="tl__desc">Eau et bar à sirop, sans alcool — la tireuse reste à confirmer</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">18h</span>
+        <span><span class="tl__title">Vin d'honneur, puis cocktail</span><br><span class="tl__desc">Le crémant pour ouvrir, puis blanc, granité, Birlou et bière pendant les pièces et les ateliers</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">Plat</span>
+        <span><span class="tl__title">Le rouge</span><br><span class="tl__desc">Magret de canard, sauce aigre-douce à la figue, à l'Orangerie</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">Fromage</span>
+        <span><span class="tl__title">Blanc et rouge</span><br><span class="tl__desc">Les deux couleurs restent servies</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">Dessert</span>
+        <span><span class="tl__title">Le crémant, surtout</span><br><span class="tl__desc">Le gros du crémant se joue là — 1,5 flûte par adulte</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">Soirée</span>
+        <span><span class="tl__title">La tireuse</span><br><span class="tl__desc">L'essentiel des 50 à 60 L de bière part après le repas</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">Dimanche</span>
+        <span><span class="tl__title">Le restant</span><br><span class="tl__desc">Peut-être remis sur le brunch — à décider</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ SUITE === -->
+<section class="section deep">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Points ouverts</span>
+      <h2 class="title display">Ce qu'il reste à <em>faire</em></h2>
+    </div>
+    <div class="tl">
+      <div class="tl__item">
+        <span class="tl__time">À organiser</span>
+        <span><span class="tl__title">La dégustation</span><br><span class="tl__desc">Rien n'est commandé tant que le blanc n'est pas départagé</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">À négocier</span>
+        <span><span class="tl__title">La remise Gauffroy</span><br><span class="tl__desc">10 % visés sur le Chardonnay — non acquis à ce jour</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">À demander</span>
+        <span><span class="tl__title">Reprise des bouteilles non ouvertes</span><br><span class="tl__desc">Beaucoup de domaines l'acceptent — de quoi commander large sans risque</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">À choisir</span>
+        <span><span class="tl__title">Le crémant</span><br><span class="tl__desc">45 bouteilles, aucun domaine retenu à ce jour</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">À chiffrer</span>
+        <span><span class="tl__title">La recette du Birlou</span><br><span class="tl__desc">Élisa l'a — la passer à l'échelle de 10 L pour connaître les ingrédients à acheter, et prévoir la bonbonne</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">À réserver</span>
+        <span><span class="tl__title">La tireuse, jusqu'au dimanche</span><br><span class="tl__desc">3 fûts pris d'avance, les non entamés rendus. La location doit courir jusqu'au lundi, avec du CO2 pour deux jours</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">À décider</span>
+        <span><span class="tl__title">La bière à la garden party</span><br><span class="tl__desc">Ouvrir la tireuse dès 16h30 ou attendre le cocktail de 18h</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">À prévoir</span>
+        <span><span class="tl__title">Livraison, stockage, fraîcheur</span><br><span class="tl__desc">96 bouteilles de vin, 45 de crémant, l'eau, les softs — et de quoi tout tenir au frais fin juin</span></span>
+      </div>
+    </div>
+    <div class="row" style="margin-top:24px">
+      <a class="btn" href="traiteur.html">Le dossier traiteur <span class="arr">→</span></a>
+      <a class="btn btn--ghost" href="index.html">Retour au sommaire</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= PIED === -->
+<footer class="section section--tight">
+  <div class="wrap">
+    <hr class="rule">
+    <p class="loading" style="font-size:15px">Coulisses — page privée, non référencée. Imprimé le <span id="today"></span>.</p>
+  </div>
+</footer>
+
+<script src="orga.js"></script>
+<script>
+  Orga.text('#days', Orga.daysLeft());
+  Orga.text('#today', Orga.today());
+</script>
+
+</body>
+</html>
