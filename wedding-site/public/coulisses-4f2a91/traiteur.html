@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <title>Traiteur — Coulisses · Quentin &amp; Élisa</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="orga.css">
+</head>
+<body>
+
+<!-- ===================================================== BARRE DU HAUT === -->
+<header class="topbar no-print">
+  <a class="topbar__mark" href="index.html">Q <span class="amp">&amp;</span> É</a>
+  <nav class="topbar__links">
+    <a href="index.html">Sommaire</a>
+    <a href="traiteur.html" aria-current="page">Traiteur</a>
+    <a href="vins.html">Boissons</a>
+    <a href="_modele.html">Modèle</a>
+    <a href="/">Le site</a>
+    <a href="#" onclick="Orga.print(); return false;">Imprimer</a>
+  </nav>
+</header>
+
+<!-- ============================================================== TITRE === -->
+<section class="section section--tight">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><span class="num">01</span> &nbsp;Prestataire · signé</span>
+      <h1 class="title display">BF <em>évent's</em></h1>
+      <p class="lede">Tout le dossier traiteur en une page : coordonnées, menu validé, effectifs, brunch du lendemain et échéancier. Devis D/606, signé le 27 janvier 2026.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== CHIFFRES === -->
+<section class="section section--tight panel">
+  <div class="wrap">
+    <span class="kicker">Le dossier en bref</span>
+    <div class="stats" style="margin-top:20px">
+      <div class="stat">
+        <span class="stat__k">Devis signé</span>
+        <span class="stat__v">9 348,92 €</span>
+        <span class="stat__note">D/606 — 22 janvier 2026</span>
+      </div>
+      <div class="stat">
+        <span class="stat__k">Acompte versé</span>
+        <span class="stat__v">2 804,68 €</span>
+        <span class="stat__note">facture FA/34 — 30 %</span>
+      </div>
+      <div class="stat">
+        <span class="stat__k">Reste à régler</span>
+        <span class="stat__v">6 544,24 €</span>
+        <span class="stat__note">en deux échéances</span>
+      </div>
+      <div class="stat">
+        <span class="stat__k">Jours restants</span>
+        <span class="stat__v" id="days">—</span>
+        <span class="stat__note">avant le 19 juin 2027</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CONTACT === -->
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><span class="num">02</span> &nbsp;Coordonnées</span>
+      <h2 class="title display">Qui <em>contacter</em></h2>
+      <p class="lede">Les échanges passent par courriel. Élisa est l'interlocutrice principale sur ce dossier.</p>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">BF évent's</h3>
+          <span class="card__cap">Traiteur</span>
+        </div>
+        <p class="card__sub">
+          Courriel : <b>bfevents.71@gmail.com</b><br>
+          Espace devis et factures : <b>bfevents-71.vosfactures.fr</b><br>
+          Saône-et-Loire (71) — rencontré au Cèdre.
+        </p>
+        <div class="row"><span class="pill pill--ok">Devis signé</span><span class="tag">Acompte versé</span></div>
+        <a class="card__link" href="mailto:bfevents.71@gmail.com">Écrire au traiteur <span class="arr">→</span></a>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Élisa Stievenard</h3>
+          <span class="card__cap">Suivi du dossier</span>
+        </div>
+        <p class="card__sub">
+          Téléphone : <b>06 89 37 02 14</b><br>
+          Courriel : <b>elisastievenard@gmail.com</b>
+        </p>
+        <div class="row"><span class="tag">Interlocutrice principale</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Quentin Joanon</h3>
+          <span class="card__cap">En copie</span>
+        </div>
+        <p class="card__sub">
+          Téléphone : <b>06 75 95 30 02</b><br>
+          Courriel : <b>quentin.joanon@gmail.com</b>
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Domaine de Mont</h3>
+          <span class="card__cap">Lieu de la prestation</span>
+        </div>
+        <p class="card__sub">Mont-et-Marré, Nièvre. Garden party à 16h30, cocktail à 18h, dîner servi à l'Orangerie.</p>
+        <a class="card__link" href="https://maps.app.goo.gl/hcwzaF7HaNyGRq7W8">Ouvrir le plan <span class="arr">→</span></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================================== MENU === -->
+<section class="section section--tight panel">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><span class="num">03</span> &nbsp;Menu validé</span>
+      <h2 class="title display">Ce qui sera <em>servi</em></h2>
+      <p class="lede">Sélection arrêtée en septembre 2025, confirmée au rendez-vous du 5 décembre. Le cocktail démarre à 18h, après la garden party de 16h30 : les dix pièces et les trois ateliers y sont servis ensemble. Il tient lieu d'entrée — on passe ensuite directement au plat.</p>
+      <p class="lede" style="margin-top:12px"><b>Attention :</b> le traiteur a été briefé en septembre 2025 sur un cocktail « vers 15h30 / 16h ». L'horaire a changé depuis et il n'en a pas été informé — deux heures et demie d'écart sur l'heure de service.</p>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Cocktail</h3>
+          <span class="card__cap">10 pièces / pers.</span>
+        </div>
+        <p class="card__sub">
+          Accra de morue<br>
+          Mini tartelette chèvre miel et sa petite noix<br>
+          Cappuccino de petit pois au lard<br>
+          Mini brochette crevette ananas<br>
+          Verrine de panna cotta au boudin, brunoise de granny, croustillant parmesan<br>
+          Jambon persillé<br>
+          Maki de thon rouge<br>
+          Tataki de bœuf, chantilly au wasabi<br>
+          Gambas snackée curry coco<br>
+          Carpaccio de Saint-Jacques, tartare granny Smith
+        </p>
+        <div class="row"><span class="tag">120 portions</span><span class="tag">Tient lieu d'entrée</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Ateliers</h3>
+          <span class="card__cap">Pendant le cocktail</span>
+        </div>
+        <p class="card__sub">
+          Huîtres<br>
+          Découpe de jambon — d'Auvergne de préférence<br>
+          Sot-l'y-laisse caramélisés au miel
+        </p>
+        <div class="row"><span class="tag">Trois postes</span><span class="tag">Huîtres : 100 portions</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Plat</h3>
+          <span class="card__cap">Servi à table</span>
+        </div>
+        <p class="card__sub">Magret de canard mariné, sauce aigre-douce à la figue. Service à l'Orangerie.</p>
+        <div class="row"><span class="tag">104 adultes</span><span class="tag">20 parts enfants</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Fromage</h3>
+          <span class="card__cap">Partagé</span>
+        </div>
+        <p class="card__sub">Nous le fournissons, et ce sont les mariés qui en assurent le service : les convives passent devant nous. Le traiteur se charge de la découpe, sur desserte ou grand plateau.</p>
+        <div class="row"><span class="pill pill--warn">Servi par les mariés</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Dessert</h3>
+          <span class="card__cap">Par table</span>
+        </div>
+        <p class="card__sub">Framboisier, mousse vanille et framboise fraîche. Gâteaux de 8 à 12 parts posés sur chaque table, ronds ou mélange rond / carré — les convives se servent.</p>
+        <div class="row"><span class="tag">Surcoût intégré au devis</span></div>
+      </article>
+    </div>
+
+    <p class="loading" style="margin-top:16px;font-size:15px">Aucune boisson n'est fournie par le traiteur le samedi : vins, crémant, bière, softs et eau sont à notre charge. <a href="vins.html">Voir la page des boissons</a>.</p>
+  </div>
+</section>
+
+<!-- ========================================================= EFFECTIFS === -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><span class="num">04</span> &nbsp;Effectifs et quantités</span>
+      <h2 class="title display">Les <em>chiffres</em> transmis</h2>
+      <p class="lede">État au 5 janvier 2026. L'effectif définitif reste à communiquer — c'est lui qui déclenche la deuxième échéance.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="t">
+        <thead>
+          <tr><th>Poste</th><th>Quantité</th><th>Remarque</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Pièces cocktail</td><td class="num">120</td><td>Portions, toutes pièces confondues</td></tr>
+          <tr><td>Atelier huîtres</td><td class="num">100</td><td>Seule exception aux 120</td></tr>
+          <tr><td>Dîner adultes</td><td class="num">104</td><td>À date — à confirmer</td></tr>
+          <tr><td>Enfants</td><td class="num">20</td><td>Plat unique, quantité incluant le rab</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= BRUNCH === -->
+<section class="section" id="brunch">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><span class="num">05</span> &nbsp;Le lendemain</span>
+      <h2 class="title display">Le <em>brunch</em> du dimanche</h2>
+      <p class="lede">Chiffré pour 120 personnes, sans distinction enfants / adultes. Premier devis le 23 juin 2026, révisé le 20 juillet : BF évent's ne peut pas assurer un second aller-retour au domaine le dimanche matin — la route est trop longue et la fatigue trop grande après le samedi. Tout est donc livré la veille, en même temps que le mariage.</p>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Livré la veille</h3>
+          <span class="card__cap">Par le traiteur</span>
+        </div>
+        <p class="card__sub">
+          Boissons fraîches<br>
+          Confitures et miel<br>
+          Mini-beurres<br>
+          Corbeille de fruits<br>
+          Plateau de charcuterie<br>
+          Trois salades, à choisir
+        </p>
+        <div class="row"><span class="pill pill--ok">Confirmé</span><span class="tag">Livraison samedi</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">À trouver sur place</h3>
+          <span class="card__cap">À notre charge</span>
+        </div>
+        <p class="card__sub">
+          Pain frais, viennoiseries et chouquettes — chez une boulangerie du secteur, pour accompagner les donuts<br>
+          Boissons chaudes : il nous faut aussi un percolateur
+        </p>
+        <div class="row"><span class="pill pill--todo">Boulangerie à trouver</span><span class="pill pill--todo">Percolateur</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Ce que nous apportons</h3>
+          <span class="card__cap">Nous</span>
+        </div>
+        <p class="card__sub">
+          Nos propres couverts — jetables ou semi-durables<br>
+          Les donuts — nature, chocolat, fraise, une cinquantaine, sans doute chez Metro<br>
+          Des rillettes, apportées par des amis sarthois<br>
+          Les restes de fromage de la veille<br>
+          La bière, la tireuse restant en place<br>
+          Peut-être le vin restant de la veille
+        </p>
+        <div class="row"><span class="tag">Donuts : Metro</span><span class="tag">Pain : boulangerie</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <h3 class="card__name">Écarté</h3>
+          <span class="card__cap">Impossible</span>
+        </div>
+        <p class="card__sub">Les œufs brouillés et les mini-saucisses : la livraison ayant lieu la veille, le chaud du dimanche matin n'est pas réalisable. Reste une question sans réponse — la corbeille de fruits comprend-elle des melons ?</p>
+        <div class="row"><span class="pill pill--alert">Abandonné</span><span class="pill pill--warn">Melons : à confirmer</span></div>
+      </article>
+    </div>
+
+    <p class="loading" style="margin-top:16px;font-size:15px">Le devis brunch ajusté à la nouvelle proposition a été demandé le 20 juillet 2026 — pas encore reçu à ce jour. Le montant du brunch n'est donc pas encore arrêté et ne figure pas dans les chiffres ci-dessus, qui ne portent que sur le devis D/606 du samedi.</p>
+  </div>
+</section>
+
+<!-- ========================================================== VAISSELLE === -->
+<section class="section section--tight panel">
+  <div class="wrap wrap--narrow">
+    <span class="kicker">Vaisselle et mise en place</span>
+    <div class="checklist" style="margin-top:20px">
+      <label class="check">
+        <input type="checkbox" checked>
+        <span class="check__label"><b>Nappes et serviettes blanches</b><span>Choix arrêté</span></span>
+        <span class="card__cap">Traiteur</span>
+      </label>
+      <label class="check">
+        <input type="checkbox" checked>
+        <span class="check__label"><b>Assiettes à liseré doré</b><span>Choix arrêté</span></span>
+        <span class="card__cap">Traiteur</span>
+      </label>
+      <label class="check">
+        <input type="checkbox" checked>
+        <span class="check__label"><b>Verres à pied</b><span>Choix arrêté</span></span>
+        <span class="card__cap">Traiteur</span>
+      </label>
+      <label class="check">
+        <input type="checkbox" checked>
+        <span class="check__label"><b>Vaisselle de découpe et de service des desserts</b><span>Nous la fournissons</span></span>
+        <span class="card__cap">Nous</span>
+      </label>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== ÉCHÉANCIER === -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker"><span class="num">06</span> &nbsp;Règlement</span>
+      <h2 class="title display">L'<em>échéancier</em></h2>
+      <p class="lede">Trois versements : 30 % à la réservation, 30 % à la communication de l'effectif final, 40 % le jour J.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="t">
+        <thead>
+          <tr><th>Échéance</th><th>Part</th><th>Montant</th><th>Document</th><th>Statut</th></tr>
+        </thead>
+        <tbody>
+          <tr class="row--done">
+            <td>À la réservation</td><td class="num">30 %</td><td class="num">2 804,68 €</td>
+            <td>Facture d'acompte FA/34</td><td><span class="pill pill--ok">Versé</span></td>
+          </tr>
+          <tr>
+            <td>À la communication de l'effectif final</td><td class="num">30 %</td><td class="num">2 804,68 €</td>
+            <td>À venir</td><td><span class="pill pill--warn">En attente</span></td>
+          </tr>
+          <tr>
+            <td>Solde, le jour J</td><td class="num">40 %</td><td class="num">3 739,56 €</td>
+            <td>À venir</td><td><span class="pill pill--todo">À prévoir</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="loading" style="margin-top:12px;font-size:15px">Historique du devis D/606 : 7 873,80 € (24 sept. 2025) → 9 745,80 € (26 sept. 2025) → 9 348,92 € (22 janv. 2026), signé le 27 janvier 2026.</p>
+  </div>
+</section>
+
+<!-- ================================================ RÈGLES DU DOMAINE === -->
+<section class="section section--tight panel">
+  <div class="wrap wrap--narrow">
+    <span class="kicker">Contraintes transmises au traiteur</span>
+    <h2 class="title display" style="margin-top:10px">Les règles du <em>domaine</em></h2>
+    <div class="checklist" style="margin-top:20px">
+      <label class="check">
+        <input type="checkbox">
+        <span class="check__label"><b>Puissance électrique</b><span>40 kW maximum dans l'espace traiteur</span></span>
+      </label>
+      <label class="check">
+        <input type="checkbox">
+        <span class="check__label"><b>Vaisselle</b><span>Interdiction de la laver sur place</span></span>
+      </label>
+      <label class="check">
+        <input type="checkbox">
+        <span class="check__label"><b>Espace traiteur</b><span>Rendu nettoyé et vidé de tous déchets, verre compris</span></span>
+      </label>
+      <label class="check">
+        <input type="checkbox">
+        <span class="check__label"><b>Déchets</b><span>Évacués selon la fiche de bonnes pratiques du domaine</span></span>
+      </label>
+      <label class="check">
+        <input type="checkbox">
+        <span class="check__label"><b>Horaires</b><span>Respect des plages de mise à disposition des lieux</span></span>
+      </label>
+      <label class="check">
+        <input type="checkbox">
+        <span class="check__label"><b>Sécurité</b><span>Respect des règles et des zones interdites</span></span>
+      </label>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== MAIL === -->
+<section class="section" id="mail">
+  <div class="wrap wrap--narrow">
+    <div class="section-head">
+      <span class="kicker"><span class="num">07</span> &nbsp;À envoyer</span>
+      <h2 class="title display">Le mail de <em>relance</em></h2>
+      <p class="lede">Modèle prêt à envoyer à BF évent's : le devis brunch ajusté à la formule livrée la veille, le changement d'horaire du cocktail, et la question du punch en machine à granité. À relire avant envoi.</p>
+    </div>
+
+    <div class="row no-print" style="margin-bottom:18px">
+      <button class="btn btn--ghost btn--sm" id="copier">Copier le texte <span class="arr">→</span></button>
+      <a class="btn btn--sm push" id="ouvrir" href="#">Ouvrir dans le client mail <span class="arr">→</span></a>
+    </div>
+
+    <article class="card" style="display:block">
+      <div class="card__top">
+        <h3 class="card__name">Objet</h3>
+        <span class="card__cap">bfevents.71@gmail.com</span>
+      </div>
+      <p class="card__sub" id="objet" style="font-size:17px">Mariage - 19/06/2027 - JOANON - Devis brunch, horaire du cocktail et punch granité</p>
+    </article>
+
+    <article class="card" style="display:block;margin-top:18px">
+      <div class="card__top">
+        <h3 class="card__name">Corps du message</h3>
+        <span class="card__cap">Modèle</span>
+      </div>
+      <p class="card__sub" id="corps" style="font-size:17px;white-space:pre-line">Bonjour,
+
+Merci pour votre retour du 20 juillet, et pas d'inquiétude : nous comprenons tout à fait que le trajet du dimanche matin ne soit pas envisageable. La formule livrée la veille nous convient.
+
+Pourriez-vous nous établir le devis du brunch sur cette base, pour 120 personnes sans distinction enfants / adultes :
+
+- les boissons fraîches, les confitures et le miel, les mini-beurres, la corbeille de fruits et le plateau de charcuterie ;
+- les trois salades — pourriez-vous nous rappeler la liste parmi laquelle choisir ?
+
+Plusieurs points tombent par rapport à notre demande du 14 juillet. Nous retirons les œufs brouillés et les mini-saucisses, la livraison de la veille ne s'y prêtant pas. Nous nous occupons nous-mêmes des donuts. Et le supplément de pain n'est plus nécessaire : nous passerons par une boulangerie du secteur pour le pain frais, les viennoiseries et les chouquettes. Nous fournissons également nos propres couverts pour le brunch, ainsi que les boissons chaudes.
+
+Une question reste en suspens : la corbeille de fruits comprend-elle des melons ?
+
+Par ailleurs, un point important à corriger de notre côté : nous vous avions annoncé un cocktail « vers 15h30 / 16h » lors de nos premiers échanges. Le déroulé a évolué depuis. Nous accueillerons les invités à 16h30 pour une garden party, et le cocktail — vos pièces et les trois ateliers — démarrera à 18h. Pouvez-vous nous confirmer que cet horaire ne pose pas de difficulté, et nous préciser vos heures d'arrivée et de fin de service ?
+
+Enfin, nous revenons vers vous au sujet du punch préparé en machine à granité, dont nous avions entendu parler lors de votre inauguration. Serait-il possible d'en proposer pendant le cocktail du 19 ? Si oui, pourriez-vous nous indiquer le tarif et l'ajouter au devis du samedi ?
+
+En vous remerciant par avance,
+Bien cordialement,
+
+Élisa Stievenard - 06 89 37 02 14
+Quentin Joanon - 06 75 95 30 02</p>
+    </article>
+
+    <p class="loading" style="margin-top:12px;font-size:15px">Rien n'est envoyé depuis cette page : le bouton ouvre simplement un brouillon dans le client mail.</p>
+  </div>
+</section>
+
+<!-- =========================================================== SUITE === -->
+<section class="section deep">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Points ouverts</span>
+      <h2 class="title display">Ce qu'il reste à <em>caler</em></h2>
+      <p class="lede">Le mail ci-dessus règle les deux premiers ; les trois suivants sont de notre côté.</p>
+    </div>
+    <div class="tl">
+      <div class="tl__item">
+        <span class="tl__time">Mail prêt</span>
+        <span><span class="tl__title">Devis brunch ajusté</span><br><span class="tl__desc">Demandé le 20 juillet 2026 après la nouvelle proposition — toujours pas reçu</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">Mail prêt</span>
+        <span><span class="tl__title">Punch en machine à granité</span><br><span class="tl__desc">Vu à leur inauguration — possible pour le cocktail du 19 ? Question posée le 20 juillet</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">À trouver</span>
+        <span><span class="tl__title">Boulangerie et percolateur</span><br><span class="tl__desc">Pain, viennoiseries et chouquettes pour le dimanche matin, et une machine à café</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">À décider</span>
+        <span><span class="tl__title">Le vin de la veille</span><br><span class="tl__desc">Remettre ou non le restant du samedi sur le brunch</span></span>
+      </div>
+      <div class="tl__item">
+        <span class="tl__time">Avant le jour J</span>
+        <span><span class="tl__title">Effectif définitif</span><br><span class="tl__desc">Déclenche la deuxième échéance de 30 %</span></span>
+      </div>
+    </div>
+    <div class="row" style="margin-top:24px">
+      <a class="btn" href="mailto:bfevents.71@gmail.com">Écrire au traiteur <span class="arr">→</span></a>
+      <a class="btn btn--ghost" href="index.html">Retour au sommaire</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= PIED === -->
+<footer class="section section--tight">
+  <div class="wrap">
+    <hr class="rule">
+    <p class="loading" style="font-size:15px">Coulisses — page privée, non référencée. Imprimé le <span id="today"></span>.</p>
+  </div>
+</footer>
+
+<script src="orga.js"></script>
+<script>
+  Orga.text('#days', Orga.daysLeft());
+  Orga.text('#today', Orga.today());
+
+  // Le modèle de mail : copie dans le presse-papier, ou ouverture d'un brouillon
+  const objet = document.getElementById('objet').textContent.trim();
+  const corps = document.getElementById('corps').textContent.trim();
+
+  document.getElementById('ouvrir').href =
+    'mailto:bfevents.71@gmail.com?subject=' + encodeURIComponent(objet) +
+    '&body=' + encodeURIComponent(corps);
+
+  document.getElementById('copier').addEventListener('click', async (e) => {
+    const bouton = e.currentTarget;
+    try {
+      await navigator.clipboard.writeText(corps);
+      bouton.textContent = 'Copié';
+    } catch {
+      bouton.textContent = 'Copie impossible — sélectionner le texte';
+    }
+    setTimeout(() => { bouton.innerHTML = 'Copier le texte <span class="arr">→</span>'; }, 2500);
+  });
+</script>
+
+</body>
+</html>
