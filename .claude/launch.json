@@ -4,8 +4,18 @@
     {
       "name": "wedding-site",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "wedding-site", "run", "dev"],
-      "port": 5173
+      "runtimeArgs": [
+        "--prefix",
+        "wedding-site",
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "5700",
+        "--strictPort"
+      ],
+      "port": 5700,
+      "autoPort": false
     }
   ]
 }
