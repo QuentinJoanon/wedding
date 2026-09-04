@@ -161,33 +161,58 @@ export interface RsvpPayload {
 }
 
 /**
- * Envoie une réponse au script Google (voir google-apps-script/rsvp.gs).
+ * Issue d'un envoi de RSVP.
  *
- * On tente d'abord un envoi dont la réponse est lisible — c'est le seul moyen
- * de distinguer un vrai succès d'une erreur côté script. Le Content-Type
- * text/plain évite la requête préalable CORS, que les web apps Apps Script ne
- * savent pas traiter.
+ * « probable » couvre le cas propre aux web apps Apps Script : la requête est
+ * bien parvenue au script — qui écrit la ligne avant même de répondre — mais
+ * le navigateur n'a pas pu lire l'accusé de réception. Annoncer un échec dans
+ * ce cas pousse l'invité à renvoyer sa réponse, et le classeur reçoit un
+ * doublon. On ne le dit donc pas raté : c'est écrit, on ne peut pas le
+ * confirmer.
  */
-export const submitRsvp = async (payload: RsvpPayload): Promise<boolean> => {
+export type RsvpOutcome = 'sent' | 'probable' | 'failed';
+
+/**
+ * Identifiant d'envoi, stable d'un réessai à l'autre pour une même réponse.
+ * Le script s'en sert pour réécrire la ligne au lieu d'en ajouter une autre.
+ */
+export const newSubmissionId = (): string => {
+  if (typeof globalThis.crypto?.randomUUID === 'function') {
+    return globalThis.crypto.randomUUID();
+  }
+  // Les navigateurs sans randomUUID (ou hors contexte sécurisé) doivent aussi
+  // bénéficier de la déduplication : une valeur simplement unique suffit.
+  return `rsvp-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+};
+
+/**
+ * Envoie une réponse au script Google (voir google-apps-script/Code.gs).
+ *
+ * Le Content-Type text/plain évite la requête préalable CORS, que les web apps
+ * Apps Script ne savent pas traiter.
+ */
+export const submitRsvp = async (
+  payload: RsvpPayload,
+  submissionId: string
+): Promise<RsvpOutcome> => {
   const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
 
   if (!scriptUrl) {
     console.error('VITE_GOOGLE_SCRIPT_URL non configuré');
-    return false;
+    return 'failed';
   }
 
   const body = JSON.stringify({
     action: 'rsvp',
     sheetId: SHEET_ID,
     sheetName: RSVP_SHEET_NAME,
+    submissionId,
     ...payload,
   });
 
-  // Un échec du fetch lui-même (réseau, CORS) est le seul cas où l'on rejoue
-  // en no-cors : là, l'écriture peut aboutir sans qu'on puisse la lire. Une
-  // réponse reçue mais illisible est au contraire une vraie erreur — le script
-  // n'a pas encore la branche RSVP, par exemple — et ne doit pas être annoncée
-  // à l'invité comme un succès.
+  // Apps Script répond par une redirection vers script.googleusercontent.com.
+  // Selon le navigateur, le suivi de cette redirection échoue ou ramène autre
+  // chose que du JSON — alors que le script, lui, s'est exécuté.
   let response: Response;
   try {
     response = await fetch(scriptUrl, {
@@ -204,22 +229,23 @@ export const submitRsvp = async (payload: RsvpPayload): Promise<boolean> => {
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body,
       });
-      return true;
+      return 'probable';
     } catch (fallbackError) {
       console.error("Échec de l'envoi du RSVP :", fallbackError);
-      return false;
+      return 'failed';
     }
   }
 
   try {
     const result = (await response.json()) as { ok?: boolean; error?: string };
     if (!result.ok) {
+      // Le script a répondu et a refusé : là, rien n'a été écrit.
       console.error('RSVP refusé par le script :', result.error);
-      return false;
+      return 'failed';
     }
-    return true;
+    return 'sent';
   } catch (parseError) {
-    console.error('Réponse inattendue du script :', parseError);
-    return false;
+    console.warn('Réponse illisible, la réponse est probablement enregistrée :', parseError);
+    return 'probable';
   }
 };

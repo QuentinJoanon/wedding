@@ -57,7 +57,15 @@ var RSVP_HEADERS = [
   'Enfants',
   'Régimes & allergies',
   'Message',
+  'ID envoi',
 ];
+
+/**
+ * Colonne K : l'identifiant tiré par le navigateur au moment de l'envoi.
+ * Il est stable d'un réessai à l'autre, ce qui permet de reconnaître un
+ * deuxième envoi de la même réponse au lieu d'ajouter une ligne de plus.
+ */
+var RSVP_ID_COL = 11;
 
 /* --------------------------------------------------------------- Entrée */
 
@@ -69,7 +77,9 @@ function doPost(e) {
     if (data.action === 'participate') return withLock(function () {
       return handleParticipate(data);
     });
-    if (data.action === 'rsvp') return handleRsvp(data);
+    if (data.action === 'rsvp') return withLock(function () {
+      return handleRsvp(data);
+    });
 
     return fail('Action inconnue');
   } catch (err) {
@@ -195,11 +205,12 @@ function logContribution(book, entry) {
 function handleRsvp(data) {
   var book = SpreadsheetApp.openById(data.sheetId);
   var sheet = ensureSheet(book, data.sheetName || RSVP_SHEET_FALLBACK, RSVP_HEADERS);
+  ensureRsvpIdHeader(sheet);
 
   var attending = data.attending === true || data.attending === 'true';
   var nextDay = data.nextDay === true || data.nextDay === 'true';
 
-  sheet.appendRow([
+  var values = [
     new Date(),
     data.firstName || '',
     data.lastName || '',
@@ -210,9 +221,41 @@ function handleRsvp(data) {
     attending ? Number(data.children) || 0 : 0,
     data.dietary || '',
     data.message || '',
-  ]);
+  ];
 
+  // L'invité peut renvoyer la même réponse : son navigateur n'a pas toujours
+  // pu lire l'accusé de réception, alors que la ligne, elle, était écrite.
+  // On réécrit la ligne existante plutôt que d'en empiler une seconde.
+  var id = String(data.submissionId || '');
+  var existing = id ? findRsvpRow(sheet, id) : 0;
+
+  if (existing) {
+    sheet.getRange(existing, 1, 1, values.length).setValues([values]);
+    return out({ ok: true, success: true, duplicate: true });
+  }
+
+  sheet.appendRow(values.concat([id]));
   return out({ ok: true, success: true });
+}
+
+/** L'onglet existait avant la colonne K : on l'ajoute au premier passage. */
+function ensureRsvpIdHeader(sheet) {
+  var cell = sheet.getRange(1, RSVP_ID_COL);
+  if (!String(cell.getValue()).trim()) {
+    cell.setValue('ID envoi').setFontWeight('bold');
+  }
+}
+
+/** Numéro de la ligne portant cet identifiant, 0 si la réponse est nouvelle. */
+function findRsvpRow(sheet, id) {
+  var last = sheet.getLastRow();
+  if (last < 2) return 0;
+
+  var ids = sheet.getRange(2, RSVP_ID_COL, last - 1, 1).getValues();
+  for (var i = 0; i < ids.length; i++) {
+    if (String(ids[i][0]) === id) return i + 2;
+  }
+  return 0;
 }
 
 /* ------------------------------------------------------------- Communs */

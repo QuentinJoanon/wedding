@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import weddingData from '../../data/wedding-data.json';
-import { submitRsvp } from '../../services/googleSheets';
+import { newSubmissionId, submitRsvp } from '../../services/googleSheets';
+import type { RsvpOutcome } from '../../services/googleSheets';
 
 const { couple } = weddingData;
 
@@ -75,11 +76,14 @@ const Stepper = ({ id, label, value, min = 0, onChange }: StepperProps) => {
   );
 };
 
-type Status = 'idle' | 'sending' | 'sent' | 'error';
+type Status = 'idle' | 'sending' | RsvpOutcome;
 
 export const RSVP = () => {
   const [form, setForm] = useState<RsvpForm>(INITIAL);
   const [status, setStatus] = useState<Status>('idle');
+  // Le même identifiant sert à tous les essais de cette réponse : si l'invité
+  // renvoie le formulaire, le script réécrit sa ligne au lieu d'en créer une.
+  const submissionId = useRef(newSubmissionId());
 
   const set = <K extends keyof RsvpForm>(key: K, value: RsvpForm[K]) =>
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -88,8 +92,7 @@ export const RSVP = () => {
     e.preventDefault();
     if (status === 'sending') return;
     setStatus('sending');
-    const ok = await submitRsvp(form);
-    setStatus(ok ? 'sent' : 'error');
+    setStatus(await submitRsvp(form, submissionId.current));
   };
 
   return (
@@ -113,13 +116,20 @@ export const RSVP = () => {
           </p>
         </div>
 
-        {status === 'sent' ? (
+        {status === 'sent' || status === 'probable' ? (
           <div className="rsvp__done reveal d1" role="status">
             <h3>Merci&nbsp;!</h3>
             <p>
               Votre réponse est bien arrivée. Nous revenons vers vous avec les derniers
               détails à l'approche du jour J.
             </p>
+            {status === 'probable' && (
+              <p className="rsvp__done-note">
+                Votre navigateur ne nous a pas renvoyé de confirmation, mais votre réponse
+                est bien partie&nbsp;: inutile de la renvoyer. Un doute&nbsp;? Nos numéros
+                sont en bas de page.
+              </p>
+            )}
           </div>
         ) : (
         <form className="form reveal d1" onSubmit={handleSubmit}>
@@ -242,7 +252,7 @@ export const RSVP = () => {
             <span className="arr">→</span>
           </button>
 
-          {status === 'error' && (
+          {status === 'failed' && (
             <p className="form__status form__status--error" role="alert">
               L'envoi n'a pas abouti. Réessayez dans un instant, ou prévenez-nous
               directement — nos numéros sont en bas de page.
