@@ -446,8 +446,16 @@ const Vitrail = (() => {
     const parent = new Map(tpl.cells.map((c) => [c.id, c.id]));
     const find = (id) => { while (parent.get(id) !== id) id = parent.get(id); return id; };
     const byId = new Map(tpl.cells.map((c) => [c.id, c]));
+    // largeur moyenne d'une zone (aire / périmètre) : attrape les croissants et les languettes,
+    // larges en leur milieu mais trop fines à leurs pointes
+    const meanW = (pts) => {
+      let A = 0, P = 0;
+      pts.forEach((a, i) => { const b = pts[(i + 1) % pts.length]; A += a[0] * b[1] - b[0] * a[1]; P += dist(a, b); });
+      return P ? Math.abs(A) / P : 0;
+    };
     for (const c of [...tpl.cells].sort((a, b) => a.w - b.w)) {
-      if ((c.w / 1000) * r >= sp * 1.05 || c.into === -1) continue;
+      const thin = (c.w / 1000) * r < sp * 1.05 || (meanW(c.pts) / 1000) * r * 2 < sp * 1.1;
+      if (!thin || c.into === -1) continue;
       const root = find(c.into);
       if (root !== find(c.id)) parent.set(find(c.id), root);
     }
@@ -1066,12 +1074,13 @@ const Vitrail = (() => {
     // les épis ont besoin de longs couloirs libres : ils passent juste après les vedettes
     const roles = ['vedette', 'hauteur', 'secondaire', 'remplissage', 'bouton'].filter((r) => byRole[r]);
     const shareSum = roles.reduce((s, r) => s + ROLES[r].share, 0);
-    function fillRole(role, place) {
+    function fillRole(role, place, types = byRole[role]) {
+      if (!types || !types.length) return;
       const goal = (target * ROLES[role].share) / shareSum;
       let covered = 0, fails = 0, placed = 0;
       const max = ROLES[role].max || Infinity;
       while (covered < goal && fails < 30 && placed < max) {
-        const res = place(R.pick(byRole[role]), role);
+        const res = place(R.pick(types), role);
         if (res) { covered += res.area; placed++; } else fails++;
       }
     }
@@ -1380,7 +1389,8 @@ const Vitrail = (() => {
           size = { L: R.range(Lr[0], Lr[1]) * U * S.taille, wd: Math.max(wdf * U * S.taille, sp * 2.8) };
           reachOut = 0;
         } else {
-          const r = Math.max(R.range(RO.r[0], RO.r[1]) * U * S.taille, RO.minSp * sp);
+          // une vedette au bout d'une branche (la tulipe, de profil) reste plus petite que celles du rail
+          const r = Math.max(R.range(RO.r[0], RO.r[1]) * U * S.taille * (role === 'vedette' ? 0.6 : 1), RO.minSp * sp);
           size = r;
           reachOut = isSide ? 0 : r * 0.9;
         }
@@ -1415,6 +1425,8 @@ const Vitrail = (() => {
       for (const nd of railNodes()) if (inDomain(nd.p)) placeOnNode(nd);
       layRail();
       frameLinks();
+      // les vedettes qui ne se posent pas sur le rail (la tulipe, de profil) poussent sur les tiges
+      fillRole('vedette', placeOnBranch, (byRole.vedette || []).filter((t) => !surRail(t)));
       for (const role of roles) if (role !== 'vedette') fillRole(role, placeOnBranch);
       // ce qui n'a pu être relié à rien disparaît : pas de fleur posée au hasard
       const lonely = new Set(insts.filter((i) => i.kind !== 'leaf').map((i) => i.group));
