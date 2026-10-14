@@ -199,7 +199,7 @@
                 <select id="e-nb" data-k="emplacements.nbCotes"><option value="auto">Selon la densité</option><option value="0">Aucune</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
               </div>
             </div>
-            <p class="aide">« Au hasard » pioche parmi les fleurs cochées. Les épis, la tulipe et le pois de senteur poussent sur les tiges plutôt que sur ces places. Avec la symétrie, un choix vaut pour les deux côtés.</p>
+            <p class="aide">« Au hasard » pioche parmi les fleurs cochées. La tulipe peut se dresser le long des côtés ; les épis et le pois de senteur poussent sur les tiges. Avec la symétrie, un choix vaut pour les deux côtés.</p>
           </div>
         </details>
 
@@ -394,12 +394,13 @@
 
   /** Les menus d'emplacement proposent les fleurs cochées qui peuvent se poser sur la tige. */
   function refreshSlots() {
-    const choix = Object.keys(S.fleurs).filter((k) => Vitrail.surRail(k));
-    const opts = '<option value="auto">Au hasard</option><option value="aucune">Rien</option>'
-      + choix.map((k) => `<option value="${k}">${esc(Vitrail.FLEURS[k].nom)}</option>`).join('');
     for (const sel of $$('select.emplacement')) {
       const key = sel.dataset.k.split('.')[1];
-      sel.innerHTML = opts;
+      // le long des côtés, une tulipe peut se dresser sur la tige ; ailleurs, seulement les fleurs de face
+      const ok = key === 'cotes' ? Vitrail.surCotes : Vitrail.surRail;
+      const choix = Object.keys(S.fleurs).filter((k) => ok(k));
+      sel.innerHTML = '<option value="auto">Au hasard</option><option value="aucune">Rien</option>'
+        + choix.map((k) => `<option value="${k}">${esc(Vitrail.FLEURS[k].nom)}</option>`).join('');
       // une fleur décochée ne garde pas sa place
       if (!['auto', 'aucune', ...choix].includes(S.emplacements[key])) S.emplacements[key] = 'auto';
       sel.value = S.emplacements[key];

@@ -696,6 +696,8 @@ const Vitrail = (() => {
 
   /** Les fleurs qui peuvent se poser sur la tige du cadre : vues de face ou de trois-quarts. */
   const surRail = (t) => !!(FLEURS[t] && ['vedette', 'secondaire'].includes(FLEURS[t].role) && !FLEURS[t].spike && FLEURS[t].build !== tulipe && FLEURS[t].build !== pois);
+  /** Le long des côtés, on accepte aussi les fleurs qui se dressent sur la tige. */
+  const surCotes = (t) => surRail(t) || t === 'tulipe';
 
   /** Construit le dessin local d'un élément (même graine → même géométrie). */
   function buildDef(type, size, seed, sp, col, leaf, vue = 'mixte') {
@@ -1244,13 +1246,19 @@ const Vitrail = (() => {
     /** Pose une fleur sur un nœud du rail ; elle rentre un peu, ou rapetisse, si elle n'y tient pas. */
     function placeOnNode(nd) {
       const ved = (byRole.vedette || []).filter(surRail), sec = (byRole.secondaire || []).filter(surRail);
-      let pool = nd.kind === 'coin' ? ved : nd.kind === 'axe' ? [...ved, ...sec] : (sec.length && R() < 0.6 ? sec : ved);
+      // le long des côtés, une tulipe peut pousser droit sur le rail, le pied sur la tige
+      const debout = (byRole.vedette || []).filter(surCotes).filter((t) => !surRail(t));
+      let pool = nd.kind === 'coin' ? ved : nd.kind === 'axe' ? [...ved, ...sec]
+        // une fleur cochée doit apparaître : la première place de côté lui revient
+        : debout.length && (!insts.some((i) => debout.includes(i.type)) || R() < 0.5) ? debout : (sec.length && R() < 0.6 ? sec : ved);
       // ce que l'on a choisi pour cette place passe avant le hasard
       const want = S.emplacements[nd.slot] ?? 'auto';
       if (want === 'aucune') return null;
-      if (want !== 'auto' && surRail(want)) pool = [want];
+      if (want !== 'auto' && (surRail(want) || (nd.slot === 'cotes' && surCotes(want)))) pool = [want];
+      if (!pool.length) pool = nd.kind === 'relais' ? debout : [];
       if (!pool.length) return null;
       const type = R.pick(pool);
+      if (!surRail(type)) return standOnNode(nd, type);
       const role = FLEURS[type].role;
       const RO = ROLES[role];
       const fit = Math.min(1, (bandMax * 0.42) / (RO.r[1] * U * S.taille));
@@ -1295,6 +1303,23 @@ const Vitrail = (() => {
       }
       inst.pieces = pieces;
       inst.polys = inst.polys.map((P) => clipConvex(P, inner)).filter((P) => P.length > 2);
+    }
+
+    /** Une fleur de profil (la tulipe) se dresse sur le rail, la corolle tournée vers le texte. */
+    function standOnNode(nd, type) {
+      const role = FLEURS[type].role, RO = ROLES[role];
+      const rt = R.range(RO.r[0], RO.r[1]) * U * S.taille * 0.62;
+      const inward = unit([rcx - nd.p[0], rcy - nd.p[1]]);
+      for (const shrink of [1, 0.85, 0.7, 0.58]) {
+        const r = Math.max(rt * shrink, RO.minSp * sp);
+        for (const tilt of [0, 0.25, -0.25]) {
+          const dir = rot(inward, tilt);
+          const th = Math.atan2(dir[1], dir[0]) + Math.PI / 2;
+          const res = tryPlace(type, r, { x: nd.p[0], y: nd.p[1], th, sx: R.sign(), sy: 1 }, pickColor(type), { role });
+          if (res) { res.made.forEach((m) => { m.deg++; m.onRail = true; }); return res; }
+        }
+      }
+      return null;
     }
 
     /** Le rail, une fois les fleurs posées : il passe derrière elles et ne frôle rien. */
@@ -1390,7 +1415,7 @@ const Vitrail = (() => {
           reachOut = 0;
         } else {
           // une vedette au bout d'une branche (la tulipe, de profil) reste plus petite que celles du rail
-          const r = Math.max(R.range(RO.r[0], RO.r[1]) * U * S.taille * (role === 'vedette' ? 0.6 : 1), RO.minSp * sp);
+          const r = Math.max(R.range(RO.r[0], RO.r[1]) * U * S.taille * (role === 'vedette' ? 0.6 * (tries < 5 ? 1 : tries < 10 ? 0.8 : 0.65) : 1), RO.minSp * sp);
           size = r;
           reachOut = isSide ? 0 : r * 0.9;
         }
@@ -1636,7 +1661,7 @@ const Vitrail = (() => {
       + `<g fill="none" stroke="${ink}" stroke-width="${cerne}" stroke-linecap="round" stroke-linejoin="round">${strokes.join('')}</g></svg>`;
   }
 
-  return { render, generate, specimen, surRail, normalize, DEFAULTS, FLEURS, ROLES, FORMATS, PALETTES, CERNES, FONDS, TEXT_STYLES, clone };
+  return { render, generate, specimen, surRail, surCotes, normalize, DEFAULTS, FLEURS, ROLES, FORMATS, PALETTES, CERNES, FONDS, TEXT_STYLES, clone };
 })();
 
 window.Vitrail = Vitrail;
