@@ -181,6 +181,28 @@
           </div>
         </details>
 
+        <details class="bloc" open>
+          <summary>Emplacements</summary>
+          <div class="bloc__corps">
+            <div class="duo">
+              <div class="field"><label for="e-ch">Coins du haut</label><select id="e-ch" class="emplacement" data-k="emplacements.coinsHaut"></select></div>
+              <div class="field"><label for="e-cb">Coins du bas</label><select id="e-cb" class="emplacement" data-k="emplacements.coinsBas"></select></div>
+            </div>
+            <div class="duo">
+              <div class="field"><label for="e-mh" id="l-mh">Milieu en haut</label><select id="e-mh" class="emplacement" data-k="emplacements.milieuHaut"></select></div>
+              <div class="field"><label for="e-mb" id="l-mb">Milieu en bas</label><select id="e-mb" class="emplacement" data-k="emplacements.milieuBas"></select></div>
+            </div>
+            <div class="duo">
+              <div class="field"><label for="e-co">Le long des côtés</label><select id="e-co" class="emplacement" data-k="emplacements.cotes"></select></div>
+              <div class="field">
+                <label for="e-nb">Nombre par côté</label>
+                <select id="e-nb" data-k="emplacements.nbCotes"><option value="auto">Selon la densité</option><option value="0">Aucune</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
+              </div>
+            </div>
+            <p class="aide">« Au hasard » pioche parmi les fleurs cochées. Les épis, la tulipe et le pois de senteur poussent sur les tiges plutôt que sur ces places. Avec la symétrie, un choix vaut pour les deux côtés.</p>
+          </div>
+        </details>
+
         <details class="bloc">
           <summary>Composition</summary>
           <div class="bloc__corps">
@@ -370,7 +392,22 @@
 
   /* ------------------------------------------------------ FORMULAIRE ↔ S */
 
+  /** Les menus d'emplacement proposent les fleurs cochées qui peuvent se poser sur la tige. */
+  function refreshSlots() {
+    const choix = Object.keys(S.fleurs).filter((k) => Vitrail.surRail(k));
+    const opts = '<option value="auto">Au hasard</option><option value="aucune">Rien</option>'
+      + choix.map((k) => `<option value="${k}">${esc(Vitrail.FLEURS[k].nom)}</option>`).join('');
+    for (const sel of $$('select.emplacement')) {
+      const key = sel.dataset.k.split('.')[1];
+      sel.innerHTML = opts;
+      // une fleur décochée ne garde pas sa place
+      if (!['auto', 'aucune', ...choix].includes(S.emplacements[key])) S.emplacements[key] = 'auto';
+      sel.value = S.emplacements[key];
+    }
+  }
+
   function fillForm() {
+    refreshSlots();
     for (const el of $$('[data-k]')) {
       const v = getPath(S, el.dataset.k);
       if (el.type === 'checkbox') el.checked = !!v;
@@ -398,6 +435,8 @@
   function syncFormat() {
     const F = Vitrail.FORMATS[S.format];
     $('#champ-sens').hidden = S.format !== 'fleche';
+    $('#l-mh').textContent = S.format === 'fleche' ? 'Talon de la flèche' : 'Milieu en haut';
+    $('#l-mb').textContent = S.format === 'fleche' ? 'Pointe de la flèche' : 'Milieu en bas';
     const sizes = F.tailles.map(([w, h, label]) => ({ w, h, label: label ? `${label} — ${fmtCm(w)} × ${fmtCm(h)} cm` : `${fmtCm(w)} × ${fmtCm(h)} cm` }));
     const match = sizes.findIndex((t) => t.w === S.w && t.h === S.h);
     $('#taille-type').innerHTML = sizes.map((t, i) => `<option value="${i}">${esc(t.label)}</option>`).join('') + '<option value="perso">Sur mesure</option>';
@@ -466,6 +505,7 @@
       S.fleurs[k] = sel.value === 'auto' ? 'auto' : Number(sel.value);
     }
     p.classList.toggle('on', box.checked);
+    if (e.target === box) refreshSlots();
     schedule();
   });
   // un clic sur le menu de couleur ne doit pas décocher la fleur

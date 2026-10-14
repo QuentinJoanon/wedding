@@ -686,6 +686,9 @@ const Vitrail = (() => {
     bouton:      { nom: 'Boutons',     share: 0.04, r: [0.03, 0.042], min: 0.022, minSp: 1.4, max: 4 },
   };
 
+  /** Les fleurs qui peuvent se poser sur la tige du cadre : vues de face ou de trois-quarts. */
+  const surRail = (t) => !!(FLEURS[t] && ['vedette', 'secondaire'].includes(FLEURS[t].role) && !FLEURS[t].spike && FLEURS[t].build !== tulipe && FLEURS[t].build !== pois);
+
   /** Construit le dessin local d'un élément (même graine → même géométrie). */
   function buildDef(type, size, seed, sp, col, leaf, vue = 'mixte') {
     const R = makeRng(seed);
@@ -752,7 +755,9 @@ const Vitrail = (() => {
     ],
     fleurs: { pivoine: 'auto', rose: 'auto', delphinium: 'auto', myosotis: 'auto' },
     boutons: true, tiges: true, feuillage: 0.6,
-    densite: 0.5, taille: 1, tailleCoins: 1, tailleTexte: 1, ouverture: 0.6, zone: 'ovale', filetZone: false,
+    densite: 0.5, taille: 1, tailleCoins: 1, tailleTexte: 1,
+    // la fleur de chaque place du cadre végétal : 'auto' (au hasard parmi les fleurs cochées), 'aucune', ou une fleur
+    emplacements: { coinsHaut: 'auto', coinsBas: 'auto', milieuHaut: 'auto', milieuBas: 'auto', cotes: 'auto', nbCotes: 'auto' }, ouverture: 0.6, zone: 'ovale', filetZone: false,
     symetrie: 'miroir', croise: true, cadre: 'tuiles', lignes: 1,
     palette: { nom: 'jardin', fleurs: PALETTES.jardin.fleurs.slice(), feuille: PALETTES.jardin.feuille, tuiles: PALETTES.jardin.tuiles.slice(), cerne: 'or', fond: 'clair' },
     vue: 'mixte',
@@ -764,6 +769,7 @@ const Vitrail = (() => {
   function normalize(s) {
     const d = clone(DEFAULTS), o = { ...d, ...(s || {}) };
     o.palette = { ...d.palette, ...(s && s.palette) };
+    o.emplacements = { ...d.emplacements, ...(s && s.emplacements) };
     o.texte = Array.isArray(o.texte) ? o.texte.slice(0, 4) : d.texte;
     while (o.texte.length < 4) o.texte.push({ t: '', s: 'italique', k: 0.7 });
     o.fleurs = o.fleurs && typeof o.fleurs === 'object' ? o.fleurs : d.fleurs;
@@ -1207,21 +1213,33 @@ const Vitrail = (() => {
         const a = nodes[k], b = nodes[(k + 1) % nodes.length];
         const span = ((b.i - a.i + N) % N) || N;
         const len = (span / N) * rail.length * 2;
-        const m = Math.floor(len / gapMax);
+        // nombre imposé : il vaut pour les grands côtés ; les demi-côtés près d'un axe restent libres
+        const nb = S.emplacements.nbCotes;
+        const m = nb === 'auto' ? Math.floor(len / gapMax) : (len >= 0.45 * U ? clamp(Number(nb) || 0, 0, 6) : 0);
         for (let j = 1; j <= m; j++) extra.push({ i: (a.i + Math.round((span * j) / (m + 1))) % N, kind: 'relais' });
       }
       for (const e of extra) nodes.push({ ...e, p: rail[e.i] });
       // l'axe d'abord exactement sur l'axe : les reflets tombent pile
       for (const nd of nodes) if (nd.kind === 'axe') nd.p = S.format === 'fleche' ? [nd.p[0], cy] : [cx, nd.p[1]];
+      // chaque nœud a sa place : coins du haut ou du bas, milieu haut ou bas (talon et pointe d'une flèche), côtés
+      for (const nd of nodes) {
+        const onAxis = S.format === 'fleche' ? Math.abs(nd.p[1] - cy) < 2 : Math.abs(nd.p[0] - cx) < 2;
+        if (nd.kind === 'relais') nd.slot = 'cotes';
+        else if (onAxis) nd.slot = (S.format === 'fleche' ? (S.sens === 'gauche' ? nd.p[0] > cx : nd.p[0] < cx) : nd.p[1] < cy) ? 'milieuHaut' : 'milieuBas';
+        else nd.slot = nd.p[1] < cy ? 'coinsHaut' : 'coinsBas';
+      }
       const order = { coin: 0, axe: 1, relais: 2 };
       return nodes.sort((a, b) => order[a.kind] - order[b.kind]);
     }
 
     /** Pose une fleur sur un nœud du rail ; elle rentre un peu, ou rapetisse, si elle n'y tient pas. */
     function placeOnNode(nd) {
-      const flat = (t) => t !== 'bouton' && FLEURS[t] && !FLEURS[t].spike && FLEURS[t].build !== tulipe && FLEURS[t].build !== pois;
-      const ved = (byRole.vedette || []).filter(flat), sec = (byRole.secondaire || []).filter(flat);
-      const pool = nd.kind === 'coin' ? ved : nd.kind === 'axe' ? [...ved, ...sec] : (sec.length && R() < 0.6 ? sec : ved);
+      const ved = (byRole.vedette || []).filter(surRail), sec = (byRole.secondaire || []).filter(surRail);
+      let pool = nd.kind === 'coin' ? ved : nd.kind === 'axe' ? [...ved, ...sec] : (sec.length && R() < 0.6 ? sec : ved);
+      // ce que l'on a choisi pour cette place passe avant le hasard
+      const want = S.emplacements[nd.slot] ?? 'auto';
+      if (want === 'aucune') return null;
+      if (want !== 'auto' && surRail(want)) pool = [want];
       if (!pool.length) return null;
       const type = R.pick(pool);
       const role = FLEURS[type].role;
@@ -1606,7 +1624,7 @@ const Vitrail = (() => {
       + `<g fill="none" stroke="${ink}" stroke-width="${cerne}" stroke-linecap="round" stroke-linejoin="round">${strokes.join('')}</g></svg>`;
   }
 
-  return { render, generate, specimen, normalize, DEFAULTS, FLEURS, ROLES, FORMATS, PALETTES, CERNES, FONDS, TEXT_STYLES, clone };
+  return { render, generate, specimen, surRail, normalize, DEFAULTS, FLEURS, ROLES, FORMATS, PALETTES, CERNES, FONDS, TEXT_STYLES, clone };
 })();
 
 window.Vitrail = Vitrail;
