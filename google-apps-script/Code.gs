@@ -1,9 +1,10 @@
 /**
  * Site de mariage — point d'entrée unique du classeur.
  *
- * Remplace intégralement le script actuel. Deux actions :
- *   - « participate » : liste de mariage, quelqu'un offre ou participe.
- *   - « rsvp »        : le formulaire du site enregistre une réponse d'invité.
+ * Remplace intégralement le script actuel. Trois actions :
+ *   - « participate »  : liste de mariage, quelqu'un offre ou participe.
+ *   - « rsvp »         : le formulaire du site enregistre une réponse d'invité.
+ *   - « signaletique » : le générateur des coulisses enregistre une maquette.
  *
  * Déploiement : Déployer → Gérer les déploiements → modifier le déploiement
  * existant → Nouvelle version. L'URL /exec ne change pas.
@@ -67,6 +68,10 @@ var RSVP_HEADERS = [
  */
 var RSVP_ID_COL = 11;
 
+/** Onglet des maquettes du générateur de signalétique, créé au premier envoi. */
+var SIGN_SHEET = 'Signalétique';
+var SIGN_HEADERS = ['ID', 'Nom', 'Format', 'Mise à jour', 'Réglages'];
+
 /* --------------------------------------------------------------- Entrée */
 
 function doPost(e) {
@@ -79,6 +84,9 @@ function doPost(e) {
     });
     if (data.action === 'rsvp') return withLock(function () {
       return handleRsvp(data);
+    });
+    if (data.action === 'signaletique') return withLock(function () {
+      return handleSignaletique(data);
     });
 
     return fail('Action inconnue');
@@ -252,6 +260,44 @@ function findRsvpRow(sheet, id) {
   if (last < 2) return 0;
 
   var ids = sheet.getRange(2, RSVP_ID_COL, last - 1, 1).getValues();
+  for (var i = 0; i < ids.length; i++) {
+    if (String(ids[i][0]) === id) return i + 2;
+  }
+  return 0;
+}
+
+/* --------------------------------------------------------- Signalétique */
+
+/**
+ * Une ligne par maquette, repérée par son ID. On n'y range que les réglages
+ * (JSON) : le dessin se régénère à l'identique à partir d'eux.
+ *   op « save »   : crée ou réécrit la ligne.
+ *   op « delete » : retire la ligne.
+ */
+function handleSignaletique(data) {
+  var book = SpreadsheetApp.openById(data.sheetId);
+  var sheet = ensureSheet(book, SIGN_SHEET, SIGN_HEADERS);
+  var id = String(data.id || '');
+  if (!id) return fail('ID manquant');
+
+  var row = findRowById(sheet, 1, id);
+
+  if (data.op === 'delete') {
+    if (row) sheet.deleteRow(row);
+    return out({ ok: true });
+  }
+
+  var values = [id, data.nom || 'Sans titre', data.format || '', new Date(), String(data.reglages || '')];
+  if (row) sheet.getRange(row, 1, 1, values.length).setValues([values]);
+  else sheet.appendRow(values);
+  return out({ ok: true });
+}
+
+/** Numéro de la ligne dont la colonne `col` vaut `id`, 0 sinon. */
+function findRowById(sheet, col, id) {
+  var last = sheet.getLastRow();
+  if (last < 2) return 0;
+  var ids = sheet.getRange(2, col, last - 1, 1).getValues();
   for (var i = 0; i < ids.length; i++) {
     if (String(ids[i][0]) === id) return i + 2;
   }

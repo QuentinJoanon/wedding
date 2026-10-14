@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <title>Signalétique — Coulisses · Quentin &amp; Élisa</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="orga.css">
+  <style>
+    /* Mise en page propre au générateur : réglages à gauche, aperçu à droite. */
+    .atelier { display: grid; grid-template-columns: minmax(300px, 380px) 1fr; gap: clamp(18px, 2.4vw, 36px); align-items: start; }
+    @media (max-width: 900px) {
+      .atelier { grid-template-columns: 1fr; }
+      .atelier .scene { order: -1; position: static; }
+      .apercu { min-height: 0; }
+      .apercu svg { max-height: 70vh; }
+    }
+
+    .reglages { display: grid; gap: 10px; }
+    .bloc { border: 1px solid var(--line); background: var(--paper); }
+    .bloc > summary {
+      list-style: none; cursor: pointer; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.18em; font-size: 11px; color: var(--accent-ink);
+    }
+    .bloc > summary::-webkit-details-marker { display: none; }
+    .bloc > summary::after { content: "+"; font-size: 16px; color: var(--accent); }
+    .bloc[open] > summary::after { content: "−"; }
+    .bloc__corps { padding: 4px 16px 16px; display: grid; gap: 12px; }
+    .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field input[type="range"] { padding: 0; border: 0; accent-color: var(--gold); background: transparent; }
+    .field input[type="color"] { padding: 2px; height: 36px; cursor: pointer; }
+    .field select, .field input { padding: 8px 10px; font-size: 15px; }
+    .val { float: right; color: var(--ink-soft); font-style: italic; letter-spacing: 0; text-transform: none; font-size: 13px; }
+    .coche { display: flex; gap: 9px; align-items: center; font-size: 15px; cursor: pointer; }
+    .coche input { accent-color: var(--gold); width: 16px; height: 16px; }
+    .aide { color: var(--ink-mute); font-style: italic; font-size: 14px; line-height: 1.4; }
+
+    .ligne-texte { display: grid; grid-template-columns: 1fr 128px; gap: 6px; }
+    .ligne-texte input[type="text"], .ligne-texte select {
+      font: inherit; font-size: 15px; color: inherit; background: var(--paper);
+      border: 1px solid var(--line); border-radius: 0; padding: 7px 9px; width: 100%;
+    }
+    .ligne-texte input:focus, .ligne-texte select:focus { outline: none; border-color: var(--accent); }
+    .ligne-texte input[type="range"] { grid-column: 1 / -1; accent-color: var(--gold); margin-bottom: 4px; }
+
+    .fleurs { display: grid; gap: 14px; }
+    .fleurs__role { display: grid; gap: 6px; }
+    .fleurs__titre { font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.16em; font-size: 10px; color: var(--ink-mute); }
+    .fleurs__liste { display: flex; flex-wrap: wrap; gap: 6px; }
+    .puce {
+      display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 999px;
+      padding: 3px 6px 3px 11px; font-size: 14px; cursor: pointer; transition: border-color .2s, background .2s; user-select: none;
+    }
+    .puce input[type="checkbox"] { display: none; }
+    .puce.on { border-color: var(--accent); background: color-mix(in oklab, var(--c-cream) 55%, transparent); }
+    .puce select { font: inherit; font-size: 12px; border: 0; background: transparent; color: var(--ink-soft); padding: 0 2px; cursor: pointer; }
+    .puce:not(.on) select { display: none; }
+
+    .couleurs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .couleurs input { width: 100%; }
+
+    .scene { position: sticky; top: 72px; display: grid; gap: 12px; }
+    .scene__barre { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .onglets { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+    .onglets button { padding: 7px 14px; font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.14em; font-size: 10.5px; }
+    .onglets button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
+    .apercu {
+      background:
+        linear-gradient(45deg, var(--paper-3) 25%, transparent 25%, transparent 75%, var(--paper-3) 75%) 0 0 / 22px 22px,
+        linear-gradient(45deg, var(--paper-3) 25%, transparent 25%, transparent 75%, var(--paper-3) 75%) 11px 11px / 22px 22px,
+        var(--paper-2);
+      border: 1px solid var(--line); padding: clamp(14px, 2.4vw, 32px);
+      display: grid; place-items: center; min-height: 50vh;
+    }
+    .apercu svg { width: auto; height: auto; max-width: 100%; max-height: calc(100vh - 230px); display: block; filter: drop-shadow(0 14px 22px rgba(57, 47, 36, .18)); }
+    .infos { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--ink-soft); font-size: 14px; font-style: italic; }
+    .avertir { color: var(--alert); font-style: italic; font-size: 14px; }
+    .statut { font-size: 14px; font-style: italic; color: var(--ink-soft); min-height: 1.4em; }
+    .statut.ok { color: var(--ok); }
+    .statut.ko { color: var(--alert); }
+    #mesure { position: absolute; width: 0; height: 0; overflow: hidden; visibility: hidden; }
+  </style>
+</head>
+<body>
+
+<!-- ===================================================== BARRE DU HAUT === -->
+<header class="topbar no-print">
+  <a class="topbar__mark" href="index.html">Q <span class="amp">&amp;</span> É</a>
+  <nav class="topbar__links">
+    <a href="index.html">Sommaire</a>
+    <a href="traiteur.html">Traiteur</a>
+    <a href="vins.html">Boissons</a>
+    <a href="signaletique.html" aria-current="page">Signalétique</a>
+    <a href="_modele.html">Modèle</a>
+    <a href="/">Le site</a>
+  </nav>
+</header>
+
+<!-- ============================================================== TITRE === -->
+<section class="section section--tight">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:0">
+      <span class="kicker"><span class="num">01</span> &nbsp;Plexi · cerne doré · peinture vitrail</span>
+      <h1 class="title display">Le générateur de <em>signalétique</em></h1>
+      <p class="lede">Panneau d'accueil, flèches, médaillons : on choisit les fleurs, le générateur compose. Il garde toujours un écart minimal entre deux traits, pour que le cerne ne fasse jamais de tache.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight panel" style="padding-top:clamp(24px,3vw,40px)">
+  <div class="wrap" style="max-width:1500px">
+    <div class="atelier">
+
+      <!-- ================================================== RÉGLAGES === -->
+      <form class="reglages" id="form" autocomplete="off" onsubmit="return false">
+
+        <details class="bloc" open>
+          <summary>Maquette</summary>
+          <div class="bloc__corps">
+            <div class="field">
+              <label for="liste">Maquettes enregistrées</label>
+              <select id="liste"><option value="">— Nouvelle maquette —</option></select>
+            </div>
+            <div class="field">
+              <label for="nom">Nom</label>
+              <input id="nom" data-k="nom" type="text" placeholder="Accueil du cocktail">
+            </div>
+            <div class="row">
+              <button type="button" class="btn btn--sm" id="enregistrer">Enregistrer</button>
+              <button type="button" class="btn btn--sm btn--ghost" id="dupliquer">Dupliquer</button>
+              <button type="button" class="btn btn--sm btn--ghost" id="supprimer">Supprimer</button>
+            </div>
+            <p class="statut" id="statut"></p>
+          </div>
+        </details>
+
+        <details class="bloc" open>
+          <summary>Format</summary>
+          <div class="bloc__corps">
+            <div class="field">
+              <label for="format">Type de panneau</label>
+              <select id="format" data-k="format"></select>
+            </div>
+            <div class="field" id="champ-sens">
+              <label for="sens">Sens de la flèche</label>
+              <select id="sens" data-k="sens"><option value="droite">Vers la droite →</option><option value="gauche">← Vers la gauche</option></select>
+            </div>
+            <div class="field">
+              <label for="taille-type">Dimensions</label>
+              <select id="taille-type"></select>
+            </div>
+            <div class="duo">
+              <div class="field"><label for="w">Largeur (cm)</label><input id="w" data-k="w" type="number" min="8" max="200" step="0.1"></div>
+              <div class="field"><label for="h">Hauteur (cm)</label><input id="h" data-k="h" type="number" min="5" max="200" step="0.1"></div>
+            </div>
+            <p class="aide">Tout s'adapte : on peut changer les dimensions à tout moment, la composition se recalcule.</p>
+          </div>
+        </details>
+
+        <details class="bloc" open>
+          <summary>Texte</summary>
+          <div class="bloc__corps" id="textes"></div>
+        </details>
+
+        <details class="bloc" open>
+          <summary>Fleurs</summary>
+          <div class="bloc__corps">
+            <div class="fleurs" id="fleurs"></div>
+            <label class="coche"><input type="checkbox" data-k="boutons"> Boutons de fleurs</label>
+            <label class="coche"><input type="checkbox" data-k="tiges"> Tiges qui relient les fleurs</label>
+            <div class="field"><label>Feuillage <span class="val" data-v="feuillage"></span></label><input type="range" data-k="feuillage" min="0" max="1" step="0.05"></div>
+            <p class="aide">Dans chaque puce, la couleur : « auto » pioche dans la palette, sinon on fixe une des quatre teintes.</p>
+          </div>
+        </details>
+
+        <details class="bloc">
+          <summary>Composition</summary>
+          <div class="bloc__corps">
+            <div class="field"><label>Densité de fleurs <span class="val" data-v="densite"></span></label><input type="range" data-k="densite" min="0.2" max="0.75" step="0.01"></div>
+            <div class="field"><label>Taille des fleurs <span class="val" data-v="taille"></span></label><input type="range" data-k="taille" min="0.6" max="1.5" step="0.05"></div>
+            <div class="field"><label>Ouverture centrale <span class="val" data-v="ouverture"></span></label><input type="range" data-k="ouverture" min="0.3" max="0.8" step="0.01"></div>
+            <div class="duo">
+              <div class="field">
+                <label for="zone">Forme de l'ouverture</label>
+                <select id="zone" data-k="zone"><option value="ovale">Ovale</option><option value="arche">Arche</option><option value="rect">Rectangle</option><option value="cercle">Cercle</option></select>
+              </div>
+              <div class="field">
+                <label for="symetrie">Symétrie</label>
+                <select id="symetrie" data-k="symetrie"><option value="miroir">Miroir</option><option value="quatre">Quatre coins</option><option value="libre">Libre</option></select>
+              </div>
+            </div>
+            <label class="coche"><input type="checkbox" data-k="croise"> Couleurs croisées dans le miroir</label>
+            <label class="coche"><input type="checkbox" data-k="filetZone"> Filet doré autour du texte</label>
+            <div class="duo">
+              <div class="field">
+                <label for="cadre">Cadre</label>
+                <select id="cadre" data-k="cadre"><option value="tuiles">Bande à carreaux</option><option value="filet">Double filet</option><option value="simple">Filet simple</option><option value="aucun">Aucun</option></select>
+              </div>
+              <div class="field">
+                <label for="lignes">Lignes de fond</label>
+                <select id="lignes" data-k="lignes"><option value="0">Aucune</option><option value="1">Quelques-unes</option><option value="2">Nombreuses</option></select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="graine">Tirage</label>
+              <div class="row" style="flex-wrap:nowrap">
+                <input id="graine" data-k="graine" type="number" min="1" step="1" style="flex:1">
+                <button type="button" class="btn btn--sm" id="tirage">Autre tirage ↻</button>
+              </div>
+            </div>
+            <p class="aide">Même tirage, mêmes réglages : même dessin. Le numéro suffit à retrouver une composition.</p>
+          </div>
+        </details>
+
+        <details class="bloc">
+          <summary>Couleurs</summary>
+          <div class="bloc__corps">
+            <div class="field">
+              <label for="palette">Palette</label>
+              <select id="palette"></select>
+            </div>
+            <div class="field"><label>Fleurs</label>
+              <div class="couleurs">
+                <input type="color" data-k="palette.fleurs.0" title="Teinte 1">
+                <input type="color" data-k="palette.fleurs.1" title="Teinte 2">
+                <input type="color" data-k="palette.fleurs.2" title="Teinte 3">
+                <input type="color" data-k="palette.fleurs.3" title="Teinte 4">
+              </div>
+            </div>
+            <div class="couleurs">
+              <div class="field"><label>Feuilles</label><input type="color" data-k="palette.feuille"></div>
+              <div class="field"><label>Carreau 1</label><input type="color" data-k="palette.tuiles.0"></div>
+              <div class="field"><label>Carreau 2</label><input type="color" data-k="palette.tuiles.1"></div>
+            </div>
+            <div class="duo">
+              <div class="field">
+                <label for="cerne-c">Cerne</label>
+                <select id="cerne-c" data-k="palette.cerne"><option value="or">Or</option><option value="cuivre">Cuivre</option><option value="argent">Argent</option><option value="noir">Noir</option></select>
+              </div>
+              <div class="field">
+                <label for="fond">Fond du plexi</label>
+                <select id="fond" data-k="palette.fond"><option value="clair">Clair</option><option value="givre">Givré</option><option value="transparent">Transparent</option></select>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="bloc">
+          <summary>Peinture</summary>
+          <div class="bloc__corps">
+            <div class="field"><label>Épaisseur du cerne <span class="val" data-v="cerne" data-u="mm"></span></label><input type="range" data-k="cerne" min="0.5" max="3" step="0.1"></div>
+            <div class="field"><label>Écart minimal entre deux traits <span class="val" data-v="ecart" data-u="mm"></span></label><input type="range" data-k="ecart" min="2" max="12" step="0.5"></div>
+            <p class="aide">L'écart se mesure bord à bord, une fois le cerne posé. Plus il est grand, plus le dessin est aéré et simple à peindre : les petites fleurs perdent d'abord leurs couronnes intérieures. Pour vérifier, l'aperçu « Cerne réel » montre les traits à leur vraie épaisseur.</p>
+          </div>
+        </details>
+      </form>
+
+      <!-- ===================================================== APERÇU === -->
+      <div class="scene">
+        <div class="scene__barre">
+          <div class="onglets" role="group" aria-label="Aperçu">
+            <button type="button" data-mode="vitrail" aria-pressed="true">Vitrail</button>
+            <button type="button" data-mode="cerne" aria-pressed="false">Cerne réel</button>
+            <button type="button" data-mode="gabarit" aria-pressed="false">Gabarit</button>
+          </div>
+          <span class="push"></span>
+          <button type="button" class="btn btn--sm btn--ghost" id="exp-svg">SVG</button>
+          <button type="button" class="btn btn--sm btn--ghost" id="exp-pdf">PDF taille réelle</button>
+          <button type="button" class="btn btn--sm btn--ghost" id="exp-a4">Gabarit en A4</button>
+        </div>
+        <div class="apercu" id="apercu"></div>
+        <div class="infos" id="infos"></div>
+        <div id="avertissements"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="wrap wrap--narrow">
+    <span class="kicker">Mode d'emploi</span>
+    <div class="grid-2" style="margin-top:20px">
+      <div class="stack">
+        <h3 class="card__name">Les trois aperçus</h3>
+        <p class="card__sub"><b>Vitrail</b> donne l'idée des couleurs. <b>Cerne réel</b> trace chaque trait à l'épaisseur choisie : c'est là qu'on repère une zone trop chargée. <b>Gabarit</b> donne des traits fins, à glisser sous le plexi pour suivre le dessin au cerne.</p>
+      </div>
+      <div class="stack">
+        <h3 class="card__name">Imprimer à l'échelle</h3>
+        <p class="card__sub"><b>PDF taille réelle</b> : une seule page aux dimensions du panneau, pour un imprimeur grand format. <b>Gabarit en A4</b> : le panneau découpé en feuilles A4 numérotées, avec un recouvrement d'un centimètre pour les assembler au scotch. Dans la fenêtre d'impression, garder l'échelle à 100 %.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg id="mesure" aria-hidden="true"><text id="mesure-t"></text></svg>
+
+<script src="orga.js"></script>
+<script src="config.js"></script>
+<script src="vitrail.js"></script>
+<script>
+(() => {
+  'use strict';
+
+  /* ------------------------------------------------------------ RÉGLAGES */
+
+  const SHEET_ID = '1Tg3sYe_AQoFxKrnq-M-Onpg-2Q9ZsaDuwZqiZpJQhQY';
+  const TAB = 'Signalétique';
+  const SCRIPT_URL = (window.ORGA_CONFIG && window.ORGA_CONFIG.scriptUrl) || '';
+  const LOCAL_KEY = 'signaletique:maquettes';
+  const DRAFT_KEY = 'signaletique:brouillon';
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = Orga.esc;
+
+  const store = {
+    get(k, fb) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch { return fb; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* stockage indisponible : tant pis */ } },
+  };
+
+  let S = Vitrail.normalize(store.get(DRAFT_KEY, null) || Vitrail.DEFAULTS);
+  let currentId = store.get(DRAFT_KEY + ':id', '') || '';
+  let mode = 'vitrail';
+  let saved = [];   // [{id, nom, format, maj, reglages, source}]
+
+  const getPath = (o, path) => path.split('.').reduce((a, k) => (a == null ? a : a[k]), o);
+  function setPath(o, path, v) {
+    const ks = path.split('.');
+    let cur = o;
+    ks.slice(0, -1).forEach((k) => { cur = cur[k]; });
+    cur[ks[ks.length - 1]] = v;
+  }
+
+  /* --------------------------------------------------------- CONSTRUCTION */
+
+  $('#format').innerHTML = Object.entries(Vitrail.FORMATS).map(([k, f]) => `<option value="${k}">${esc(f.nom)}</option>`).join('');
+  $('#palette').innerHTML = Object.entries(Vitrail.PALETTES).map(([k, p]) => `<option value="${k}">${esc(p.nom)}</option>`).join('') + '<option value="perso">Personnalisée</option>';
+
+  const styleOpts = Object.entries(Vitrail.TEXT_STYLES).map(([k, s]) => `<option value="${k}">${esc(s.nom)}</option>`).join('');
+  $('#textes').innerHTML = [0, 1, 2, 3].map((i) => `
+    <div class="ligne-texte">
+      <input type="text" data-k="texte.${i}.t" placeholder="Ligne ${i + 1}" aria-label="Ligne ${i + 1}">
+      <select data-k="texte.${i}.s" aria-label="Style de la ligne ${i + 1}">${styleOpts}</select>
+      <input type="range" data-k="texte.${i}.k" min="0.3" max="1.6" step="0.05" aria-label="Taille de la ligne ${i + 1}">
+    </div>`).join('') + '<p class="aide">Le curseur sous chaque ligne règle sa taille. Le texte est réduit tout seul s\'il déborde de l\'ouverture.</p>';
+
+  const colorOpts = '<option value="auto">auto</option>' + [1, 2, 3, 4].map((n) => `<option value="${n - 1}">teinte ${n}</option>`).join('');
+  const byRole = {};
+  for (const [k, f] of Object.entries(Vitrail.FLEURS)) (byRole[f.role] = byRole[f.role] || []).push([k, f]);
+  $('#fleurs').innerHTML = ['vedette', 'secondaire', 'hauteur', 'remplissage'].map((role) => `
+    <div class="fleurs__role">
+      <span class="fleurs__titre">${esc(Vitrail.ROLES[role].nom)}</span>
+      <div class="fleurs__liste">${byRole[role].map(([k, f]) => `
+        <label class="puce" data-fleur="${k}"><input type="checkbox" value="${k}">${esc(f.nom)}<select aria-label="Couleur : ${esc(f.nom)}">${colorOpts}</select></label>`).join('')}
+      </div>
+    </div>`).join('');
+
+  /* ------------------------------------------------------ FORMULAIRE ↔ S */
+
+  function fillForm() {
+    for (const el of $$('[data-k]')) {
+      const v = getPath(S, el.dataset.k);
+      if (el.type === 'checkbox') el.checked = !!v;
+      else el.value = v ?? '';
+    }
+    for (const p of $$('.puce')) {
+      const k = p.dataset.fleur, on = k in S.fleurs;
+      p.classList.toggle('on', on);
+      $('input', p).checked = on;
+      $('select', p).value = on ? String(S.fleurs[k]) : 'auto';
+    }
+    const known = Object.entries(Vitrail.PALETTES).find(([, p]) => JSON.stringify(p.fleurs) === JSON.stringify(S.palette.fleurs) && p.feuille === S.palette.feuille);
+    $('#palette').value = known ? known[0] : 'perso';
+    syncFormat();
+    showValues();
+  }
+
+  function showValues() {
+    for (const v of $$('[data-v]')) {
+      const n = Number(getPath(S, v.dataset.v));
+      v.textContent = v.dataset.u ? `${n.toLocaleString('fr-FR')} ${v.dataset.u}` : `${Math.round(n * 100)} %`;
+    }
+  }
+
+  function syncFormat() {
+    const F = Vitrail.FORMATS[S.format];
+    $('#champ-sens').hidden = S.format !== 'fleche';
+    const sizes = F.tailles.map(([w, h, label]) => ({ w, h, label: label ? `${label} — ${fmtCm(w)} × ${fmtCm(h)} cm` : `${fmtCm(w)} × ${fmtCm(h)} cm` }));
+    const match = sizes.findIndex((t) => t.w === S.w && t.h === S.h);
+    $('#taille-type').innerHTML = sizes.map((t, i) => `<option value="${i}">${esc(t.label)}</option>`).join('') + '<option value="perso">Sur mesure</option>';
+    $('#taille-type').value = match >= 0 ? String(match) : 'perso';
+  }
+  const fmtCm = (n) => n.toLocaleString('fr-FR');
+
+  function readField(el) {
+    const k = el.dataset.k;
+    let v;
+    if (el.type === 'checkbox') v = el.checked;
+    else if (el.type === 'number' || el.type === 'range' || k === 'lignes') v = Number(el.value);
+    else v = el.value;
+    if (k.startsWith('palette.fleurs') || k === 'palette.feuille' || k.startsWith('palette.tuiles')) $('#palette').value = 'perso';
+    setPath(S, k, v);
+  }
+
+  $('#form').addEventListener('input', (e) => {
+    const el = e.target;
+    if (el.dataset.k) {
+      readField(el);
+      if (el.dataset.k === 'w' || el.dataset.k === 'h') syncFormat();
+    }
+    showValues();
+    schedule();
+  });
+
+  $('#format').addEventListener('change', () => {
+    const F = Vitrail.FORMATS[S.format];
+    const [w, h] = F.tailles[Math.min(1, F.tailles.length - 1)];
+    S.w = w; S.h = h; S.zone = F.zone;
+    S.ouverture = S.format === 'fleche' ? 0.55 : 0.6;
+    if (S.format === 'fleche' && S.symetrie === 'quatre') S.symetrie = 'miroir';
+    // le texte d'accueil n'a pas de sens sur une flèche (et inversement) : on propose le texte type
+    const isDefault = (t) => JSON.stringify(t) === JSON.stringify(Vitrail.DEFAULTS.texte);
+    const ARROW_TEXT = [{ t: 'Cérémonie', s: 'script', k: 1 }, { t: '', s: 'petites', k: 1 }, { t: '', s: 'caps', k: 0.55 }, { t: '', s: 'italique', k: 0.7 }];
+    if (S.format === 'fleche' && isDefault(S.texte)) S.texte = Vitrail.clone(ARROW_TEXT);
+    else if (S.format !== 'fleche' && JSON.stringify(S.texte) === JSON.stringify(ARROW_TEXT)) S.texte = Vitrail.clone(Vitrail.DEFAULTS.texte);
+    fillForm();
+    schedule();
+  });
+
+  $('#taille-type').addEventListener('change', (e) => {
+    if (e.target.value === 'perso') { $('#w').focus(); return; }
+    const [w, h] = Vitrail.FORMATS[S.format].tailles[Number(e.target.value)];
+    S.w = w; S.h = h;
+    fillForm();
+    schedule();
+  });
+
+  $('#palette').addEventListener('change', (e) => {
+    const p = Vitrail.PALETTES[e.target.value];
+    if (!p) return;
+    S.palette = { ...S.palette, nom: e.target.value, fleurs: p.fleurs.slice(), feuille: p.feuille, tuiles: p.tuiles.slice() };
+    fillForm();
+    schedule();
+  });
+
+  $('#fleurs').addEventListener('change', (e) => {
+    const p = e.target.closest('.puce');
+    if (!p) return;
+    const k = p.dataset.fleur, box = $('input', p), sel = $('select', p);
+    if (e.target === box) {
+      if (box.checked) S.fleurs[k] = 'auto'; else delete S.fleurs[k];
+    } else if (k in S.fleurs) {
+      S.fleurs[k] = sel.value === 'auto' ? 'auto' : Number(sel.value);
+    }
+    p.classList.toggle('on', box.checked);
+    schedule();
+  });
+  // un clic sur le menu de couleur ne doit pas décocher la fleur
+  $('#fleurs').addEventListener('click', (e) => { if (e.target.tagName === 'SELECT') e.preventDefault(); }, true);
+
+  $('#tirage').addEventListener('click', () => {
+    S.graine = Math.floor(Math.random() * 99999) + 1;
+    $('#graine').value = S.graine;
+    schedule();
+  });
+
+  for (const b of $$('[data-mode]')) b.addEventListener('click', () => {
+    mode = b.dataset.mode;
+    $$('[data-mode]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    draw();
+  });
+
+  /* ---------------------------------------------------------------- RENDU */
+
+  const mt = $('#mesure-t');
+  function measure(text, style, size) {
+    const st = Vitrail.TEXT_STYLES[style];
+    mt.setAttribute('font-family', st.family);
+    mt.setAttribute('font-size', size);
+    mt.setAttribute('font-weight', st.weight);
+    mt.setAttribute('font-style', st.italic ? 'italic' : 'normal');
+    mt.setAttribute('letter-spacing', st.ls ? st.ls * size : 0);
+    mt.textContent = text;
+    return mt.getComputedTextLength();
+  }
+
+  let timer = 0;
+  function schedule() {
+    clearTimeout(timer);
+    timer = setTimeout(draw, 90);
+    store.set(DRAFT_KEY, S);
+  }
+
+  const PLURIELS = { rose_the: 'roses hybrides de thé', pivoine_arbustive: 'pivoines arbustives', pois: 'pois de senteur', myosotis: 'myosotis' };
+  /** « 3 roses de jardin », « 1 pavot d'Islande ». */
+  function label(k, n) {
+    const nom = Vitrail.FLEURS[k] ? Vitrail.FLEURS[k].nom : 'Bouton';
+    const low = nom.charAt(0).toLowerCase() + nom.slice(1);
+    if (n < 2) return low;
+    if (PLURIELS[k]) return PLURIELS[k];
+    const [first, ...rest] = low.split(' ');
+    return [/[sx]$/.test(first) ? first : `${first}s`, ...rest].join(' ');
+  }
+
+  let last = null;
+  function draw() {
+    const t0 = performance.now();
+    last = Vitrail.render(S, { mode, measure });
+    $('#apercu').innerHTML = last.svg;
+    const st = last.stats;
+    const types = Object.entries(st.parType).map(([k, n]) => `${n} ${label(k, n)}`);
+    $('#infos').innerHTML = [
+      `${fmtCm(S.w)} × ${fmtCm(S.h)} cm`,
+      `${st.fleurs} fleurs, ${st.feuilles} feuilles, ${st.tiges} tiges`,
+      types.join(' · '),
+      `tirage n° ${S.graine}`,
+      `${Math.round(performance.now() - t0)} ms`,
+    ].map((s) => `<span>${esc(s)}</span>`).join('');
+    $('#avertissements').innerHTML = last.warnings.map((w) => `<p class="avertir">${esc(w)}</p>`).join('');
+  }
+
+  /* ---------------------------------------------------------- EXPORTS */
+
+  const slug = (s) => (s || 'signaletique').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'signaletique';
+
+  function download(name, text, type) {
+    const url = URL.createObjectURL(new Blob([text], { type }));
+    const a = Object.assign(document.createElement('a'), { href: url, download: name });
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }
+
+  $('#exp-svg').addEventListener('click', () => {
+    const r = Vitrail.render(S, { mode, measure });
+    download(`${slug(S.nom)}-${mode}.svg`, `<?xml version="1.0" encoding="UTF-8"?>\n${r.svg}`, 'image/svg+xml');
+  });
+
+  /** Imprime un document dans un cadre caché, une fois les polices chargées. */
+  function printDoc(html) {
+    const f = document.createElement('iframe');
+    f.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0';
+    document.body.appendChild(f);
+    const d = f.contentDocument;
+    d.open(); d.write(html); d.close();
+    const go = () => { f.contentWindow.focus(); f.contentWindow.print(); setTimeout(() => f.remove(), 60000); };
+    (d.fonts ? d.fonts.ready : Promise.resolve()).then(() => setTimeout(go, 300));
+  }
+  const FONTS = '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Pinyon+Script&display=swap" rel="stylesheet">';
+
+  $('#exp-pdf').addEventListener('click', () => {
+    const r = Vitrail.render(S, { mode, measure });
+    const w = r.W, h = r.H;
+    printDoc(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(S.nom)}</title>${FONTS}
+      <style>@page{size:${w}mm ${h}mm;margin:0}html,body{margin:0}svg{display:block;width:${w}mm;height:${h}mm}</style></head><body>${r.svg}</body></html>`);
+  });
+
+  /** Découpe le dessin en pages A4 avec 10 mm de recouvrement et des repères d'assemblage. */
+  $('#exp-a4').addEventListener('click', () => {
+    const r = Vitrail.render(S, { mode: mode === 'vitrail' ? 'gabarit' : mode, measure });
+    const W = r.W, H = r.H, M = 8, OV = 10;
+    const plan = (pw, ph) => {
+      const vw = pw - 2 * M, vh = ph - 2 * M - 6;
+      const cols = Math.max(1, Math.ceil((W - OV) / (vw - OV))), rows = Math.max(1, Math.ceil((H - OV) / (vh - OV)));
+      return { pw, ph, vw, vh, cols, rows, n: cols * rows };
+    };
+    const a = plan(210, 297), b = plan(297, 210);
+    const P = b.n < a.n ? b : a;
+    const inner = r.svg.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '');
+    const pages = [];
+    for (let j = 0; j < P.rows; j++) for (let i = 0; i < P.cols; i++) {
+      const x = i * (P.vw - OV), y = j * (P.vh - OV);
+      const ref = `${String.fromCharCode(65 + j)}${i + 1}`;
+      pages.push(`<section class="page">
+        <div class="tete">${esc(S.nom)} — feuille ${ref} (${pages.length + 1}/${P.n}) · rangée ${String.fromCharCode(65 + j)}, colonne ${i + 1} · recouvrement ${OV} mm (zones hachurées)</div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="${x} ${y} ${P.vw} ${P.vh}" style="width:${P.vw}mm;height:${P.vh}mm">
+          ${inner}
+          ${i > 0 ? `<rect x="${x}" y="${y}" width="${OV}" height="${P.vh}" fill="url(#hach)"/>` : ''}
+          ${j > 0 ? `<rect x="${x}" y="${y}" width="${P.vw}" height="${OV}" fill="url(#hach)"/>` : ''}
+          <rect x="${x}" y="${y}" width="${P.vw}" height="${P.vh}" fill="none" stroke="#bbb" stroke-width="0.2"/>
+        </svg></section>`);
+    }
+    printDoc(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(S.nom)} — gabarit A4</title>${FONTS}
+      <style>@page{size:${P.pw}mm ${P.ph}mm;margin:0}html,body{margin:0}
+      .page{width:${P.pw}mm;height:${P.ph}mm;padding:${M}mm;box-sizing:border-box;page-break-after:always;overflow:hidden}
+      .tete{font:9pt Georgia,serif;color:#555;height:6mm}svg{display:block}</style></head><body>
+      <svg width="0" height="0" style="position:absolute"><defs><pattern id="hach" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="3" stroke="#c9c9c9" stroke-width="0.4"/></pattern></defs></svg>
+      ${pages.join('')}</body></html>`);
+  });
+
+  /* ------------------------------------------------------ SAUVEGARDE */
+
+  const status = (msg, cls = '') => { const s = $('#statut'); s.textContent = msg; s.className = `statut ${cls}`; };
+  const newId = () => `sig-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
+  const toStore = () => { const o = Vitrail.clone(S); delete o.__measure; return o; };
+
+  function renderList() {
+    const sel = $('#liste');
+    const opts = saved
+      .slice()
+      .sort((a, b) => String(b.maj).localeCompare(String(a.maj)))
+      .map((m) => `<option value="${esc(m.id)}">${esc(m.nom)} · ${esc(Vitrail.FORMATS[m.format] ? Vitrail.FORMATS[m.format].nom.toLowerCase() : m.format)}${m.source === 'local' ? ' (cet appareil)' : ''}</option>`);
+    sel.innerHTML = '<option value="">— Nouvelle maquette —</option>' + opts.join('');
+    sel.value = saved.some((m) => m.id === currentId) ? currentId : '';
+  }
+
+  async function loadList() {
+    const local = store.get(LOCAL_KEY, []).map((m) => ({ ...m, source: 'local' }));
+    let remote = [];
+    try {
+      const { headers, rows } = await Orga.sheet({ id: SHEET_ID, tab: TAB, fresh: true });
+      // si l'onglet n'existe pas encore, Google renvoie un autre onglet : on vérifie les en-têtes
+      if (headers.includes('ID') && headers.includes('Réglages')) {
+        remote = rows.map((r) => {
+          try { return { id: r.ID, nom: r.Nom, format: r.Format, maj: r['Mise à jour'], reglages: JSON.parse(r['Réglages']), source: 'sheet' }; } catch { return null; }
+        }).filter(Boolean);
+      }
+    } catch (err) {
+      console.warn('[Signalétique] lecture du Sheet impossible :', err);
+    }
+    // une maquette enregistrée des deux côtés : le Sheet fait foi
+    const ids = new Set(remote.map((m) => m.id));
+    saved = [...remote, ...local.filter((m) => !ids.has(m.id))];
+    renderList();
+  }
+
+  async function post(body) {
+    if (!SCRIPT_URL) return 'off';
+    const payload = JSON.stringify({ action: 'signaletique', sheetId: SHEET_ID, ...body });
+    try {
+      const res = await fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: payload });
+      const json = await res.json();
+      return json.ok ? 'ok' : 'ko';
+    } catch {
+      // Apps Script exécute la requête même quand le navigateur ne peut pas lire la réponse
+      try { await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: payload }); return 'probable'; } catch { return 'ko'; }
+    }
+  }
+
+  function saveLocal(entry) {
+    const list = store.get(LOCAL_KEY, []).filter((m) => m.id !== entry.id);
+    list.push({ id: entry.id, nom: entry.nom, format: entry.format, maj: entry.maj, reglages: entry.reglages });
+    store.set(LOCAL_KEY, list);
+  }
+
+  async function save(asNew) {
+    if (!S.nom || !S.nom.trim()) { $('#nom').focus(); status('Donne un nom à la maquette avant de l\'enregistrer.', 'ko'); return; }
+    if (asNew || !currentId) currentId = newId();
+    store.set(DRAFT_KEY + ':id', currentId);
+    const entry = { id: currentId, nom: S.nom.trim(), format: S.format, maj: new Date().toISOString(), reglages: toStore() };
+    saveLocal(entry);
+    saved = saved.filter((m) => m.id !== entry.id).concat({ ...entry, source: 'local' });
+    renderList();
+    status('Enregistrement…');
+    const r = await post({ op: 'save', id: entry.id, nom: entry.nom, format: entry.format, reglages: JSON.stringify(entry.reglages) });
+    if (r === 'ok' || r === 'probable') {
+      status(r === 'ok' ? 'Enregistrée dans le Google Sheet (onglet « Signalétique »).' : 'Envoyée au Google Sheet (sans accusé de réception).', 'ok');
+      setTimeout(loadList, 1500);
+    } else if (r === 'off') {
+      status('Enregistrée sur cet appareil seulement : le lien vers le Google Sheet n\'est pas configuré ici.', 'ko');
+    } else {
+      status('Enregistrée sur cet appareil. Le Google Sheet n\'a pas répondu — le script est-il à jour ?', 'ko');
+    }
+  }
+
+  $('#enregistrer').addEventListener('click', () => save(false));
+  $('#dupliquer').addEventListener('click', () => { S.nom = `${S.nom || 'Maquette'} (copie)`; $('#nom').value = S.nom; save(true); });
+
+  $('#supprimer').addEventListener('click', async () => {
+    const m = saved.find((x) => x.id === currentId);
+    if (!m) { status('Cette maquette n\'est pas encore enregistrée.'); return; }
+    if (!confirm(`Supprimer la maquette « ${m.nom} » ? Elle disparaîtra aussi du Google Sheet.`)) return;
+    store.set(LOCAL_KEY, store.get(LOCAL_KEY, []).filter((x) => x.id !== m.id));
+    saved = saved.filter((x) => x.id !== m.id);
+    currentId = '';
+    store.set(DRAFT_KEY + ':id', '');
+    renderList();
+    const r = await post({ op: 'delete', id: m.id });
+    status(r === 'ok' || r === 'probable' ? 'Maquette supprimée.' : 'Supprimée de cet appareil ; le Google Sheet n\'a pas répondu.', r === 'ok' || r === 'probable' ? 'ok' : 'ko');
+  });
+
+  $('#liste').addEventListener('change', (e) => {
+    const m = saved.find((x) => x.id === e.target.value);
+    if (!m) { currentId = ''; store.set(DRAFT_KEY + ':id', ''); status('Nouvelle maquette : les réglages actuels servent de point de départ.'); return; }
+    currentId = m.id;
+    store.set(DRAFT_KEY + ':id', currentId);
+    S = Vitrail.normalize(m.reglages);
+    fillForm();
+    schedule();
+    status(`Maquette « ${m.nom} » chargée.`);
+  });
+
+  /* ------------------------------------------------------------ DÉPART */
+
+  fillForm();
+  draw();
+  // la mesure du texte dépend des polices : on redessine une fois qu'elles sont là
+  Promise.all([document.fonts.load("40px 'Pinyon Script'"), document.fonts.load("500 40px 'Cormorant Garamond'"), document.fonts.load("italic 500 40px 'Cormorant Garamond'")])
+    .catch(() => {}).then(() => document.fonts.ready).then(draw);
+  loadList();
+})();
+</script>
+</body>
+</html>

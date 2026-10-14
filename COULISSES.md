@@ -196,6 +196,35 @@ Pour afficher les réponses dans une page des coulisses, c'est le cas simple :
 
 ---
 
+## Le générateur de signalétique
+
+`/coulisses-4f2a91/signaletique.html` dessine des maquettes de panneaux « effet vitrail »
+(plexi + cerne doré + peinture Pébéo) : panneau d'accueil, arche, paysage, flèche, médaillon.
+
+- Le moteur vit dans `vitrail.js`. Tout est en SVG, en millimètres, à l'échelle réelle.
+- **Règle d'or** : jamais deux traits à moins de `écart + cerne` d'axe à axe. Les fleurs
+  trop petites pour la respecter perdent d'elles-mêmes leurs couronnes intérieures.
+- Même tirage + mêmes réglages = même dessin. On n'enregistre donc que les **réglages**
+  (JSON), jamais le SVG.
+- Exports : SVG, PDF à taille réelle (une page aux dimensions du panneau), gabarit
+  découpé en A4 numérotées avec 1 cm de recouvrement.
+
+### Sauvegarde
+
+Les maquettes vont dans l'onglet **`Signalétique`** du classeur de la liste de mariage
+(créé au premier enregistrement), via l'Apps Script avec `action: 'signaletique'`.
+Elles sont aussi gardées dans le navigateur, si bien qu'une sauvegarde ratée ne perd rien.
+
+L'URL du script n'est pas écrite dans la page : le dépôt est public. Vite la sert à la page
+sous forme de `config.js`, généré à partir de `VITE_GOOGLE_SCRIPT_URL`
+(voir `vite.config.ts`).
+
+**À faire une fois** : recoller `google-apps-script/Code.gs` dans le projet Apps Script,
+puis Déployer → Gérer les déploiements → modifier → **Nouvelle version**. Sans ça, les
+maquettes ne sont enregistrées que sur l'appareil.
+
+---
+
 ## La liste de mariage
 
 ### Les colonnes
