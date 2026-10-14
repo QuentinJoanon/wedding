@@ -164,7 +164,10 @@
 
         <details class="bloc" open>
           <summary>Texte</summary>
-          <div class="bloc__corps" id="textes"></div>
+          <div class="bloc__corps">
+            <div class="field"><label>Taille du texte <span class="val" data-v="tailleTexte"></span></label><input type="range" data-k="tailleTexte" min="0.5" max="1.8" step="0.05"></div>
+            <div id="textes" style="display:grid;gap:12px"></div>
+          </div>
         </details>
 
         <details class="bloc" open>
@@ -183,6 +186,7 @@
           <div class="bloc__corps">
             <div class="field"><label>Densité de fleurs <span class="val" data-v="densite"></span></label><input type="range" data-k="densite" min="0.2" max="0.75" step="0.01"></div>
             <div class="field"><label>Taille des fleurs <span class="val" data-v="taille"></span></label><input type="range" data-k="taille" min="0.6" max="1.5" step="0.05"></div>
+            <div class="field"><label>Taille des fleurs de coin <span class="val" data-v="tailleCoins"></span></label><input type="range" data-k="tailleCoins" min="0.5" max="1.5" step="0.05"></div>
             <div class="field"><label>Ouverture centrale <span class="val" data-v="ouverture"></span></label><input type="range" data-k="ouverture" min="0.3" max="0.8" step="0.01"></div>
             <div class="duo">
               <div class="field">
@@ -351,7 +355,7 @@
       <input type="text" data-k="texte.${i}.t" placeholder="Ligne ${i + 1}" aria-label="Ligne ${i + 1}">
       <select data-k="texte.${i}.s" aria-label="Style de la ligne ${i + 1}">${styleOpts}</select>
       <input type="range" data-k="texte.${i}.k" min="0.3" max="1.6" step="0.05" aria-label="Taille de la ligne ${i + 1}">
-    </div>`).join('') + '<p class="aide">Le curseur sous chaque ligne règle sa taille. Le texte est réduit tout seul s\'il déborde de l\'ouverture.</p>';
+    </div>`).join('') + '<p class="aide">Le curseur sous chaque ligne règle sa taille par rapport aux autres. Le texte reste toujours dans l\'ouverture centrale : pour l\'agrandir encore, élargis l\'ouverture (bloc Composition).</p>';
 
   const colorOpts = '<option value="auto">auto</option>' + [1, 2, 3, 4].map((n) => `<option value="${n - 1}">teinte ${n}</option>`).join('');
   const byRole = {};
