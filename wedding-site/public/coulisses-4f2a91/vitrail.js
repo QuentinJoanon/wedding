@@ -1010,9 +1010,9 @@ const Vitrail = (() => {
       const onAxis = (useV && Math.abs(spot.p[0] - cx) < 0.01) || (useH && Math.abs(spot.p[1] - cy) < 0.01);
       let th = onAxis ? 0 : R() * TAU;
       if (TROIS_QUARTS.has(type) && S.vue !== 'dessus') {
-        // une fleur de trois-quarts regarde vers l'extérieur : en haut vers le haut, sur les côtés de côté, en bas vers le bas
+        // une fleur de trois-quarts regarde vers l'intérieur, vers le texte : en haut vers le bas, sur les côtés vers le centre, en bas vers le haut
         const out = unit0([spot.p[0] - rcx, spot.p[1] - rcy]);
-        const look = unit0([out[0], out[1] - 0.25]);
+        const look = unit0([-out[0], -out[1]]);
         th = Math.atan2(look[1], look[0]) + Math.PI / 2 + (onAxis ? 0 : R.range(-0.2, 0.2));
       }
       return tryPlace(type, spot.r, { x: spot.p[0], y: spot.p[1], th, sx: R() < 0.5 && !onAxis ? -1 : 1, sy: 1 }, col, { role });
@@ -1242,7 +1242,7 @@ const Vitrail = (() => {
           let th = R() * TAU;
           if (TROIS_QUARTS.has(type) && S.vue !== 'dessus') {
             const out = unit0([c[0] - rcx, c[1] - rcy]);
-            const look = unit0([out[0], out[1] - 0.25]);
+            const look = unit0([-out[0], -out[1]]);
             th = Math.atan2(look[1], look[0]) + Math.PI / 2 + (onAxis ? 0 : R.range(-0.2, 0.2));
           }
           const res = tryPlace(type, r, { x: c[0], y: c[1], th, sx: !onAxis && R() < 0.5 ? -1 : 1, sy: 1 }, pickColor(type), { role, cutByFrame: nd.kind === 'coin' });
